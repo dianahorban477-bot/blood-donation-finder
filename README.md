@@ -3,9 +3,9 @@
 An application designed to connect blood donors with individuals and medical centers in need.
 
 ## 🛠 Tech Stack & Deployment (MVP)
-- **Frontend:** React, TypeScript, Vite, Redux Toolkit
-  - **Hosting:** Vercel
-  - **Code Quality:** ESLint, Prettier
+- **Frontend:** React, TypeScript, Vite | **Hosting:** Vercel
+- **Backend:** Python | **Hosting:** Render / Railway
+- **Database:** Supabase (PostgreSQL)
 
 ## 👥 Team
 - **Frontend developer:** Oksana Palahecha
