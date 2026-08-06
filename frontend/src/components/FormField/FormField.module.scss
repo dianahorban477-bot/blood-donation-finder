@@ -1,0 +1,87 @@
+@use '../../styles/variables' as v;
+.field {
+  display: grid;
+  gap: 7px;
+
+  &__label {
+    font-size: 0.92rem;
+    font-weight: 700;
+  }
+
+  &__control {
+    position: relative;
+  }
+
+  &__input {
+    width: 100%;
+    min-height: 50px;
+    padding: 11px 14px;
+    border: 1px solid v.$color-border;
+    border-radius: v.$border-radius-sm;
+    color: v.$color-text;
+    background: v.$color-surface;
+    transition:
+      border-color 150ms ease,
+      box-shadow 150ms ease;
+
+    &:hover {
+      border-color: v.$color-input-border-hover;
+    }
+
+    &:focus-visible {
+      border-color: v.$color-focus;
+      outline: 3px solid v.$color-header;
+      outline-offset: 1px;
+    }
+
+    &--withAction {
+      padding-right: 52px;
+    }
+
+    &--error {
+      border-color: v.$color-error;
+      box-shadow: 0 0 0 2px v.$color-primary-soft;
+    }
+  }
+
+  &__visibility {
+    position: absolute;
+    top: 50%;
+    right: 9px;
+    display: grid;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    color: v.$color-text-muted;
+    background: transparent;
+    cursor: pointer;
+    transform: translateY(-50%);
+
+    &:hover {
+      color: v.$color-primary;
+    }
+  }
+
+  &__hint {
+    color: v.$color-text-muted;
+    font-size: 0.82rem;
+  }
+
+  &__error {
+    color: v.$color-error;
+    font-size: 0.84rem;
+    font-weight: 600;
+
+    span {
+      display: inline-grid;
+      width: 16px;
+      height: 16px;
+      place-items: center;
+      border: 1px solid currentColor;
+      border-radius: 50%;
+      font-size: 0.65rem;
+    }
+  }
+}

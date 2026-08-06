@@ -1,58 +1,28 @@
-:root {
-  font-family: Arial, Helvetica, sans-serif;
-  color: #241f20;
-  background: #faf7f7;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  min-width: 320px;
-  min-height: 100%;
-}
+@use 'fonts';
+@use 'variables' as v;
+@use 'reset';
 
 body {
-  min-width: 320px;
-  min-height: 100vh;
-  margin: 0;
+  color: v.$color-text;
+  background: v.$color-background;
+  font-family:
+    'Rubik', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
 }
 
 button,
-input,
-textarea,
-select {
-  font: inherit;
+a {
+  &:focus-visible {
+    outline: 3px solid v.$color-focus;
+    outline-offset: 3px;
+  }
 }
 
-#root {
-  min-height: 100vh;
-}
-
-.home-page {
-  display: grid;
-  min-height: 100vh;
-  align-content: center;
-  justify-items: center;
-  gap: 16px;
-  padding: 24px;
-  text-align: center;
-
-  &__title,
-  &__description {
-    margin: 0;
-  }
-
-  &__title {
-    font-size: clamp(32px, 8vw, 64px);
-    line-height: 1.1;
-  }
-
-  &__description {
-    color: #6c6062;
-    font-size: 18px;
-  }
+.no-scroll {
+  overflow: hidden;
 }

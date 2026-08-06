@@ -1,0 +1,238 @@
+@use '../../styles/variables' as v;
+@use '../../styles/mixins';
+
+.container {
+  @include mixins.content-container;
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: v.$color-hero;
+
+  &__inner {
+    @include mixins.content-container;
+
+    display: grid;
+    min-height: 640px;
+    align-items: center;
+    gap: clamp(32px, 6vw, 80px);
+    padding-block: clamp(64px, 9vw, 112px);
+    grid-template-columns: minmax(0, 1.05fr) minmax(288px, 0.95fr);
+  }
+
+  &__content {
+    position: relative;
+    z-index: 2;
+  }
+
+  &__eyebrow {
+    margin-bottom: 12px;
+    color: v.$color-primary;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    max-width: 736px;
+    font-size: clamp(2.35rem, 6vw, 4.8rem);
+    letter-spacing: -0.045em;
+    line-height: 1.03;
+  }
+
+  &__description {
+    max-width: 624px;
+    margin-top: 24px;
+    color: v.$color-text-muted;
+    font-size: clamp(1rem, 2vw, 1.18rem);
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  &__donorLink {
+    display: inline-flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 20px;
+    border: 1px solid transparent;
+    border-radius: v.$border-radius-sm;
+    color: v.$color-on-primary;
+    background: v.$color-primary;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 160ms ease;
+
+    &:hover {
+      background: v.$color-primary-hover;
+    }
+  }
+
+  &__hospitalLink {
+    display: inline-flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 20px;
+    border: 1px solid v.$color-primary;
+    border-radius: v.$border-radius-sm;
+    color: v.$color-primary;
+    background: v.$color-surface;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 160ms ease;
+
+    &:hover {
+      background: v.$color-primary-soft;
+    }
+  }
+
+  &__media {
+    min-height: 400px;
+  }
+
+  @media (max-width: (v.$laptop-min-width - 1px)) {
+    &__inner {
+      min-height: auto;
+      grid-template-columns: 1fr;
+    }
+
+    &__media {
+      display: none;
+    }
+  }
+
+  @media (max-width: (v.$tablet-min-width - 1px)) {
+    &__actions {
+      align-items: stretch;
+      flex-direction: column;
+    }
+  }
+}
+
+.heading {
+  &__eyebrow {
+    margin-bottom: 12px;
+    color: v.$color-primary;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    max-width: 672px;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+
+  &__description {
+    max-width: 672px;
+    margin-top: 12px;
+    color: v.$color-text-muted;
+  }
+}
+
+.about,
+.info {
+  padding-block: clamp(64px, 8vw, 112px);
+  scroll-margin-top: 16px;
+}
+
+.about {
+  background: v.$color-surface;
+}
+
+.info {
+  border-top: 1px solid v.$color-border;
+  background: v.$color-background;
+
+  &__content {
+    display: grid;
+    align-items: start;
+    gap: clamp(32px, 5vw, 64px);
+    margin-top: 48px;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.85fr);
+  }
+
+  &__details,
+  &__criteria {
+    display: grid;
+    gap: 16px;
+  }
+
+  &__details p {
+    position: relative;
+    padding-left: 24px;
+    color: v.$color-text-muted;
+
+    &::before {
+      position: absolute;
+      top: 10px;
+      left: 0;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: v.$color-primary;
+      content: '';
+    }
+  }
+
+  @media (max-width: (v.$laptop-min-width - 1px)) {
+    &__content {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+.card {
+  padding: clamp(20px, 3vw, 28px);
+  border: 1px solid v.$color-border;
+  border-radius: v.$border-radius-md;
+  background: v.$color-surface;
+
+  &__label {
+    color: v.$color-primary;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  &__value {
+    margin-block: 6px 12px;
+    color: v.$color-primary;
+    font-size: clamp(2.5rem, 6vw, 3.75rem);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 1;
+
+    span {
+      font-size: 1rem;
+      letter-spacing: 0;
+    }
+  }
+
+  &__text {
+    color: v.$color-text-muted;
+    font-size: 0.92rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__actions a {
+    transition: none;
+  }
+}
