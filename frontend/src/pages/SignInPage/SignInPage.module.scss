@@ -1,0 +1,116 @@
+@use '../../styles/variables' as v;
+@use '../../styles/mixins';
+
+.page {
+  @include mixins.content-container(960px);
+
+  display: grid;
+  align-items: start;
+  gap: clamp(32px, 7vw, 80px);
+  padding-block: clamp(48px, 8vw, 96px);
+  grid-template-columns: minmax(0, 1fr) minmax(304px, 416px);
+
+  &__intro {
+    padding-top: 24px;
+  }
+
+  &__eyebrow {
+    margin-bottom: 12px;
+    color: v.$color-primary;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    max-width: 512px;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    letter-spacing: -0.04em;
+    line-height: 1.08;
+  }
+
+  &__description {
+    max-width: 544px;
+    margin-top: 20px;
+    color: v.$color-text-muted;
+    font-size: 1.05rem;
+  }
+
+  &__card {
+    min-width: 0;
+    padding: clamp(20px, 4vw, 32px);
+    border: 1px solid v.$color-border;
+    border-radius: v.$border-radius-lg;
+    background: v.$color-surface;
+    box-shadow: v.$shadow-card;
+  }
+
+  @media (max-width: (v.$laptop-min-width - 1px)) {
+    max-width: 560px;
+    grid-template-columns: 1fr;
+
+    &__intro {
+      padding-top: 0;
+    }
+  }
+}
+
+.form {
+  display: grid;
+  gap: 20px;
+
+  &__message {
+    padding: 14px 16px;
+    border: 1px solid currentColor;
+    border-radius: v.$border-radius-sm;
+    font-size: 0.9rem;
+
+    &--error {
+      color: v.$color-error;
+      background: v.$color-error-soft;
+    }
+
+    &--status {
+      color: v.$color-success;
+      background: v.$color-success-soft;
+    }
+  }
+
+  &__submit {
+    display: inline-flex;
+    width: 100%;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 20px;
+    border: 1px solid transparent;
+    border-radius: v.$border-radius-sm;
+    color: v.$color-on-primary;
+    background: v.$color-primary;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 160ms ease;
+
+    &:hover {
+      background: v.$color-primary-hover;
+    }
+  }
+
+  &__links {
+    display: grid;
+    gap: 6px;
+    padding-top: 16px;
+    border-top: 1px solid v.$color-border;
+    color: v.$color-text-muted;
+    font-size: 0.9rem;
+    text-align: center;
+
+    a {
+      color: v.$color-primary;
+      font-weight: 700;
+    }
+  }
+}

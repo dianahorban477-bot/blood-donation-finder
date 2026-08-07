@@ -1,5 +1,3 @@
-import type { FC } from 'react'
-import { RouterProvider } from 'react-router'
-import { router } from './app/router'
+import { AppRoutes } from './routes/AppRoutes'
 
-export const App: FC = () => <RouterProvider router={router} />
+export const App = () => <AppRoutes />

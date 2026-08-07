@@ -1,0 +1,8 @@
+@use 'variables' as v;
+
+@mixin content-container($max-width: v.$content-width) {
+  width: 100%;
+  max-width: $max-width;
+  margin-inline: auto;
+  padding-inline: v.$content-padding-inline;
+}
