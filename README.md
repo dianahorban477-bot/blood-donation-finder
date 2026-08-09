@@ -1,38 +1,46 @@
- 🩸 Blood Donation Finder Web Application
+# 🩸 Blood Donation Finder
 
 An application designed to connect blood donors with individuals and medical centers in need.
-🛠 Tech Stack & Deployment (MVP)
 
-    Frontend: React, TypeScript, Vite | Hosting: Vercel
-    Backend: Python | Hosting: Render / Railway
-    Database: Supabase (PostgreSQL)
+---
 
-👥 Team
+## 🛠 Tech Stack & Deployment (MVP)
 
-    Frontend developer: Oksana Palahecha
-    Backend developers: Oleksandra Kupriichuk, Jakub Paluch
-    QA engineers: Mateusz Janczura
-    Marketer: Sofiia Serediuk
-    Data analyst: Yurii Chihur
-    DevOps Engineer: Diana Horban
-    Project manager: Anton Sulyha
+* **Frontend:** React, TypeScript, Vite | **Hosting:** Vercel
+* **Backend:** Python | **Hosting:** Render / Railway
+* **Database:** Supabase (PostgreSQL)
 
-📖 Guidelines
+---
 
-Please read CONTRIBUTING.md before starting any work.
+## 👥 Team
 
-🔗 Deploy Links:
+* **Frontend Developer:** Oksana Palahecha
+* **Backend Developers:** Oleksandra Kupriichuk, Jakub Paluch
+* **QA Engineer:** Mateusz Janczura
+* **Marketer:** Sofiia Serediuk
+* **Data Analyst:** Yurii Chihur
+* **DevOps Engineer:** Diana Horban
+* **Project Manager:** Anton Sulyha
 
-    Frontend (QA / Preview): blood-donation-finder-delta.vercel.app
+---
 
-    Backend API: link-on-render
+## 📖 Guidelines
 
-📂 Project Structure:
+Please read [CONTRIBUTING.md](./CONTRIBUTING.md) before starting any work.
 
-    /frontend — React App (Vite)
+---
 
-    /backend — Python API
+## 🔗 Deploy Links
 
-    /docs — Documentation and Privacy Policy
+* **Frontend (QA / Preview):** [blood-donation-finder-delta.vercel.app](https://blood-donation-finder-delta.vercel.app)
+* **Backend API:** *link-on-render*
+
+---
+
+## 📂 Project Structure
+
+* `/frontend` — React App (Vite)
+* `/backend` — Python API
+* `/docs` — Documentation and Privacy Policy
 
 
