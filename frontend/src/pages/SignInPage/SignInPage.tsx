@@ -1,5 +1,10 @@
 import cn from 'classnames'
-import { type ChangeEvent, type SubmitEvent, useState } from 'react'
+import {
+  type ChangeEvent,
+  type FocusEvent,
+  type SubmitEvent,
+  useState,
+} from 'react'
 import { Link } from 'react-router'
 import { FormField } from '../../components/FormField/FormField'
 import { normalizeEmail } from '../../utils/normalizeEmail'
@@ -32,25 +37,51 @@ const validateForm = (values: SignInFormValues): SignInFormErrors => {
 export const SignInPage = () => {
   const [values, setValues] = useState<SignInFormValues>(initialValues)
   const [errors, setErrors] = useState<SignInFormErrors>({})
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [formError, setFormError] = useState('')
   const [statusMessage, setStatusMessage] = useState('')
+  const normalizedValues = {
+    ...values,
+    email: normalizeEmail(values.email),
+  }
+  const isFormValid = Object.keys(validateForm(normalizedValues)).length === 0
+
+  const getFieldError = (
+    nextValues: SignInFormValues,
+    fieldName: keyof SignInFormValues,
+  ) => {
+    return validateForm({
+      ...nextValues,
+      email: normalizeEmail(nextValues.email),
+    })[fieldName]
+  }
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
+    const fieldName = name as keyof SignInFormValues
+    const nextValues = { ...values, [fieldName]: value }
 
-    setValues((currentValues) => ({ ...currentValues, [name]: value }))
-    setErrors((currentErrors) => ({ ...currentErrors, [name]: undefined }))
+    setValues(nextValues)
+    setErrors((currentErrors) => ({
+      ...currentErrors,
+      [fieldName]: getFieldError(nextValues, fieldName),
+    }))
     setFormError('')
     setStatusMessage('')
+  }
+
+  const handleBlur = (event: FocusEvent<HTMLInputElement>) => {
+    const fieldName = event.target.name as keyof SignInFormValues
+
+    setErrors((currentErrors) => ({
+      ...currentErrors,
+      [fieldName]: getFieldError(values, fieldName),
+    }))
   }
 
   const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    const normalizedValues = {
-      ...values,
-      email: normalizeEmail(values.email),
-    }
     const nextErrors = validateForm(normalizedValues)
 
     setValues(normalizedValues)
@@ -63,9 +94,12 @@ export const SignInPage = () => {
     }
 
     setFormError('')
-    setStatusMessage(
-      'Your details are valid',
-    )
+    setIsSubmitting(true)
+
+    window.setTimeout(() => {
+      setIsSubmitting(false)
+      setStatusMessage('Your details are valid')
+    }, 350)
   }
 
   return (
@@ -106,6 +140,7 @@ export const SignInPage = () => {
             id="sign-in-email"
             label="Email"
             name="email"
+            onBlur={handleBlur}
             onChange={handleChange}
             type="email"
             value={values.email}
@@ -116,13 +151,18 @@ export const SignInPage = () => {
             id="sign-in-password"
             label="Password"
             name="password"
+            onBlur={handleBlur}
             onChange={handleChange}
             type="password"
             value={values.password}
           />
 
-          <button className={styles.form__submit} type="submit">
-            Sign in
+          <button
+            className={styles.form__submit}
+            disabled={!isFormValid || isSubmitting}
+            type="submit"
+          >
+            {isSubmitting ? 'Checking details...' : 'Sign in'}
           </button>
 
           <div className={styles.form__links}>

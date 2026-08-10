@@ -1,0 +1,147 @@
+@use '../../styles/variables' as v;
+@use '../../styles/mixins';
+
+.privacyPolicy {
+  @include mixins.content-container;
+
+  padding-block: 48px;
+
+  @media (min-width: v.$tablet-min-width) {
+    padding-block: 64px;
+  }
+
+  @media (min-width: v.$laptop-min-width) {
+    padding-block: 80px;
+  }
+
+  @media (min-width: v.$desktop-min-width) {
+    padding-block: 96px;
+  }
+
+  &__header {
+    max-width: 800px;
+  }
+
+  &__eyebrow {
+    margin-bottom: 12px;
+    color: v.$color-primary;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    max-width: 600px;
+    font-size: 30px;
+    letter-spacing: -0.02em;
+    line-height: 1;
+
+    @media (min-width: v.$tablet-min-width) {
+      font-size: 40px;
+    }
+
+    @media (min-width: v.$laptop-min-width) {
+      font-size: 48px;
+    }
+
+    @media (min-width: v.$desktop-min-width) {
+      font-size: 64px;
+    }
+  }
+
+  &__content {
+    display: grid;
+    gap: 40px;
+    margin-top: 32px;
+    padding: 20px;
+    border: 1px solid v.$color-border;
+    border-radius: v.$border-radius-md;
+    color: v.$color-text-muted;
+    background: v.$color-surface;
+
+    @media (min-width: v.$tablet-min-width) {
+      padding: 32px;
+    }
+  }
+
+  &__section {
+    display: grid;
+    gap: 16px;
+
+    h2,
+    h3,
+    p,
+    ol {
+      margin: 0;
+    }
+
+    h2,
+    h3 {
+      color: v.$color-text;
+    }
+
+    h2 {
+      font-size: 21px;
+      line-height: 1.1;
+
+      @media (min-width: v.$tablet-min-width) {
+        font-size: 26px;
+      }
+
+      @media (min-width: v.$laptop-min-width) {
+        font-size: 27px;
+      }
+
+      @media (min-width: v.$desktop-min-width) {
+        font-size: 30px;
+      }
+    }
+
+    h3 {
+      margin-top: 8px;
+      font-size: 19px;
+      line-height: 1;
+    }
+
+    p,
+    li {
+      line-height: 1.7;
+    }
+
+    ol {
+      display: grid;
+      gap: 8px;
+      padding-left: 24px;
+    }
+
+    li::marker {
+      color: v.$color-primary;
+    }
+  }
+
+  &__tableWrapper {
+    max-width: 100%;
+    overflow-x: auto;
+
+    table {
+      width: 100%;
+      min-width: 640px;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 12px 16px;
+      border: 1px solid v.$color-border;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: v.$color-text;
+      background: v.$color-background;
+    }
+  }
+
+}

@@ -13,40 +13,96 @@
   &__inner {
     @include mixins.content-container;
 
-    display: grid;
-    min-height: 640px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: clamp(32px, 6vw, 80px);
-    padding-block: clamp(64px, 9vw, 112px);
-    grid-template-columns: minmax(0, 1.05fr) minmax(288px, 0.95fr);
+    gap: 32px;
+    padding-block: 30px 10px;
+
+    @media (min-width: v.$tablet-min-width) {
+      gap: 48px;
+      padding-block: 40px 10px;
+    }
+
+    @media (min-width: v.$laptop-min-width) {
+      max-width: none;
+      flex-direction: row;
+      gap: 0;
+      padding-inline: 0;
+      padding-block: 0;
+    }
   }
 
   &__content {
     position: relative;
-    z-index: 2;
+    width: 100%;
+
+    @media (min-width: v.$laptop-min-width) {
+      display: flex;
+      width: 50%;
+      align-self: stretch;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0;
+    }
+  }
+
+  &__contentInner {
+    width: 100%;
+
+    @media (min-width: v.$laptop-min-width) {
+      max-width: 600px;
+      margin-left: auto;
+      padding: 64px 32px 64px v.$content-padding-inline;
+    }
+
+    @media (min-width: v.$desktop-min-width) {
+      padding: 80px 40px 80px v.$content-padding-inline;
+    }
+
+    @media (min-width: v.$large-desktop-min-width) {
+      padding-block: 120px;
+    }
   }
 
   &__eyebrow {
     margin-bottom: 12px;
     color: v.$color-primary;
-    font-size: 0.8rem;
+    font-size: 13px;
     font-weight: 800;
     letter-spacing: 0.1em;
     text-transform: uppercase;
   }
 
   &__title {
-    max-width: 736px;
-    font-size: clamp(2.35rem, 6vw, 4.8rem);
-    letter-spacing: -0.045em;
+    max-width: 600px;
+    font-size: 30px;
+    letter-spacing: -0.02em;
     line-height: 1.03;
+
+    @media (min-width: v.$tablet-min-width) {
+      font-size: 40px;
+    }
+
+    @media (min-width: v.$laptop-min-width) {
+      font-size: 48px;
+    }
+
+    @media (min-width: v.$desktop-min-width) {
+      font-size: 64px;
+    }
   }
 
   &__description {
     max-width: 624px;
     margin-top: 24px;
     color: v.$color-text-muted;
-    font-size: clamp(1rem, 2vw, 1.18rem);
+    font-size: 14px;
+
+    @media (min-width: v.$tablet-min-width) {
+      font-size: 18px;
+    }
   }
 
   &__actions {
@@ -54,6 +110,11 @@
     flex-wrap: wrap;
     gap: 12px;
     margin-top: 32px;
+
+    @media (max-width: (v.$tablet-min-width - 1px)) {
+      align-items: stretch;
+      flex-direction: column;
+    }
   }
 
   &__donorLink {
@@ -99,24 +160,26 @@
   }
 
   &__media {
-    min-height: 400px;
-  }
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
 
-  @media (max-width: (v.$laptop-min-width - 1px)) {
-    &__inner {
-      min-height: auto;
-      grid-template-columns: 1fr;
+    @media (min-width: v.$laptop-min-width) {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: block;
+      width: 50%;
+      max-width: 50%;
+      height: 100%;
+      object-fit: cover;
+      object-position: left center;
     }
 
-    &__media {
-      display: none;
-    }
-  }
-
-  @media (max-width: (v.$tablet-min-width - 1px)) {
-    &__actions {
-      align-items: stretch;
-      flex-direction: column;
+    @media (min-width: v.$desktop-min-width) {
+      object-position: center;
     }
   }
 }
@@ -125,7 +188,7 @@
   &__eyebrow {
     margin-bottom: 12px;
     color: v.$color-primary;
-    font-size: 0.8rem;
+    font-size: 13px;
     font-weight: 800;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -133,9 +196,21 @@
 
   &__title {
     max-width: 672px;
-    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-size: 21px;
     letter-spacing: -0.03em;
     line-height: 1.15;
+
+    @media (min-width: v.$tablet-min-width) {
+      font-size: 32px;
+    }
+
+    @media (min-width: v.$laptop-min-width) {
+      font-size: 40px;
+    }
+
+    @media (min-width: v.$desktop-min-width) {
+      font-size: 48px;
+    }
   }
 
   &__description {
@@ -143,12 +218,25 @@
     margin-top: 12px;
     color: v.$color-text-muted;
   }
+
 }
 
 .about,
 .info {
-  padding-block: clamp(64px, 8vw, 112px);
+  padding-block: 64px;
   scroll-margin-top: 16px;
+
+  @media (min-width: v.$tablet-min-width) {
+    padding-block: 80px;
+  }
+
+  @media (min-width: v.$laptop-min-width) {
+    padding-block: 96px;
+  }
+
+  @media (min-width: v.$desktop-min-width) {
+    padding-block: 112px;
+  }
 }
 
 .about {
@@ -162,9 +250,21 @@
   &__content {
     display: grid;
     align-items: start;
-    gap: clamp(32px, 5vw, 64px);
+    gap: 32px;
     margin-top: 48px;
     grid-template-columns: minmax(0, 1fr) minmax(320px, 0.85fr);
+
+    @media (max-width: (v.$laptop-min-width - 1px)) {
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: v.$tablet-min-width) {
+      gap: 48px;
+    }
+
+    @media (min-width: v.$desktop-min-width) {
+      gap: 64px;
+    }
   }
 
   &__details,
@@ -190,22 +290,25 @@
     }
   }
 
-  @media (max-width: (v.$laptop-min-width - 1px)) {
-    &__content {
-      grid-template-columns: 1fr;
-    }
-  }
 }
 
 .card {
-  padding: clamp(20px, 3vw, 28px);
+  padding: 20px;
   border: 1px solid v.$color-border;
   border-radius: v.$border-radius-md;
   background: v.$color-surface;
 
+  @media (min-width: v.$tablet-min-width) {
+    padding: 24px;
+  }
+
+  @media (min-width: v.$desktop-min-width) {
+    padding: 28px;
+  }
+
   &__label {
     color: v.$color-primary;
-    font-size: 0.78rem;
+    font-size: 13px;
     font-weight: 800;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -214,21 +317,30 @@
   &__value {
     margin-block: 6px 12px;
     color: v.$color-primary;
-    font-size: clamp(2.5rem, 6vw, 3.75rem);
+    font-size: 40px;
     font-weight: 800;
     letter-spacing: -0.05em;
     line-height: 1;
 
+    @media (min-width: v.$tablet-min-width) {
+      font-size: 48px;
+    }
+
+    @media (min-width: v.$desktop-min-width) {
+      font-size: 60px;
+    }
+
     span {
-      font-size: 1rem;
+      font-size: 16px;
       letter-spacing: 0;
     }
   }
 
   &__text {
     color: v.$color-text-muted;
-    font-size: 0.92rem;
+    font-size: 14px;
   }
+
 }
 
 @media (prefers-reduced-motion: reduce) {

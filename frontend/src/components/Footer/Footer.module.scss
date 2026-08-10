@@ -12,6 +12,10 @@
     padding-block: 40px;
     gap: 20px 32px;
     grid-template-columns: 1.5fr auto;
+
+    @media (max-width: (v.$tablet-min-width - 1px)) {
+      grid-template-columns: 1fr;
+    }
   }
 
   &__brand {
@@ -21,7 +25,7 @@
   &__description,
   &__year {
     color: v.$color-text-muted;
-    font-size: 0.9rem;
+    font-size: 14px;
   }
 
   &__links {
@@ -35,14 +39,8 @@
 
   &__year {
     grid-column: 1 / -1;
-  }
 
-  @media (max-width: (v.$tablet-min-width - 1px)) {
-    &__container {
-      grid-template-columns: 1fr;
-    }
-
-    &__year {
+    @media (max-width: (v.$tablet-min-width - 1px)) {
       grid-column: auto;
     }
   }

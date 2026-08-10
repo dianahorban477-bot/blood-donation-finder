@@ -2,6 +2,8 @@ import cn from 'classnames'
 import {
   type ChangeEvent,
   type ChangeEventHandler,
+  type FocusEvent,
+  type FocusEventHandler,
   type ReactNode,
   type SubmitEvent,
   useState,
@@ -17,6 +19,9 @@ type FormValues = {
   password: string
   confirmPassword: string
   authorityConfirmed: boolean
+  privacyPolicyAccepted: boolean
+  ageConfirmed: boolean
+  marketingConsent: boolean
   termsAccepted: boolean
 }
 
@@ -32,7 +37,9 @@ type CheckboxProps = {
   error?: string
   id: string
   name: string
+  onBlur: FocusEventHandler<HTMLInputElement>
   onChange: ChangeEventHandler<HTMLInputElement>
+  required?: boolean
 }
 
 const initialValues: FormValues = {
@@ -40,6 +47,9 @@ const initialValues: FormValues = {
   password: '',
   confirmPassword: '',
   authorityConfirmed: false,
+  privacyPolicyAccepted: false,
+  ageConfirmed: false,
+  marketingConsent: false,
   termsAccepted: false,
 }
 
@@ -77,7 +87,15 @@ function validateForm(values: FormValues, role: RegistrationRole): FormErrors {
     errors.authorityConfirmed = 'Confirm that you are authorized to represent this organization.'
   }
 
-  if (!values.termsAccepted) {
+  if (role === 'donor' && !values.privacyPolicyAccepted) {
+    errors.privacyPolicyAccepted = 'Accept the Privacy Policy to continue.'
+  }
+
+  if (role === 'donor' && !values.ageConfirmed) {
+    errors.ageConfirmed = 'Confirm that you meet the minimum legal age requirement.'
+  }
+
+  if (role === 'hospital' && !values.termsAccepted) {
     errors.termsAccepted = 'Accept the Terms and Privacy Policy to continue.'
   }
 
@@ -91,32 +109,70 @@ export const RegistrationForm = ({ role }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formError, setFormError] = useState('')
   const [statusMessage, setStatusMessage] = useState('')
+  const normalizedValues = {
+    ...values,
+    email: normalizeEmail(values.email),
+  }
+  const isFormValid = Object.keys(validateForm(normalizedValues, role)).length === 0
+
+  function getFieldError(
+    nextValues: FormValues,
+    fieldName: keyof FormValues,
+  ) {
+    return validateForm(
+      {
+        ...nextValues,
+        email: normalizeEmail(nextValues.email),
+      },
+      role,
+    )[fieldName]
+  }
 
   function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target
+    const fieldName = name as keyof FormValues
+    const nextValues = { ...values, [fieldName]: value }
 
-    setValues((currentValues) => ({ ...currentValues, [name]: value }))
-    setErrors((currentErrors) => ({ ...currentErrors, [name]: undefined }))
+    setValues(nextValues)
+    setErrors((currentErrors) => ({
+      ...currentErrors,
+      [fieldName]: getFieldError(nextValues, fieldName),
+      ...(fieldName === 'password' && values.confirmPassword
+        ? {
+            confirmPassword: getFieldError(nextValues, 'confirmPassword'),
+          }
+        : {}),
+    }))
     setFormError('')
     setStatusMessage('')
   }
 
   function handleCheckboxChange(event: ChangeEvent<HTMLInputElement>) {
     const { checked, name } = event.target
+    const fieldName = name as keyof FormValues
+    const nextValues = { ...values, [fieldName]: checked }
 
-    setValues((currentValues) => ({ ...currentValues, [name]: checked }))
-    setErrors((currentErrors) => ({ ...currentErrors, [name]: undefined }))
+    setValues(nextValues)
+    setErrors((currentErrors) => ({
+      ...currentErrors,
+      [fieldName]: getFieldError(nextValues, fieldName),
+    }))
     setFormError('')
     setStatusMessage('')
+  }
+
+  function handleFieldBlur(event: FocusEvent<HTMLInputElement>) {
+    const fieldName = event.target.name as keyof FormValues
+
+    setErrors((currentErrors) => ({
+      ...currentErrors,
+      [fieldName]: getFieldError(values, fieldName),
+    }))
   }
 
   function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    const normalizedValues = {
-      ...values,
-      email: normalizeEmail(values.email),
-    }
     const nextErrors = validateForm(normalizedValues, role)
 
     setValues(normalizedValues)
@@ -134,7 +190,7 @@ export const RegistrationForm = ({ role }: Props) => {
     window.setTimeout(() => {
       setIsSubmitting(false)
       setStatusMessage(
-        'Your details are valid. Registration will become available when the backend is connected.',
+        'Your details are valid',
       )
     }, 350)
   }
@@ -176,6 +232,7 @@ export const RegistrationForm = ({ role }: Props) => {
         id={`${role}-email`}
         label={isHospital ? 'Work email' : 'Email'}
         name="email"
+        onBlur={handleFieldBlur}
         onChange={handleInputChange}
         type="email"
         value={values.email}
@@ -187,6 +244,7 @@ export const RegistrationForm = ({ role }: Props) => {
         id={`${role}-password`}
         label="Password"
         name="password"
+        onBlur={handleFieldBlur}
         onChange={handleInputChange}
         type="password"
         value={values.password}
@@ -197,36 +255,78 @@ export const RegistrationForm = ({ role }: Props) => {
         id={`${role}-confirm-password`}
         label="Confirm password"
         name="confirmPassword"
+        onBlur={handleFieldBlur}
         onChange={handleInputChange}
         type="password"
         value={values.confirmPassword}
       />
 
-      {isHospital && (
-        <CheckboxField
-          checked={values.authorityConfirmed}
-          error={errors.authorityConfirmed}
-          id="hospital-authority"
-          name="authorityConfirmed"
-          onChange={handleCheckboxChange}
-        >
-          I confirm that I am authorized to represent this organization.
-        </CheckboxField>
+      {isHospital ? (
+        <>
+          <CheckboxField
+            checked={values.authorityConfirmed}
+            error={errors.authorityConfirmed}
+            id="hospital-authority"
+            name="authorityConfirmed"
+            onBlur={handleFieldBlur}
+            onChange={handleCheckboxChange}
+            required
+          >
+            I confirm that I am authorized to represent this organization.
+          </CheckboxField>
+          <CheckboxField
+            checked={values.termsAccepted}
+            error={errors.termsAccepted}
+            id="hospital-terms"
+            name="termsAccepted"
+            onBlur={handleFieldBlur}
+            onChange={handleCheckboxChange}
+            required
+          >
+            I accept the <a href="#terms">Terms</a> and <a href="#privacy">Privacy Policy</a>.
+          </CheckboxField>
+        </>
+      ) : (
+        <>
+          <CheckboxField
+            checked={values.privacyPolicyAccepted}
+            error={errors.privacyPolicyAccepted}
+            id="donor-privacy-policy"
+            name="privacyPolicyAccepted"
+            onBlur={handleFieldBlur}
+            onChange={handleCheckboxChange}
+            required
+          >
+            I have read and understood the <Link to="/privacy-policy">Privacy Policy</Link> and
+            consent to the processing of my personal data in accordance with it.
+          </CheckboxField>
+          <CheckboxField
+            checked={values.ageConfirmed}
+            error={errors.ageConfirmed}
+            id="donor-age-confirmation"
+            name="ageConfirmed"
+            onBlur={handleFieldBlur}
+            onChange={handleCheckboxChange}
+            required
+          >
+            I confirm that I have reached the minimum legal age required in the Privacy Policy.
+          </CheckboxField>
+          <CheckboxField
+            checked={values.marketingConsent}
+            id="donor-marketing-consent"
+            name="marketingConsent"
+            onBlur={handleFieldBlur}
+            onChange={handleCheckboxChange}
+          >
+            I agree to processing my data for marketing purposes and receiving newsellers and
+            notifications. (this checkbox is optional. The two above are mandatory)
+          </CheckboxField>
+        </>
       )}
-
-      <CheckboxField
-        checked={values.termsAccepted}
-        error={errors.termsAccepted}
-        id={`${role}-terms`}
-        name="termsAccepted"
-        onChange={handleCheckboxChange}
-      >
-        I accept the <a href="#terms">Terms</a> and <a href="#privacy">Privacy Policy</a>.
-      </CheckboxField>
 
       <button
         className={styles.form__submit}
-        disabled={isSubmitting}
+        disabled={!isFormValid || isSubmitting}
         type="submit"
       >
         {isSubmitting
@@ -250,7 +350,9 @@ const CheckboxField = ({
   error,
   id,
   name,
+  onBlur,
   onChange,
+  required = false,
 }: CheckboxProps) => {
   const errorId = `${id}-error`
   const hasError = Boolean(error)
@@ -267,7 +369,9 @@ const CheckboxField = ({
           })}
           id={id}
           name={name}
+          onBlur={onBlur}
           onChange={onChange}
+          required={required}
           type="checkbox"
         />
         <span>{children}</span>

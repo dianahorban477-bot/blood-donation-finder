@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import styles from './Footer.module.scss'
 
 export const Footer = () => {
@@ -13,7 +14,7 @@ export const Footer = () => {
           </p>
         </div>
         <nav className={styles.footer__links} aria-label="Footer navigation">
-          <a href="#privacy">Privacy Policy</a>
+          <Link to="/privacy-policy">Privacy Policy</Link>
           <a href="#contact">Contact</a>
         </nav>
         <p className={styles.footer__year}>
