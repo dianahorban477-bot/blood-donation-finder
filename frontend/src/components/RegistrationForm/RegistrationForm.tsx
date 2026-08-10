@@ -61,6 +61,9 @@ function validatePassword(password: string) {
   if (!/[a-z]/.test(password)) return 'Add at least one lowercase English letter.'
   if (!/[A-Z]/.test(password)) return 'Add at least one uppercase English letter.'
   if (!/[0-9]/.test(password)) return 'Add at least one number.'
+  if (!/[^A-Za-z0-9\s]/.test(password)) {
+    return 'Add at least one special character.'
+  }
 
   return ''
 }
@@ -240,7 +243,7 @@ export const RegistrationForm = ({ role }: Props) => {
       <FormField
         autoComplete="new-password"
         error={errors.password}
-        hint="At least 8 characters with an uppercase letter, a lowercase letter, and a number. Special characters are allowed."
+        hint="At least 8 characters with an uppercase letter, a lowercase letter, a number, and a special character."
         id={`${role}-password`}
         label="Password"
         name="password"
