@@ -1,5 +1,9 @@
 import cn from 'classnames'
-import { type ChangeEventHandler, useState } from 'react'
+import {
+  type ChangeEventHandler,
+  type FocusEventHandler,
+  useState,
+} from 'react'
 import { EyeIcon } from '../IconsSVG/EyeIcon'
 import { EyeOffIcon } from '../IconsSVG/EyeOffIcon'
 import styles from './FormField.module.scss'
@@ -11,6 +15,7 @@ type Props = {
   id: string
   label: string
   name: string
+  onBlur: FocusEventHandler<HTMLInputElement>
   onChange: ChangeEventHandler<HTMLInputElement>
   type: 'email' | 'password'
   value: string
@@ -23,6 +28,7 @@ export const FormField = ({
   id,
   label,
   name,
+  onBlur,
   onChange,
   type,
   value,
@@ -55,6 +61,7 @@ export const FormField = ({
           })}
           id={id}
           name={name}
+          onBlur={onBlur}
           onChange={onChange}
           type={inputType}
           value={value}

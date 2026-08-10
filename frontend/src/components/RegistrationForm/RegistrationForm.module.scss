@@ -9,7 +9,7 @@
     padding: 14px 16px;
     border: 1px solid currentColor;
     border-radius: v.$border-radius-sm;
-    font-size: 0.9rem;
+    font-size: 14px;
 
     &--error {
       color: v.$color-error;
@@ -32,7 +32,7 @@
     align-items: flex-start;
     gap: 11px;
     color: v.$color-text-muted;
-    font-size: 0.9rem;
+    font-size: 14px;
     cursor: pointer;
 
     a {
@@ -63,7 +63,7 @@
   &__checkboxError {
     padding-left: 30px;
     color: v.$color-error;
-    font-size: 0.84rem;
+    font-size: 13px;
     font-weight: 600;
   }
 
@@ -101,7 +101,7 @@
     padding-top: 16px;
     border-top: 1px solid v.$color-border;
     color: v.$color-text-muted;
-    font-size: 0.9rem;
+    font-size: 14px;
     text-align: center;
 
     a {

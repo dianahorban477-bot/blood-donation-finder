@@ -12,6 +12,9 @@ export const DonorRegistrationPage = () => {
         <h1 className={styles.registration__title} id="donor-registration-title">
           Create a donor account
         </h1>
+        <p className={styles.registration__description}>
+          Register with your email to create a donor account.
+        </p>
         <div className={styles.registration__assurance}>
           <span aria-hidden="true">✓</span>
           <p>Creating an account does not determine medical eligibility to donate.</p>

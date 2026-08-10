@@ -1,4 +1,5 @@
 import { Link } from 'react-router'
+import heroImage from '../../assets/design-crop.webp'
 import styles from './HomePage.module.scss'
 
 export const HomePage = () => {
@@ -7,25 +8,32 @@ export const HomePage = () => {
       <section className={styles.hero}>
         <div className={styles.hero__inner}>
           <div className={styles.hero__content}>
-            <p className={styles.hero__eyebrow}>A clearer path to helping</p>
-            <h1 className={styles.hero__title}>
-              Helping hospitals and blood donors find each other
-            </h1>
-            <p className={styles.hero__description}>
-              A focused platform built to help verified medical institutions connect with people
-              who are ready to explore blood donation.
-            </p>
-            <div className={styles.hero__actions}>
-              <Link className={styles.hero__donorLink} to="/register/donor">
-                Register as a donor
-              </Link>
-              <Link className={styles.hero__hospitalLink} to="/register/hospital">
-                Register a hospital
-              </Link>
+            <div className={styles.hero__contentInner}>
+              <p className={styles.hero__eyebrow}>A clearer path to helping</p>
+              <h1 className={styles.hero__title}>
+                Helping hospitals and blood donors find each other
+              </h1>
+              <p className={styles.hero__description}>
+                A focused platform built to help verified medical institutions connect with people
+                who are ready to explore blood donation.
+              </p>
+              <div className={styles.hero__actions}>
+                <Link className={styles.hero__donorLink} to="/register/donor">
+                  Register as a donor
+                </Link>
+                <Link className={styles.hero__hospitalLink} to="/register/hospital">
+                  Register a hospital
+                </Link>
+              </div>
             </div>
           </div>
 
-          <div className={styles.hero__media} aria-hidden="true" />
+          <img
+            className={styles.hero__media}
+            src={heroImage}
+            alt=""
+            aria-hidden="true"
+          />
         </div>
       </section>
 
