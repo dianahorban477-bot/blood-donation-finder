@@ -13,7 +13,10 @@ class BloodRequest(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     hospital_id: Mapped[int] = mapped_column(ForeignKey("hospitals.id"), nullable=False)
-    blood_type: Mapped[BloodType] = mapped_column(SAEnum(BloodType, name="blood_type"), nullable=False)
+    blood_type: Mapped[BloodType] = mapped_column(
+        SAEnum(BloodType, name="blood_type", values_callable=lambda enum_cls: [e.value for e in enum_cls]),
+        nullable=False,
+    )
     donation_type: Mapped[DonationType] = mapped_column(
         SAEnum(DonationType, name="donation_type"), nullable=False
     )
