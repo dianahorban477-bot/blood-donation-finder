@@ -1,0 +1,154 @@
+@use '../../styles/variables' as v;
+@use '../../styles/mixins';
+
+.header {
+  position: relative;
+  z-index: 10;
+  border-bottom: 1px solid v.$color-border;
+  background: v.$color-header;
+
+  &__container {
+    @include mixins.content-container;
+
+    display: flex;
+    min-height: 80px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    @media (max-width: (v.$laptop-min-width - 1px)) {
+      min-height: auto;
+      padding-block: 14px;
+    }
+  }
+
+  &__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: v.$color-text;
+    font-weight: 800;
+    line-height: 1.2;
+    text-decoration: none;
+
+    @media (max-width: (v.$laptop-min-width - 1px)) {
+      max-width: 152px;
+      font-size: 14px;
+    }
+
+    @media (max-width: (v.$tablet-min-width - 1px)) {
+      span:last-child {
+        display: none;
+      }
+    }
+  }
+
+  &__logoMark {
+    display: grid;
+    width: 32px;
+    height: 32px;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: 50%;
+    color: v.$color-on-primary;
+    background: v.$color-primary;
+    font-size: 21px;
+  }
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    @media (max-width: (v.$laptop-min-width - 1px)) {
+      display: none;
+    }
+  }
+
+  &__link {
+    padding: 8px 10px;
+    border-radius: v.$border-radius-sm;
+    color: v.$color-text-muted;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      color: v.$color-primary;
+    }
+
+    &--active {
+      color: v.$color-primary;
+    }
+  }
+
+  &__register {
+    display: inline-flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 20px;
+    border: 1px solid transparent;
+    border-radius: v.$border-radius-sm;
+    color: v.$color-on-primary;
+    background: v.$color-primary;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 160ms ease;
+
+    &:hover {
+      background: v.$color-primary-hover;
+    }
+  }
+
+  &__mobileActions {
+    display: none;
+    align-items: center;
+    gap: 8px;
+
+    @media (max-width: (v.$laptop-min-width - 1px)) {
+      display: flex;
+    }
+  }
+
+  &__signIn {
+    display: inline-flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    padding-inline: 14px;
+    border-radius: v.$border-radius-sm;
+    color: v.$color-primary;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      background: v.$color-primary-soft;
+    }
+  }
+
+  &__menuButton {
+    display: grid;
+    width: 48px;
+    height: 48px;
+    flex: 0 0 auto;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    color: v.$color-text;
+    background: transparent;
+    box-shadow: none;
+    cursor: pointer;
+
+    &:hover {
+      color: v.$color-primary;
+    }
+  }
+
+  &__menuIcon {
+    width: 24px;
+    height: 24px;
+  }
+
+}

@@ -1,0 +1,350 @@
+@use '../../styles/variables' as v;
+@use '../../styles/mixins';
+
+.container {
+  @include mixins.content-container;
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: v.$color-hero;
+
+  &__inner {
+    @include mixins.content-container;
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    padding-block: 30px 10px;
+
+    @media (min-width: v.$tablet-min-width) {
+      gap: 48px;
+      padding-block: 40px 10px;
+    }
+
+    @media (min-width: v.$laptop-min-width) {
+      max-width: none;
+      flex-direction: row;
+      gap: 0;
+      padding-inline: 0;
+      padding-block: 0;
+    }
+  }
+
+  &__content {
+    position: relative;
+    width: 100%;
+
+    @media (min-width: v.$laptop-min-width) {
+      display: flex;
+      width: 50%;
+      align-self: stretch;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0;
+    }
+  }
+
+  &__contentInner {
+    width: 100%;
+
+    @media (min-width: v.$laptop-min-width) {
+      max-width: 600px;
+      margin-left: auto;
+      padding: 64px 32px 64px v.$content-padding-inline;
+    }
+
+    @media (min-width: v.$desktop-min-width) {
+      padding: 80px 40px 80px v.$content-padding-inline;
+    }
+
+    @media (min-width: v.$large-desktop-min-width) {
+      padding-block: 120px;
+    }
+  }
+
+  &__eyebrow {
+    margin-bottom: 12px;
+    color: v.$color-primary;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    max-width: 600px;
+    font-size: 30px;
+    letter-spacing: -0.02em;
+    line-height: 1.03;
+
+    @media (min-width: v.$tablet-min-width) {
+      font-size: 40px;
+    }
+
+    @media (min-width: v.$laptop-min-width) {
+      font-size: 48px;
+    }
+
+    @media (min-width: v.$desktop-min-width) {
+      font-size: 64px;
+    }
+  }
+
+  &__description {
+    max-width: 624px;
+    margin-top: 24px;
+    color: v.$color-text-muted;
+    font-size: 14px;
+
+    @media (min-width: v.$tablet-min-width) {
+      font-size: 18px;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+
+    @media (max-width: (v.$tablet-min-width - 1px)) {
+      align-items: stretch;
+      flex-direction: column;
+    }
+  }
+
+  &__donorLink {
+    display: inline-flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 20px;
+    border: 1px solid transparent;
+    border-radius: v.$border-radius-sm;
+    color: v.$color-on-primary;
+    background: v.$color-primary;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 160ms ease;
+
+    &:hover {
+      background: v.$color-primary-hover;
+    }
+  }
+
+  &__hospitalLink {
+    display: inline-flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 20px;
+    border: 1px solid v.$color-primary;
+    border-radius: v.$border-radius-sm;
+    color: v.$color-primary;
+    background: v.$color-surface;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 160ms ease;
+
+    &:hover {
+      background: v.$color-primary-soft;
+    }
+  }
+
+  &__media {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+
+    @media (min-width: v.$laptop-min-width) {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: block;
+      width: 50%;
+      max-width: 50%;
+      height: 100%;
+      object-fit: cover;
+      object-position: left center;
+    }
+
+    @media (min-width: v.$desktop-min-width) {
+      object-position: center;
+    }
+  }
+}
+
+.heading {
+  &__eyebrow {
+    margin-bottom: 12px;
+    color: v.$color-primary;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    max-width: 672px;
+    font-size: 21px;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+
+    @media (min-width: v.$tablet-min-width) {
+      font-size: 32px;
+    }
+
+    @media (min-width: v.$laptop-min-width) {
+      font-size: 40px;
+    }
+
+    @media (min-width: v.$desktop-min-width) {
+      font-size: 48px;
+    }
+  }
+
+  &__description {
+    max-width: 672px;
+    margin-top: 12px;
+    color: v.$color-text-muted;
+  }
+
+}
+
+.about,
+.info {
+  padding-block: 64px;
+  scroll-margin-top: 16px;
+
+  @media (min-width: v.$tablet-min-width) {
+    padding-block: 80px;
+  }
+
+  @media (min-width: v.$laptop-min-width) {
+    padding-block: 96px;
+  }
+
+  @media (min-width: v.$desktop-min-width) {
+    padding-block: 112px;
+  }
+}
+
+.about {
+  background: v.$color-surface;
+}
+
+.info {
+  border-top: 1px solid v.$color-border;
+  background: v.$color-background;
+
+  &__content {
+    display: grid;
+    align-items: start;
+    gap: 32px;
+    margin-top: 48px;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.85fr);
+
+    @media (max-width: (v.$laptop-min-width - 1px)) {
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: v.$tablet-min-width) {
+      gap: 48px;
+    }
+
+    @media (min-width: v.$desktop-min-width) {
+      gap: 64px;
+    }
+  }
+
+  &__details,
+  &__criteria {
+    display: grid;
+    gap: 16px;
+  }
+
+  &__details p {
+    position: relative;
+    padding-left: 24px;
+    color: v.$color-text-muted;
+
+    &::before {
+      position: absolute;
+      top: 10px;
+      left: 0;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: v.$color-primary;
+      content: '';
+    }
+  }
+
+}
+
+.card {
+  padding: 20px;
+  border: 1px solid v.$color-border;
+  border-radius: v.$border-radius-md;
+  background: v.$color-surface;
+
+  @media (min-width: v.$tablet-min-width) {
+    padding: 24px;
+  }
+
+  @media (min-width: v.$desktop-min-width) {
+    padding: 28px;
+  }
+
+  &__label {
+    color: v.$color-primary;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  &__value {
+    margin-block: 6px 12px;
+    color: v.$color-primary;
+    font-size: 40px;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 1;
+
+    @media (min-width: v.$tablet-min-width) {
+      font-size: 48px;
+    }
+
+    @media (min-width: v.$desktop-min-width) {
+      font-size: 60px;
+    }
+
+    span {
+      font-size: 16px;
+      letter-spacing: 0;
+    }
+  }
+
+  &__text {
+    color: v.$color-text-muted;
+    font-size: 14px;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__actions a {
+    transition: none;
+  }
+}

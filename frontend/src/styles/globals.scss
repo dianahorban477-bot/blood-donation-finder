@@ -1,0 +1,29 @@
+@use 'fonts';
+@use 'variables' as v;
+@use 'reset';
+
+body {
+  color: v.$color-text;
+  background: v.$color-background;
+  font-size: 14px;
+  font-family:
+    'Rubik', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+a {
+  &:focus-visible {
+    outline: 3px solid v.$color-focus;
+    outline-offset: 3px;
+  }
+}
+
+.no-scroll {
+  overflow: hidden;
+}

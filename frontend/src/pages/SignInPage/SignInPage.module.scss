@@ -1,0 +1,164 @@
+@use '../../styles/variables' as v;
+@use '../../styles/mixins';
+
+.page {
+  @include mixins.content-container(1056px);
+
+  display: grid;
+  align-items: start;
+  gap: 32px;
+  padding-block: 48px;
+  grid-template-columns: minmax(0, 1fr) minmax(304px, 448px);
+
+  @media (max-width: (v.$laptop-min-width - 1px)) {
+    max-width: 560px;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: v.$tablet-min-width) {
+    gap: 48px;
+    padding-block: 64px;
+  }
+
+  @media (min-width: v.$laptop-min-width) {
+    gap: 64px;
+    padding-block: 80px;
+  }
+
+  @media (min-width: v.$desktop-min-width) {
+    gap: 80px;
+    padding-block: 96px;
+  }
+
+  &__intro {
+    padding-top: 24px;
+
+    @media (max-width: (v.$laptop-min-width - 1px)) {
+      padding-top: 0;
+    }
+  }
+
+  &__eyebrow {
+    margin-bottom: 12px;
+    color: v.$color-primary;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    max-width: 600px;
+    font-size: 30px;
+    letter-spacing: -0.02em;
+    line-height: 1.03;
+
+    @media (min-width: v.$tablet-min-width) {
+      font-size: 40px;
+    }
+
+    @media (min-width: v.$laptop-min-width) {
+      font-size: 48px;
+    }
+
+    @media (min-width: v.$desktop-min-width) {
+      font-size: 64px;
+    }
+  }
+
+  &__description {
+    max-width: 624px;
+    margin-top: 24px;
+    color: v.$color-text-muted;
+    font-size: 14px;
+
+    @media (min-width: v.$tablet-min-width) {
+      font-size: 18px;
+    }
+  }
+
+  &__card {
+    min-width: 0;
+    padding: 20px;
+    border: 1px solid v.$color-border;
+    border-radius: v.$border-radius-lg;
+    background: v.$color-surface;
+    box-shadow: v.$shadow-card;
+
+    @media (min-width: v.$tablet-min-width) {
+      padding: 24px;
+    }
+
+    @media (min-width: v.$laptop-min-width) {
+      padding: 28px;
+    }
+
+    @media (min-width: v.$desktop-min-width) {
+      padding: 32px;
+    }
+  }
+}
+
+.form {
+  display: grid;
+  gap: 20px;
+
+  &__message {
+    padding: 14px 16px;
+    border: 1px solid currentColor;
+    border-radius: v.$border-radius-sm;
+    font-size: 14px;
+
+    &--error {
+      color: v.$color-error;
+      background: v.$color-error-soft;
+    }
+
+    &--status {
+      color: v.$color-success;
+      background: v.$color-success-soft;
+    }
+  }
+
+  &__submit {
+    display: inline-flex;
+    width: 100%;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 20px;
+    border: 1px solid transparent;
+    border-radius: v.$border-radius-sm;
+    color: v.$color-on-primary;
+    background: v.$color-primary;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 160ms ease;
+
+    &:hover:not(:disabled) {
+      background: v.$color-primary-hover;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.62;
+    }
+  }
+
+  &__links {
+    display: grid;
+    gap: 6px;
+    padding-top: 16px;
+    border-top: 1px solid v.$color-border;
+    color: v.$color-text-muted;
+    font-size: 14px;
+    text-align: center;
+
+    a {
+      color: v.$color-primary;
+      font-weight: 700;
+    }
+  }
+}
