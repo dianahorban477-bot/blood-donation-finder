@@ -6,10 +6,17 @@ import {
   useState,
 } from 'react'
 import { Link } from 'react-router'
+import { useAppDispatch } from '../../app/hooks'
 import { FormField } from '../../components/FormField/FormField'
+import { loginUser } from '../../features/auth/authSlice'
 import { normalizeEmail } from '../../utils/normalizeEmail'
 import styles from './SignInPage.module.scss'
 import type { SignInFormErrors, SignInFormValues } from './types'
+
+const apiFieldToFormField: Record<string, keyof SignInFormValues> = {
+  email: 'email',
+  password: 'password',
+}
 
 const initialValues: SignInFormValues = {
   email: '',
@@ -35,6 +42,7 @@ const validateForm = (values: SignInFormValues): SignInFormErrors => {
 }
 
 export const SignInPage = () => {
+  const dispatch = useAppDispatch()
   const [values, setValues] = useState<SignInFormValues>(initialValues)
   const [errors, setErrors] = useState<SignInFormErrors>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -79,7 +87,7 @@ export const SignInPage = () => {
     }))
   }
 
-  const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     const nextErrors = validateForm(normalizedValues)
@@ -96,10 +104,21 @@ export const SignInPage = () => {
     setFormError('')
     setIsSubmitting(true)
 
-    window.setTimeout(() => {
+    try {
+      const result = await dispatch(loginUser(normalizedValues)).unwrap()
       setIsSubmitting(false)
-      setStatusMessage('Your details are valid')
-    }, 350)
+      setStatusMessage(`Signed in as ${result.user.email} (${result.user.role}).`)
+    } catch (error) {
+      setIsSubmitting(false)
+      const rejection = error as { code: string; message: string; fields?: Record<string, string> }
+      const fieldErrors: SignInFormErrors = {}
+      for (const [apiField, message] of Object.entries(rejection.fields ?? {})) {
+        const formField = apiFieldToFormField[apiField]
+        if (formField) fieldErrors[formField] = message
+      }
+      setErrors((currentErrors) => ({ ...currentErrors, ...fieldErrors }))
+      setFormError(rejection.message)
+    }
   }
 
   return (

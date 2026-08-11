@@ -9,10 +9,20 @@ import {
   useState,
 } from 'react'
 import { Link } from 'react-router'
+import { useAppDispatch } from '../../app/hooks'
+import { registerUser } from '../../features/auth/authSlice'
 import type { RegistrationRole } from '../../types/auth'
 import { normalizeEmail } from '../../utils/normalizeEmail'
 import { FormField } from '../FormField/FormField'
 import styles from './RegistrationForm.module.scss'
+
+const apiFieldToFormField: Record<string, keyof FormValues> = {
+  email: 'email',
+  password: 'password',
+  privacy_policy_accepted: 'privacyPolicyAccepted',
+  age_confirmed: 'ageConfirmed',
+  marketing_consent: 'marketingConsent',
+}
 
 type FormValues = {
   email: string
@@ -107,6 +117,7 @@ function validateForm(values: FormValues, role: RegistrationRole): FormErrors {
 
 export const RegistrationForm = ({ role }: Props) => {
   const isHospital = role === 'hospital'
+  const dispatch = useAppDispatch()
   const [values, setValues] = useState<FormValues>(initialValues)
   const [errors, setErrors] = useState<FormErrors>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -173,7 +184,7 @@ export const RegistrationForm = ({ role }: Props) => {
     }))
   }
 
-  function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
+  async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault()
 
     const nextErrors = validateForm(normalizedValues, role)
@@ -190,12 +201,41 @@ export const RegistrationForm = ({ role }: Props) => {
     setFormError('')
     setIsSubmitting(true)
 
-    window.setTimeout(() => {
+    const payload =
+      role === 'donor'
+        ? {
+            email: normalizedValues.email,
+            password: normalizedValues.password,
+            role: 'donor' as const,
+            privacy_policy_accepted: normalizedValues.privacyPolicyAccepted,
+            age_confirmed: normalizedValues.ageConfirmed,
+            marketing_consent: normalizedValues.marketingConsent,
+          }
+        : {
+            email: normalizedValues.email,
+            password: normalizedValues.password,
+            role: 'hospital' as const,
+          }
+
+    try {
+      const result = await dispatch(registerUser(payload)).unwrap()
       setIsSubmitting(false)
       setStatusMessage(
-        'Your details are valid',
+        isHospital
+          ? `Hospital account created. Verification status: ${result.user.verificationStatus}.`
+          : 'Donor account created. You are now signed in.',
       )
-    }, 350)
+    } catch (error) {
+      setIsSubmitting(false)
+      const rejection = error as { code: string; message: string; fields?: Record<string, string> }
+      const fieldErrors: FormErrors = {}
+      for (const [apiField, message] of Object.entries(rejection.fields ?? {})) {
+        const formField = apiFieldToFormField[apiField]
+        if (formField) fieldErrors[formField] = message
+      }
+      setErrors((currentErrors) => ({ ...currentErrors, ...fieldErrors }))
+      setFormError(rejection.message)
+    }
   }
 
   const otherRolePath = isHospital ? '/register/donor' : '/register/hospital'
