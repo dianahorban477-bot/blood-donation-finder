@@ -1,0 +1,30 @@
+# Local development only. Render does not run docker-compose, and production
+# uses Supabase Postgres (via DATABASE_URL) — the postgres service below is
+# never deployed.
+services:
+  api:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - postgres
+    volumes:
+      - ./backend:/app
+      - backend_uploads:/app/uploads
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-blood_donation}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-blood_donation}
+      POSTGRES_DB: ${POSTGRES_DB:-blood_donation}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+  backend_uploads:
