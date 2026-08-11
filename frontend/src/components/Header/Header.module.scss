@@ -128,6 +128,26 @@
     }
   }
 
+  &__profile {
+    display: grid;
+    width: 48px;
+    height: 48px;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: 50%;
+    color: v.$color-primary;
+    text-decoration: none;
+
+    &:hover {
+      background: v.$color-primary-soft;
+    }
+  }
+
+  &__profileIcon {
+    width: 24px;
+    height: 24px;
+  }
+
   &__menuButton {
     display: grid;
     width: 48px;

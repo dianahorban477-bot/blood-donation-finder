@@ -5,11 +5,21 @@ import {
   type SubmitEvent,
   useState,
 } from 'react'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
+import { useAppDispatch } from '../../app/hooks'
 import { FormField } from '../../components/FormField/FormField'
+import {
+  loginUser,
+  type AuthRejection,
+} from '../../features/auth/authSlice'
 import { normalizeEmail } from '../../utils/normalizeEmail'
 import styles from './SignInPage.module.scss'
 import type { SignInFormErrors, SignInFormValues } from './types'
+
+const apiFieldToFormField: Record<string, keyof SignInFormValues> = {
+  email: 'email',
+  password: 'password',
+}
 
 const initialValues: SignInFormValues = {
   email: '',
@@ -35,11 +45,12 @@ const validateForm = (values: SignInFormValues): SignInFormErrors => {
 }
 
 export const SignInPage = () => {
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const [values, setValues] = useState<SignInFormValues>(initialValues)
   const [errors, setErrors] = useState<SignInFormErrors>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formError, setFormError] = useState('')
-  const [statusMessage, setStatusMessage] = useState('')
   const normalizedValues = {
     ...values,
     email: normalizeEmail(values.email),
@@ -67,7 +78,6 @@ export const SignInPage = () => {
       [fieldName]: getFieldError(nextValues, fieldName),
     }))
     setFormError('')
-    setStatusMessage('')
   }
 
   const handleBlur = (event: FocusEvent<HTMLInputElement>) => {
@@ -79,14 +89,15 @@ export const SignInPage = () => {
     }))
   }
 
-  const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault()
+
+    if (isSubmitting) return
 
     const nextErrors = validateForm(normalizedValues)
 
     setValues(normalizedValues)
     setErrors(nextErrors)
-    setStatusMessage('')
 
     if (Object.keys(nextErrors).length > 0) {
       setFormError('Please review the highlighted fields and try again.')
@@ -96,10 +107,30 @@ export const SignInPage = () => {
     setFormError('')
     setIsSubmitting(true)
 
-    window.setTimeout(() => {
+    try {
+      const result = await dispatch(loginUser(normalizedValues)).unwrap()
+      navigate('/profile', {
+        replace: true,
+        state: { message: `Signed in as ${result.user.email} (${result.user.role}).` },
+      })
+    } catch (error) {
+      const rejection = error as AuthRejection
+      const fieldErrors: SignInFormErrors = {}
+
+      for (const [apiField, message] of Object.entries(rejection.fields ?? {})) {
+        const formField = apiFieldToFormField[apiField]
+        if (formField) fieldErrors[formField] = message
+      }
+
+      setValues((currentValues) => ({
+        ...currentValues,
+        password: '',
+      }))
+      setErrors((currentErrors) => ({ ...currentErrors, ...fieldErrors }))
+      setFormError(rejection.message)
+    } finally {
       setIsSubmitting(false)
-      setStatusMessage('Your details are valid')
-    }, 350)
+    }
   }
 
   return (
@@ -122,15 +153,6 @@ export const SignInPage = () => {
               role="alert"
             >
               {formError}
-            </div>
-          )}
-
-          {statusMessage && (
-            <div
-              className={cn(styles.form__message, styles['form__message--status'])}
-              role="status"
-            >
-              {statusMessage}
             </div>
           )}
 

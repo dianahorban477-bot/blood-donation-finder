@@ -1,13 +1,18 @@
 import cn from 'classnames'
 import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink } from 'react-router'
+import { useAppSelector } from '../../app/hooks'
 import { BurgerIcon } from '../IconsSVG/BurgerIcon'
+import { ProfileIcon } from '../IconsSVG/ProfileIcon'
 import { MobileMenu } from '../MobileMenu/MobileMenu'
 import styles from './Header.module.scss'
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const menuButtonRef = useRef<HTMLButtonElement>(null)
+  const isAuthenticated = useAppSelector(
+    (state) => state.auth.status === 'authenticated' && Boolean(state.auth.user),
+  )
 
   useEffect(() => {
     const desktopMediaQuery = window.matchMedia('(min-width: 900px)')
@@ -54,17 +59,39 @@ export const Header = () => {
           <Link className={styles.header__link} to="/#donor-info">
             Donor info
           </Link>
-          <Link className={styles.header__link} to="/sign-in">
-            Sign in
-          </Link>
-          <Link className={styles.header__register} to="/register/donor">
-            Register
-          </Link>
+          {isAuthenticated ? (
+            <Link
+              className={styles.header__profile}
+              to="/profile"
+              aria-label="Open my profile"
+            >
+              <ProfileIcon className={styles.header__profileIcon} />
+            </Link>
+          ) : (
+            <>
+              <Link className={styles.header__link} to="/sign-in">
+                Sign in
+              </Link>
+              <Link className={styles.header__register} to="/register/donor">
+                Register
+              </Link>
+            </>
+          )}
         </nav>
         <div className={styles.header__mobileActions}>
-          <Link className={styles.header__signIn} to="/sign-in">
-            Sign in
-          </Link>
+          {isAuthenticated ? (
+            <Link
+              className={styles.header__profile}
+              to="/profile"
+              aria-label="Open my profile"
+            >
+              <ProfileIcon className={styles.header__profileIcon} />
+            </Link>
+          ) : (
+            <Link className={styles.header__signIn} to="/sign-in">
+              Sign in
+            </Link>
+          )}
           <button
             className={styles.header__menuButton}
             onClick={handleOpenMenu}
