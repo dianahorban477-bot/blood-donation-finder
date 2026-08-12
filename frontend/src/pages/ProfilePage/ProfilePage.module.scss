@@ -45,14 +45,8 @@
     }
   }
 
-  &__message,
-  &__status {
+  &__message {
     margin-top: 24px;
-    padding: 14px 16px;
-    border: 1px solid v.$color-success;
-    border-radius: v.$border-radius-sm;
-    color: v.$color-success;
-    background: v.$color-success-soft;
   }
 
   &__details {

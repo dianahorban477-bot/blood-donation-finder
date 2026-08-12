@@ -6,6 +6,7 @@ import {
 } from 'react'
 import { EyeIcon } from '../IconsSVG/EyeIcon'
 import { EyeOffIcon } from '../IconsSVG/EyeOffIcon'
+import { ValidationMessage } from '../ValidationMessage/ValidationMessage'
 import styles from './FormField.module.scss'
 
 type Props = {
@@ -17,6 +18,7 @@ type Props = {
   name: string
   onBlur: FocusEventHandler<HTMLInputElement>
   onChange: ChangeEventHandler<HTMLInputElement>
+  required?: boolean
   type: 'email' | 'password'
   value: string
 }
@@ -30,6 +32,7 @@ export const FormField = ({
   name,
   onBlur,
   onChange,
+  required = true,
   type,
   value,
 }: Props) => {
@@ -51,6 +54,11 @@ export const FormField = ({
     <div className={styles.field}>
       <label className={styles.field__label} htmlFor={id}>
         {label}
+        {required && (
+          <span className={styles.field__required} aria-hidden="true">
+            {' '}*
+          </span>
+        )}
       </label>
       <div className={styles.field__control}>
         <input
@@ -65,7 +73,7 @@ export const FormField = ({
           onChange={onChange}
           type={inputType}
           value={value}
-          required
+          required={required}
           aria-describedby={describedBy}
           aria-invalid={hasError}
         />
@@ -88,9 +96,7 @@ export const FormField = ({
         </p>
       )}
       {error && (
-        <p className={styles.field__error} id={errorId}>
-          <span aria-hidden="true">!</span> {error}
-        </p>
+        <ValidationMessage id={errorId} message={error} />
       )}
     </div>
   )

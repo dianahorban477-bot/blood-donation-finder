@@ -16,7 +16,10 @@ import {
 } from '../../features/auth/authSlice'
 import type { RegistrationRole } from '../../types/auth'
 import { normalizeEmail } from '../../utils/normalizeEmail'
+import { FeedbackMessage } from '../FeedbackMessage/FeedbackMessage'
 import { FormField } from '../FormField/FormField'
+import { RequiredFieldsNote } from '../RequiredFieldsNote/RequiredFieldsNote'
+import { ValidationMessage } from '../ValidationMessage/ValidationMessage'
 import styles from './RegistrationForm.module.scss'
 
 const apiFieldToFormField: Record<string, keyof FormValues> = {
@@ -251,18 +254,20 @@ export const RegistrationForm = ({ role }: Props) => {
   const otherRoleLabel = isHospital ? 'Register as a donor' : 'Register a hospital'
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit} noValidate>
+    <form
+      className={styles.form}
+      onSubmit={handleSubmit}
+      noValidate
+      aria-busy={isSubmitting}
+    >
+      <RequiredFieldsNote />
+
       {formError && (
-        <div
-          className={cn(
-            styles.form__message,
-            styles['form__message--error'],
-          )}
-          role="alert"
-        >
-          <strong>We could not validate the form.</strong>
-          <span>{formError}</span>
-        </div>
+        <FeedbackMessage
+          message={formError}
+          title="We could not validate the form."
+          type="error"
+        />
       )}
 
       <FormField
@@ -358,7 +363,7 @@ export const RegistrationForm = ({ role }: Props) => {
             onChange={handleCheckboxChange}
           >
             I agree to processing my data for marketing purposes and receiving newsellers and
-            notifications. (this checkbox is optional. The two above are mandatory)
+            notifications.
           </CheckboxField>
         </>
       )}
@@ -413,12 +418,21 @@ const CheckboxField = ({
           required={required}
           type="checkbox"
         />
-        <span>{children}</span>
+        <span>
+          {children}
+          {required && (
+            <span className={styles.form__required} aria-hidden="true">
+              {' '}*
+            </span>
+          )}
+        </span>
       </label>
       {error && (
-        <p className={styles.form__checkboxError} id={errorId}>
-          ! {error}
-        </p>
+        <ValidationMessage
+          className={styles.form__checkboxError}
+          id={errorId}
+          message={error}
+        />
       )}
     </div>
   )

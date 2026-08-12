@@ -1,0 +1,30 @@
+@use '../../styles/variables' as v;
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: v.$color-text-muted;
+
+  &__spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid v.$color-border;
+    border-top-color: v.$color-primary;
+    border-radius: 50%;
+    animation: loading-spin 700ms linear infinite;
+  }
+}
+
+@keyframes loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading__spinner {
+    animation: none;
+  }
+}

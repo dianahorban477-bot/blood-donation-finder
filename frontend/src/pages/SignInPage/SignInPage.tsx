@@ -1,4 +1,3 @@
-import cn from 'classnames'
 import {
   type ChangeEvent,
   type FocusEvent,
@@ -7,7 +6,9 @@ import {
 } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { useAppDispatch } from '../../app/hooks'
+import { FeedbackMessage } from '../../components/FeedbackMessage/FeedbackMessage'
 import { FormField } from '../../components/FormField/FormField'
+import { RequiredFieldsNote } from '../../components/RequiredFieldsNote/RequiredFieldsNote'
 import {
   loginUser,
   type AuthRejection,
@@ -146,14 +147,16 @@ export const SignInPage = () => {
       </div>
 
       <div className={styles.page__card}>
-        <form className={styles.form} onSubmit={handleSubmit} noValidate>
+        <form
+          className={styles.form}
+          onSubmit={handleSubmit}
+          noValidate
+          aria-busy={isSubmitting}
+        >
+          <RequiredFieldsNote />
+
           {formError && (
-            <div
-              className={cn(styles.form__message, styles['form__message--error'])}
-              role="alert"
-            >
-              {formError}
-            </div>
+            <FeedbackMessage message={formError} type="error" />
           )}
 
           <FormField
