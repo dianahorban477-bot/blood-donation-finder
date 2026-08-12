@@ -1,0 +1,11 @@
+@use '../../styles/variables' as v;
+
+.note {
+  color: v.$color-text-muted;
+  font-size: 13px;
+
+  &__mark {
+    color: v.$color-error;
+    font-weight: 700;
+  }
+}

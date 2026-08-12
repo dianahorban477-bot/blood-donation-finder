@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { FeedbackMessage } from '../../components/FeedbackMessage/FeedbackMessage'
+import { LoadingIndicator } from '../../components/LoadingIndicator/LoadingIndicator'
 import { logoutUser } from '../../features/auth/authSlice'
 import type { UserRole } from '../../types/auth'
 import styles from './ProfilePage.module.scss'
@@ -25,8 +27,8 @@ export const ProfilePage = () => {
 
   if (status === 'idle' || status === 'loading') {
     return (
-      <section className={styles.profile} aria-live="polite">
-        <p className={styles.profile__status}>Loading profile...</p>
+      <section className={styles.profile}>
+        <LoadingIndicator label="Loading profile..." />
       </section>
     )
   }
@@ -50,9 +52,9 @@ export const ProfilePage = () => {
         </h1>
 
         {locationState?.message && (
-          <p className={styles.profile__message} role="status">
-            {locationState.message}
-          </p>
+          <div className={styles.profile__message}>
+            <FeedbackMessage message={locationState.message} type="success" />
+          </div>
         )}
 
         <dl className={styles.profile__details}>

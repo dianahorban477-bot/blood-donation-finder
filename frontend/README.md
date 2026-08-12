@@ -50,6 +50,8 @@ VITE_API_URL=/api/v1
 For a deployed environment, `VITE_API_URL` must contain the deployed backend
 URL ending in `/api/v1`. Deployment environment variables are configured in
 Vercel and must not be committed to Git. The local `.env` file is ignored.
+Vercel rewrites application routes to `index.html` so React Router routes work
+when opened directly or refreshed.
 
 ```bash
 npm run dev
@@ -82,11 +84,13 @@ The current frontend scope includes:
 - donor and hospital registration forms;
 - sign-in form;
 - client-side validation and accessible error messages;
+- visible required-field indicators;
 - password visibility controls;
 - email normalization before form submission;
 - loading and disabled states for authentication forms;
 - backend registration and sign-in integration;
 - authentication state and session restoration;
+- reusable validation, error, success, and loading feedback;
 - logout and profile redirection.
 
 The registration password must contain at least eight characters, including
