@@ -31,6 +31,26 @@ Use `npm ci` to install the exact dependency versions from `package-lock.json`. 
 
 ## Development
 
+Start the backend from the repository root before running the frontend. The
+local API is available at `http://localhost:8000`, and Vite proxies frontend
+requests from `/api` to the local backend.
+
+Create a local environment file from the provided example:
+
+```bash
+cp .env.example .env
+```
+
+For local development, the default API base path is:
+
+```env
+VITE_API_URL=/api/v1
+```
+
+For a deployed environment, `VITE_API_URL` must contain the deployed backend
+URL ending in `/api/v1`. Deployment environment variables are configured in
+Vercel and must not be committed to Git. The local `.env` file is ignored.
+
 ```bash
 npm run dev
 ```
@@ -43,6 +63,8 @@ Open the local URL shown by Vite, usually `http://localhost:5173`.
 - `/register/donor` - Donor registration
 - `/register/hospital` - Hospital registration
 - `/sign-in` - Sign in
+- `/profile` - Authentication test profile
+- `/privacy-policy` - Privacy Policy
 
 ## Available checks
 
@@ -62,10 +84,17 @@ The current frontend scope includes:
 - client-side validation and accessible error messages;
 - password visibility controls;
 - email normalization before form submission;
-- loading and disabled states for registration forms.
+- loading and disabled states for authentication forms;
+- backend registration and sign-in integration;
+- authentication state and session restoration;
+- logout and profile redirection.
 
-The registration password must contain at least eight characters, including one uppercase English letter, one lowercase English letter, and one number.
+The registration password must contain at least eight characters, including
+one uppercase English letter, one lowercase English letter, one number, and
+one special character.
 
 ## Current limitations
 
-The backend API is not connected yet. Registration and sign-in forms only validate entered data and do not create accounts or authenticate users. Tokens, profile redirection, hospital verification and role-based permissions will be added with backend integration.
+The profile route is currently a basic authentication test page. Full donor,
+hospital, and admin profiles, hospital verification management, and protected
+role-based navigation are outside the current frontend scope.

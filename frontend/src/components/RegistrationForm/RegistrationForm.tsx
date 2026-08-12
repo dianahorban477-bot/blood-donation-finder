@@ -8,11 +8,24 @@ import {
   type SubmitEvent,
   useState,
 } from 'react'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
+import { useAppDispatch } from '../../app/hooks'
+import {
+  registerUser,
+  type AuthRejection,
+} from '../../features/auth/authSlice'
 import type { RegistrationRole } from '../../types/auth'
 import { normalizeEmail } from '../../utils/normalizeEmail'
 import { FormField } from '../FormField/FormField'
 import styles from './RegistrationForm.module.scss'
+
+const apiFieldToFormField: Record<string, keyof FormValues> = {
+  email: 'email',
+  password: 'password',
+  privacy_policy_accepted: 'privacyPolicyAccepted',
+  age_confirmed: 'ageConfirmed',
+  marketing_consent: 'marketingConsent',
+}
 
 type FormValues = {
   email: string
@@ -107,11 +120,12 @@ function validateForm(values: FormValues, role: RegistrationRole): FormErrors {
 
 export const RegistrationForm = ({ role }: Props) => {
   const isHospital = role === 'hospital'
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const [values, setValues] = useState<FormValues>(initialValues)
   const [errors, setErrors] = useState<FormErrors>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formError, setFormError] = useState('')
-  const [statusMessage, setStatusMessage] = useState('')
   const normalizedValues = {
     ...values,
     email: normalizeEmail(values.email),
@@ -147,7 +161,6 @@ export const RegistrationForm = ({ role }: Props) => {
         : {}),
     }))
     setFormError('')
-    setStatusMessage('')
   }
 
   function handleCheckboxChange(event: ChangeEvent<HTMLInputElement>) {
@@ -161,7 +174,6 @@ export const RegistrationForm = ({ role }: Props) => {
       [fieldName]: getFieldError(nextValues, fieldName),
     }))
     setFormError('')
-    setStatusMessage('')
   }
 
   function handleFieldBlur(event: FocusEvent<HTMLInputElement>) {
@@ -173,14 +185,15 @@ export const RegistrationForm = ({ role }: Props) => {
     }))
   }
 
-  function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
+  async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault()
+
+    if (isSubmitting) return
 
     const nextErrors = validateForm(normalizedValues, role)
 
     setValues(normalizedValues)
     setErrors(nextErrors)
-    setStatusMessage('')
 
     if (Object.keys(nextErrors).length > 0) {
       setFormError('Please review the highlighted fields and try again.')
@@ -190,12 +203,48 @@ export const RegistrationForm = ({ role }: Props) => {
     setFormError('')
     setIsSubmitting(true)
 
-    window.setTimeout(() => {
+    const payload =
+      role === 'donor'
+        ? {
+            email: normalizedValues.email,
+            password: normalizedValues.password,
+            role: 'donor' as const,
+            privacy_policy_accepted: normalizedValues.privacyPolicyAccepted,
+            age_confirmed: normalizedValues.ageConfirmed,
+            marketing_consent: normalizedValues.marketingConsent,
+          }
+        : {
+            email: normalizedValues.email,
+            password: normalizedValues.password,
+            role: 'hospital' as const,
+          }
+
+    try {
+      const result = await dispatch(registerUser(payload)).unwrap()
+      const message = isHospital
+        ? `Hospital account created. Verification status: ${result.user.verificationStatus}.`
+        : 'Donor account created. You are now signed in.'
+
+      navigate('/profile', { replace: true, state: { message } })
+    } catch (error) {
+      const rejection = error as AuthRejection
+      const fieldErrors: FormErrors = {}
+
+      for (const [apiField, message] of Object.entries(rejection.fields ?? {})) {
+        const formField = apiFieldToFormField[apiField]
+        if (formField) fieldErrors[formField] = message
+      }
+
+      setValues((currentValues) => ({
+        ...currentValues,
+        password: '',
+        confirmPassword: '',
+      }))
+      setErrors((currentErrors) => ({ ...currentErrors, ...fieldErrors }))
+      setFormError(rejection.message)
+    } finally {
       setIsSubmitting(false)
-      setStatusMessage(
-        'Your details are valid',
-      )
-    }, 350)
+    }
   }
 
   const otherRolePath = isHospital ? '/register/donor' : '/register/hospital'
@@ -213,19 +262,6 @@ export const RegistrationForm = ({ role }: Props) => {
         >
           <strong>We could not validate the form.</strong>
           <span>{formError}</span>
-        </div>
-      )}
-
-      {statusMessage && (
-        <div
-          className={cn(
-            styles.form__message,
-            styles['form__message--success'],
-          )}
-          role="status"
-        >
-          <strong>Details checked.</strong>
-          <span>{statusMessage}</span>
         </div>
       )}
 

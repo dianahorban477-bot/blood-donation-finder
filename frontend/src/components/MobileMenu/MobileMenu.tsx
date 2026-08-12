@@ -1,5 +1,6 @@
 import cn from 'classnames'
 import { Link } from 'react-router'
+import { useAppSelector } from '../../app/hooks'
 import { useLockBodyScroll } from '../../hooks/useLockBodyScroll'
 import { CloseIcon } from '../IconsSVG/CloseIcon'
 import styles from './MobileMenu.module.scss'
@@ -11,6 +12,9 @@ type Props = {
 
 export const MobileMenu = ({ isOpen, onClose }: Props) => {
   useLockBodyScroll(isOpen)
+  const isAuthenticated = useAppSelector(
+    (state) => state.auth.status === 'authenticated' && Boolean(state.auth.user),
+  )
 
   return (
     <aside
@@ -44,17 +48,24 @@ export const MobileMenu = ({ isOpen, onClose }: Props) => {
         <Link className={styles.menu__link} onClick={onClose} to="/#donor-info">
           Donor info
         </Link>
+        {isAuthenticated && (
+          <Link className={styles.menu__link} onClick={onClose} to="/profile">
+            My profile
+          </Link>
+        )}
       </nav>
 
-      <div className={styles.menu__action}>
-        <Link
-          className={styles.menu__register}
-          onClick={onClose}
-          to="/register/donor"
-        >
-          Register
-        </Link>
-      </div>
+      {!isAuthenticated && (
+        <div className={styles.menu__action}>
+          <Link
+            className={styles.menu__register}
+            onClick={onClose}
+            to="/register/donor"
+          >
+            Register
+          </Link>
+        </div>
+      )}
     </aside>
   )
 }

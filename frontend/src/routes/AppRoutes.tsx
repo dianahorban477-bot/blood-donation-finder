@@ -4,6 +4,7 @@ import { DonorRegistrationPage } from '../pages/DonorRegistrationPage/DonorRegis
 import { HomePage } from '../pages/HomePage/HomePage'
 import { HospitalRegistrationPage } from '../pages/HospitalRegistrationPage/HospitalRegistrationPage'
 import { PrivacyPolicyPage } from '../pages/PrivacyPolicyPage/PrivacyPolicyPage'
+import { ProfilePage } from '../pages/ProfilePage/ProfilePage'
 import { SignInPage } from '../pages/SignInPage/SignInPage'
 
 export const AppRoutes = () => (
@@ -13,6 +14,7 @@ export const AppRoutes = () => (
       <Route path="register/donor" element={<DonorRegistrationPage />} />
       <Route path="register/hospital" element={<HospitalRegistrationPage />} />
       <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
+      <Route path="profile" element={<ProfilePage />} />
       <Route path="sign-in" element={<SignInPage />} />
     </Route>
   </Routes>
