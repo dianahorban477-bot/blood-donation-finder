@@ -37,6 +37,10 @@ export const ProfilePage = () => {
     return <Navigate to="/sign-in" replace />
   }
 
+  if (user.role === 'donor') {
+    return <Navigate to="/donor/profile" replace state={locationState} />
+  }
+
   async function handleLogout() {
     setIsLoggingOut(true)
     await dispatch(logoutUser())
