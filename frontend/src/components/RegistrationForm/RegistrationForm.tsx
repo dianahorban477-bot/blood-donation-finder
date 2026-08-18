@@ -34,11 +34,9 @@ type FormValues = {
   email: string
   password: string
   confirmPassword: string
-  authorityConfirmed: boolean
   privacyPolicyAccepted: boolean
   ageConfirmed: boolean
   marketingConsent: boolean
-  termsAccepted: boolean
 }
 
 type FormErrors = Partial<Record<keyof FormValues, string>>
@@ -62,11 +60,9 @@ const initialValues: FormValues = {
   email: '',
   password: '',
   confirmPassword: '',
-  authorityConfirmed: false,
   privacyPolicyAccepted: false,
   ageConfirmed: false,
   marketingConsent: false,
-  termsAccepted: false,
 }
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -102,20 +98,12 @@ function validateForm(values: FormValues, role: RegistrationRole): FormErrors {
     errors.confirmPassword = 'Passwords do not match.'
   }
 
-  if (role === 'hospital' && !values.authorityConfirmed) {
-    errors.authorityConfirmed = 'Confirm that you are authorized to represent this organization.'
-  }
-
-  if (role === 'donor' && !values.privacyPolicyAccepted) {
+  if (!values.privacyPolicyAccepted) {
     errors.privacyPolicyAccepted = 'Accept the Privacy Policy to continue.'
   }
 
   if (role === 'donor' && !values.ageConfirmed) {
     errors.ageConfirmed = 'Confirm that you meet the minimum legal age requirement.'
-  }
-
-  if (role === 'hospital' && !values.termsAccepted) {
-    errors.termsAccepted = 'Accept the Terms and Privacy Policy to continue.'
   }
 
   return errors
@@ -220,6 +208,7 @@ export const RegistrationForm = ({ role }: Props) => {
             email: normalizedValues.email,
             password: normalizedValues.password,
             role: 'hospital' as const,
+            privacy_policy_accepted: normalizedValues.privacyPolicyAccepted,
           }
 
     try {
@@ -308,26 +297,15 @@ export const RegistrationForm = ({ role }: Props) => {
       {isHospital ? (
         <>
           <CheckboxField
-            checked={values.authorityConfirmed}
-            error={errors.authorityConfirmed}
-            id="hospital-authority"
-            name="authorityConfirmed"
+            checked={values.privacyPolicyAccepted}
+            error={errors.privacyPolicyAccepted}
+            id="hospital-privacy-policy"
+            name="privacyPolicyAccepted"
             onBlur={handleFieldBlur}
             onChange={handleCheckboxChange}
             required
           >
-            I confirm that I am authorized to represent this organization.
-          </CheckboxField>
-          <CheckboxField
-            checked={values.termsAccepted}
-            error={errors.termsAccepted}
-            id="hospital-terms"
-            name="termsAccepted"
-            onBlur={handleFieldBlur}
-            onChange={handleCheckboxChange}
-            required
-          >
-            I accept the <a href="#terms">Terms</a> and <a href="#privacy">Privacy Policy</a>.
+            I accept the <Link to="/privacy-policy">Privacy Policy</Link>.
           </CheckboxField>
         </>
       ) : (

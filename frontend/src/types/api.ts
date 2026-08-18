@@ -15,6 +15,7 @@ export type DonorRegisterRequest = BaseRegisterRequest & {
 
 export type HospitalRegisterRequest = BaseRegisterRequest & {
   role: 'hospital'
+  privacy_policy_accepted: boolean
 }
 
 export type RegisterRequest =
@@ -46,6 +47,45 @@ export type CurrentUserResponse = {
   role: AuthUser['role']
   is_active: boolean
   verification_status: AuthUser['verificationStatus']
+}
+
+export type BloodType =
+  | 'A+'
+  | 'A-'
+  | 'B+'
+  | 'B-'
+  | 'AB+'
+  | 'AB-'
+  | 'O+'
+  | 'O-'
+
+export type LocationRequest = {
+  city: string
+  region: string
+  country: string
+}
+
+export type LocationResponse = LocationRequest & {
+  id: number
+}
+
+export type DonorProfileResponse = {
+  id: number
+  full_name: string | null
+  blood_type: BloodType | null
+  location: LocationResponse | null
+  plasma_available: boolean
+  last_donation_date: string | null
+  phone_number: string | null
+}
+
+export type DonorProfileUpdateRequest = {
+  full_name: string
+  blood_type: BloodType
+  location: LocationRequest
+  plasma_available: boolean
+  last_donation_date: string | null
+  phone_number: string | null
 }
 
 export type ApiErrorCode =

@@ -66,6 +66,7 @@ Open the local URL shown by Vite, usually `http://localhost:5173`.
 - `/register/hospital` - Hospital registration
 - `/sign-in` - Sign in
 - `/profile` - Authentication test profile
+- `/donor/profile` - Donor profile form
 - `/privacy-policy` - Privacy Policy
 
 ## Available checks

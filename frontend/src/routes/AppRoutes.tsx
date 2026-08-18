@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router'
 import { PublicLayout } from '../layouts/PublicLayout/PublicLayout'
 import { DonorRegistrationPage } from '../pages/DonorRegistrationPage/DonorRegistrationPage'
+import { DonorProfilePage } from '../pages/DonorProfilePage/DonorProfilePage'
 import { HomePage } from '../pages/HomePage/HomePage'
 import { HospitalRegistrationPage } from '../pages/HospitalRegistrationPage/HospitalRegistrationPage'
 import { PrivacyPolicyPage } from '../pages/PrivacyPolicyPage/PrivacyPolicyPage'
@@ -12,6 +13,7 @@ export const AppRoutes = () => (
     <Route path="/" element={<PublicLayout />}>
       <Route index element={<HomePage />} />
       <Route path="register/donor" element={<DonorRegistrationPage />} />
+      <Route path="donor/profile" element={<DonorProfilePage />} />
       <Route path="register/hospital" element={<HospitalRegistrationPage />} />
       <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
       <Route path="profile" element={<ProfilePage />} />
