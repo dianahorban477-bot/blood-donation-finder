@@ -1,0 +1,150 @@
+@use '../../styles/variables' as v;
+
+.upload {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid v.$color-border;
+  border-radius: v.$border-radius-lg;
+  background: v.$color-surface;
+  box-shadow: v.$shadow-card;
+
+  @media (min-width: v.$tablet-min-width) {
+    padding: 32px;
+  }
+
+  &__heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  &__titleGroup {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__icon {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: 50%;
+    color: v.$color-primary;
+    background: v.$color-primary-soft;
+  }
+
+  &__eyebrow {
+    margin-bottom: 4px;
+    color: v.$color-primary;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    font-size: 21px;
+  }
+
+  &__description,
+  &__hint,
+  &__file {
+    color: v.$color-text-muted;
+    font-size: 14px;
+  }
+
+  &__badge {
+    padding: 6px 10px;
+    border-radius: v.$border-radius-sm;
+    color: v.$color-success;
+    background: v.$color-success-soft;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  &__notice {
+    padding: 14px 16px;
+    border-radius: v.$border-radius-sm;
+    color: v.$color-text-muted;
+    background: v.$color-surface-warm;
+    font-size: 14px;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__label {
+    font-size: 14px;
+    font-weight: 700;
+
+    span {
+      color: v.$color-error;
+    }
+  }
+
+  &__input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid v.$color-border;
+    border-radius: v.$border-radius-sm;
+    color: v.$color-text-muted;
+    background: v.$color-surface;
+    font-size: 14px;
+
+    &::file-selector-button {
+      margin-right: 12px;
+      padding: 8px 12px;
+      border: 0;
+      border-radius: 6px;
+      color: v.$color-primary;
+      background: v.$color-primary-soft;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    &:focus-visible {
+      border-color: v.$color-focus;
+      outline: 3px solid v.$color-header;
+      outline-offset: 1px;
+    }
+
+    &--error {
+      border-color: v.$color-error;
+      box-shadow: 0 0 0 2px v.$color-primary-soft;
+    }
+  }
+
+  &__progress {
+    width: 100%;
+    height: 8px;
+    accent-color: v.$color-primary;
+  }
+
+  &__submit {
+    min-height: 48px;
+    padding: 11px 20px;
+    border: 1px solid transparent;
+    border-radius: v.$border-radius-sm;
+    color: v.$color-on-primary;
+    background: v.$color-primary;
+    font-weight: 700;
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+      background: v.$color-primary-hover;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.62;
+    }
+  }
+}

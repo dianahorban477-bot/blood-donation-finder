@@ -269,7 +269,8 @@
 
   &__details,
   &__criteria {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 16px;
   }
 

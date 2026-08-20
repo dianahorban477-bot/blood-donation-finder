@@ -24,14 +24,20 @@ type RequestOptions = {
 
 export async function apiRequest<T>(path: string, options: RequestOptions = {}): Promise<T> {
   const headers: Record<string, string> = {}
-  if (options.body) headers['Content-Type'] = 'application/json'
+  const isFormData = options.body instanceof FormData
+
+  if (options.body && !isFormData) headers['Content-Type'] = 'application/json'
   if (options.accessToken) headers['Authorization'] = `Bearer ${options.accessToken}`
 
   const response = await fetch(`${API_BASE_URL}${path}`, {
     method: options.method ?? 'GET',
     headers,
     credentials: 'include',
-    body: options.body ? JSON.stringify(options.body) : undefined,
+    body: options.body instanceof FormData
+      ? options.body
+      : options.body
+        ? JSON.stringify(options.body)
+        : undefined,
   })
 
   if (response.status === 204) {

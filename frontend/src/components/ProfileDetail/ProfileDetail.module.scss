@@ -1,0 +1,51 @@
+@use '../../styles/variables' as v;
+
+.detail {
+  display: grid;
+  align-items: center;
+  gap: 4px;
+
+  &--with-icon {
+    grid-template-columns: 40px minmax(0, 1fr);
+    column-gap: 12px;
+  }
+
+  &--separated {
+    padding-bottom: 16px;
+    border-bottom: 1px solid v.$color-border;
+  }
+
+  &__icon {
+    display: grid;
+    width: 40px;
+    height: 40px;
+    place-items: center;
+    border-radius: 50%;
+    color: v.$color-primary;
+    background: v.$color-primary-soft;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+  }
+
+  dt {
+    color: v.$color-text-muted;
+    font-size: 14px;
+  }
+
+  dd {
+    font-weight: 700;
+    padding-left: 10px;
+    margin: 0;
+  }
+
+  &__secondary {
+    color: v.$color-text-muted;
+    font-size: 13px;
+    font-weight: 400;
+  }
+}

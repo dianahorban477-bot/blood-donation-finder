@@ -18,7 +18,6 @@ type Props = {
   name: string
   onBlur: FocusEventHandler<HTMLInputElement>
   onChange: ChangeEventHandler<HTMLInputElement>
-  required?: boolean
   type: 'email' | 'password'
   value: string
 }
@@ -32,7 +31,6 @@ export const FormField = ({
   name,
   onBlur,
   onChange,
-  required = true,
   type,
   value,
 }: Props) => {
@@ -54,11 +52,9 @@ export const FormField = ({
     <div className={styles.field}>
       <label className={styles.field__label} htmlFor={id}>
         {label}
-        {required && (
           <span className={styles.field__required} aria-hidden="true">
             {' '}*
           </span>
-        )}
       </label>
       <div className={styles.field__control}>
         <input
@@ -73,7 +69,7 @@ export const FormField = ({
           onChange={onChange}
           type={inputType}
           value={value}
-          required={required}
+          required
           aria-describedby={describedBy}
           aria-invalid={hasError}
         />

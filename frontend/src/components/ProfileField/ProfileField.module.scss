@@ -1,4 +1,5 @@
 @use '../../styles/variables' as v;
+
 .field {
   display: flex;
   flex-direction: column;
@@ -14,21 +15,13 @@
   }
 
   &__control {
-    position: relative;
-  }
-
-  &__input {
     width: 100%;
-    min-height: 50px;
     padding: 11px 14px;
     border: 1px solid v.$color-border;
     border-radius: v.$border-radius-sm;
     color: v.$color-text;
     background: v.$color-surface;
     font-size: 16px;
-    transition:
-      border-color 150ms ease,
-      box-shadow 150ms ease;
 
     &:hover {
       border-color: v.$color-input-border-hover;
@@ -40,33 +33,15 @@
       outline-offset: 1px;
     }
 
-    &--withAction {
-      padding-right: 52px;
-    }
-
     &--error {
       border-color: v.$color-error;
       box-shadow: 0 0 0 2px v.$color-primary-soft;
     }
-  }
 
-  &__visibility {
-    position: absolute;
-    top: 50%;
-    right: 9px;
-    display: grid;
-    width: 36px;
-    height: 36px;
-    place-items: center;
-    padding: 0;
-    border: 0;
-    color: v.$color-text-muted;
-    background: transparent;
-    cursor: pointer;
-    transform: translateY(-50%);
-
-    &:hover {
-      color: v.$color-primary;
+    &:disabled {
+      color: v.$color-text-muted;
+      background: v.$color-surface-warm;
+      cursor: not-allowed;
     }
   }
 
@@ -74,5 +49,4 @@
     color: v.$color-text-muted;
     font-size: 13px;
   }
-
 }
