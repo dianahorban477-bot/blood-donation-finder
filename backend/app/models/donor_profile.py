@@ -19,6 +19,8 @@ class DonorProfile(Base):
     )
     plasma_available: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     last_donation_date: Mapped[date | None] = mapped_column(Date, nullable=True)
+    has_never_donated: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    phone_number: Mapped[str | None] = mapped_column(String(16), nullable=True)
     location_id: Mapped[int | None] = mapped_column(ForeignKey("locations.id"), nullable=True)
 
     user: Mapped["User"] = relationship(back_populates="donor_profile")
