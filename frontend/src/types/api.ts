@@ -1,4 +1,9 @@
-import type { AuthUser, RegistrationRole, UserRole } from './auth'
+import type {
+  AuthUser,
+  HospitalVerificationStatus,
+  RegistrationRole,
+  UserRole,
+} from './auth'
 
 type BaseRegisterRequest = {
   email: string
@@ -6,14 +11,14 @@ type BaseRegisterRequest = {
   role: RegistrationRole
 }
 
-export type DonorRegisterRequest = BaseRegisterRequest & {
+type DonorRegisterRequest = BaseRegisterRequest & {
   role: 'donor'
   privacy_policy_accepted: boolean
   age_confirmed: boolean
   marketing_consent: boolean
 }
 
-export type HospitalRegisterRequest = BaseRegisterRequest & {
+type HospitalRegisterRequest = BaseRegisterRequest & {
   role: 'hospital'
   privacy_policy_accepted: boolean
 }
@@ -59,13 +64,20 @@ export type BloodType =
   | 'O+'
   | 'O-'
 
-export type LocationRequest = {
+export type HospitalOrganizationType =
+  | 'hospital'
+  | 'clinic'
+  | 'blood_center'
+  | 'medical_center'
+  | 'other'
+
+type LocationRequest = {
   city: string
   region: string
   country: string
 }
 
-export type LocationResponse = LocationRequest & {
+type LocationResponse = LocationRequest & {
   id: number
 }
 
@@ -76,6 +88,7 @@ export type DonorProfileResponse = {
   location: LocationResponse | null
   plasma_available: boolean
   last_donation_date: string | null
+  has_never_donated: boolean
   phone_number: string | null
 }
 
@@ -85,7 +98,41 @@ export type DonorProfileUpdateRequest = {
   location: LocationRequest
   plasma_available: boolean
   last_donation_date: string | null
+  has_never_donated: boolean
   phone_number: string | null
+}
+
+type HospitalContactInfo = {
+  contact_email: string
+  phone_number: string
+}
+
+export type HospitalProfileResponse = {
+  id: number
+  name: string | null
+  organization_type: HospitalOrganizationType | null
+  organization_type_other: string | null
+  address: string | null
+  representative_name: string | null
+  contact_info: HospitalContactInfo | null
+  location: LocationResponse | null
+  verification_status: HospitalVerificationStatus
+  license_document_url: string | null
+}
+
+export type HospitalProfileUpdateRequest = {
+  name: string
+  organization_type: HospitalOrganizationType
+  organization_type_other: string | null
+  address: string
+  representative_name: string
+  contact_info: HospitalContactInfo
+  location: LocationRequest
+}
+
+export type LicenseUploadResponse = {
+  license_document_url: string
+  verification_status: HospitalVerificationStatus
 }
 
 export type ApiErrorCode =

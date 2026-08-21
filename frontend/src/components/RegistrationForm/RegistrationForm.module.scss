@@ -1,10 +1,12 @@
 @use '../../styles/variables' as v;
 .form {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 20px;
 
   &__checkboxGroup {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 6px;
   }
 
@@ -79,7 +81,8 @@
   }
 
   &__links {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 5px;
     padding-top: 16px;
     border-top: 1px solid v.$color-border;

@@ -1,0 +1,60 @@
+@use '../../styles/variables' as v;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  &__legend {
+    margin-bottom: 12px;
+    font-size: 21px;
+    font-weight: 700;
+  }
+
+  &__grid {
+    display: grid;
+    align-items: start;
+    gap: 20px;
+
+    @media (min-width: v.$tablet-min-width) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  &__notice {
+    padding: 14px 16px;
+    border-radius: v.$border-radius-sm;
+    color: v.$color-text-muted;
+    background: v.$color-surface-warm;
+    font-size: 13px;
+  }
+
+  &__submit {
+    min-height: 48px;
+    padding: 11px 20px;
+    border: 1px solid transparent;
+    border-radius: v.$border-radius-sm;
+    color: v.$color-on-primary;
+    background: v.$color-primary;
+    font-weight: 700;
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+      background: v.$color-primary-hover;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.62;
+    }
+  }
+}

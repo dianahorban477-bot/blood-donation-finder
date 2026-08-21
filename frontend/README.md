@@ -65,8 +65,10 @@ Open the local URL shown by Vite, usually `http://localhost:5173`.
 - `/register/donor` - Donor registration
 - `/register/hospital` - Hospital registration
 - `/sign-in` - Sign in
-- `/profile` - Authentication test profile
+- `/profile` - Role-based profile redirect
 - `/donor/profile` - Donor profile form
+- `/hospital/profile` - Hospital profile and verification document
+- `/access-denied` - Unauthorized role fallback
 - `/privacy-policy` - Privacy Policy
 
 ## Available checks
@@ -92,14 +94,26 @@ The current frontend scope includes:
 - backend registration and sign-in integration;
 - authentication state and session restoration;
 - reusable validation, error, success, and loading feedback;
-- logout and profile redirection.
+- protected routes and role-based profile redirection;
+- donor profile creation and editing;
+- hospital profile creation and editing;
+- shared country, region, and city profile fields;
+- international phone-number validation;
+- hospital verification status display;
+- hospital license selection, validation, and upload UI;
+- logout from donor and hospital profiles;
+- placeholders for future donor and hospital blood-request functionality.
+
+The donor profile currently supports full name, location, blood type, plasma
+availability, last donation date, the explicit `has_never_donated` state, and
+an optional phone number.
+
+The hospital profile currently supports organization name and type, a custom
+organization type, address, location, representative name, contact email, and
+phone number. All hospital profile fields are required by the current frontend
+validation. License files are limited to PDF, JPG/JPEG, or PNG files up to
+10 MB.
 
 The registration password must contain at least eight characters, including
 one uppercase English letter, one lowercase English letter, one number, and
 one special character.
-
-## Current limitations
-
-The profile route is currently a basic authentication test page. Full donor,
-hospital, and admin profiles, hospital verification management, and protected
-role-based navigation are outside the current frontend scope.

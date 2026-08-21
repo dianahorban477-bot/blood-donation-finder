@@ -7,12 +7,20 @@ import { ProfileIcon } from '../IconsSVG/ProfileIcon'
 import { MobileMenu } from '../MobileMenu/MobileMenu'
 import styles from './Header.module.scss'
 
+const profileLabels = {
+  admin: 'Admin',
+  donor: 'Donor',
+  hospital: 'Hospital',
+}
+
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const menuButtonRef = useRef<HTMLButtonElement>(null)
-  const isAuthenticated = useAppSelector(
-    (state) => state.auth.status === 'authenticated' && Boolean(state.auth.user),
+  const { status, user } = useAppSelector(
+    (state) => state.auth,
   )
+  const isAuthenticated = status === 'authenticated' && Boolean(user)
+  const showDonorInfo = !isAuthenticated || user?.role !== 'admin'
 
   useEffect(() => {
     const desktopMediaQuery = window.matchMedia('(min-width: 900px)')
@@ -56,16 +64,23 @@ export const Header = () => {
           <Link className={styles.header__link} to="/#about-us">
             About us
           </Link>
-          <Link className={styles.header__link} to="/#donor-info">
-            Donor info
-          </Link>
+          {showDonorInfo && (
+            <Link className={styles.header__link} to="/#donor-info">
+              Donor info
+            </Link>
+          )}
           {isAuthenticated ? (
             <Link
               className={styles.header__profile}
               to="/profile"
-              aria-label="Open my profile"
+              aria-label={user ? `Open ${profileLabels[user.role]}` : 'Open profile'}
             >
               <ProfileIcon className={styles.header__profileIcon} />
+              {user && (
+                <span className={styles.header__profileLabel}>
+                  {profileLabels[user.role]}
+                </span>
+              )}
             </Link>
           ) : (
             <>
@@ -83,9 +98,14 @@ export const Header = () => {
             <Link
               className={styles.header__profile}
               to="/profile"
-              aria-label="Open my profile"
+              aria-label={user ? `Open ${profileLabels[user.role]}` : 'Open profile'}
             >
               <ProfileIcon className={styles.header__profileIcon} />
+              {user && (
+                <span className={styles.header__profileLabel}>
+                  {profileLabels[user.role]}
+                </span>
+              )}
             </Link>
           ) : (
             <Link className={styles.header__signIn} to="/sign-in">

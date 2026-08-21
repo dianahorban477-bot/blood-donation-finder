@@ -1,0 +1,29 @@
+@use '../../styles/variables' as v;
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__edit {
+    min-height: 48px;
+    padding: 11px 20px;
+    border: 1px solid v.$color-primary;
+    border-radius: v.$border-radius-sm;
+    color: v.$color-primary;
+    background: v.$color-surface;
+    font-weight: 700;
+    cursor: pointer;
+
+    &:hover {
+      color: v.$color-on-primary;
+      background: v.$color-primary;
+    }
+  }
+}

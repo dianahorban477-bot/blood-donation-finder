@@ -16,6 +16,7 @@ import {
 } from '../../features/auth/authSlice'
 import type { RegistrationRole } from '../../types/auth'
 import { normalizeEmail } from '../../utils/normalizeEmail'
+import { isValidEmail } from '../../utils/validation'
 import { FeedbackMessage } from '../FeedbackMessage/FeedbackMessage'
 import { FormField } from '../FormField/FormField'
 import { RequiredFieldsNote } from '../RequiredFieldsNote/RequiredFieldsNote'
@@ -65,8 +66,6 @@ const initialValues: FormValues = {
   marketingConsent: false,
 }
 
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
 function validatePassword(password: string) {
   if (!password) return 'Enter a password.'
   if (password.length < 8) return 'Password must contain at least 8 characters.'
@@ -85,7 +84,7 @@ function validateForm(values: FormValues, role: RegistrationRole): FormErrors {
 
   if (!values.email) {
     errors.email = role === 'hospital' ? 'Enter your work email.' : 'Enter your email.'
-  } else if (!emailPattern.test(values.email)) {
+  } else if (!isValidEmail(values.email)) {
     errors.email = 'Enter a valid email address.'
   }
 

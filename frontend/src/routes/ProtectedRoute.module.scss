@@ -1,0 +1,8 @@
+@use '../styles/mixins';
+
+.guard {
+  @include mixins.content-container;
+
+  min-height: 60vh;
+  padding-block: 48px;
+}

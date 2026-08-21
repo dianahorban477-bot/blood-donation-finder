@@ -6,7 +6,7 @@
 
   display: grid;
   gap: 32px;
-  padding-block: 48px;
+  padding-block: 30px;
 
   @media (min-width: v.$tablet-min-width) {
     gap: 48px;
@@ -15,7 +15,12 @@
 
   @media (min-width: v.$laptop-min-width) {
     grid-template-columns: minmax(0, 1fr) minmax(304px, 560px);
-    padding-block: 80px;
+  }
+
+  &__sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
   }
 
   &__intro {
@@ -69,7 +74,10 @@
     }
   }
 
-  &__message {
+  &__messages {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
     margin-bottom: 20px;
   }
 
@@ -99,179 +107,6 @@
     &:disabled {
       cursor: not-allowed;
       opacity: 0.62;
-    }
-  }
-}
-
-.form {
-  display: grid;
-  gap: 20px;
-
-  &__section {
-    display: grid;
-    gap: 16px;
-    margin: 0;
-    padding: 0;
-    border: 0;
-  }
-
-  &__legend {
-    margin-bottom: 12px;
-    font-size: 21px;
-    font-weight: 700;
-  }
-
-  &__grid {
-    display: grid;
-    align-items: start;
-    gap: 20px;
-
-    @media (min-width: v.$tablet-min-width) {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  &__notice {
-    padding: 14px 16px;
-    border-radius: v.$border-radius-sm;
-    color: v.$color-text-muted;
-    background: v.$color-surface-warm;
-    font-size: 13px;
-  }
-
-  &__dateField {
-    display: grid;
-    align-content: start;
-    gap: 12px;
-  }
-
-  &__checkbox {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    color: v.$color-text-muted;
-    font-size: 14px;
-    cursor: pointer;
-
-    input {
-      width: 18px;
-      height: 18px;
-      flex: 0 0 auto;
-      margin-top: 2px;
-      accent-color: v.$color-primary;
-
-      &:focus-visible {
-        outline: 3px solid v.$color-focus;
-        outline-offset: 2px;
-      }
-    }
-  }
-
-  &__submit {
-    min-height: 48px;
-    padding: 11px 20px;
-    border: 1px solid transparent;
-    border-radius: v.$border-radius-sm;
-    color: v.$color-on-primary;
-    background: v.$color-primary;
-    font-weight: 700;
-    cursor: pointer;
-
-    &:hover:not(:disabled) {
-      background: v.$color-primary-hover;
-    }
-
-    &:disabled {
-      cursor: not-allowed;
-      opacity: 0.62;
-    }
-  }
-}
-
-.field {
-  display: grid;
-  gap: 7px;
-
-  &__label {
-    font-size: 14px;
-    font-weight: 700;
-  }
-
-  &__required {
-    color: v.$color-error;
-  }
-
-  &__control {
-    width: 100%;
-    padding: 11px 14px;
-    border: 1px solid v.$color-border;
-    border-radius: v.$border-radius-sm;
-    color: v.$color-text;
-    background: v.$color-surface;
-    font-size: 16px;
-
-    &:hover {
-      border-color: v.$color-input-border-hover;
-    }
-
-    &:focus-visible {
-      border-color: v.$color-focus;
-      outline: 3px solid v.$color-header;
-      outline-offset: 1px;
-    }
-
-    &--error {
-      border-color: v.$color-error;
-      box-shadow: 0 0 0 2px v.$color-primary-soft;
-    }
-
-    &:disabled {
-      color: v.$color-text-muted;
-      background: v.$color-surface-warm;
-      cursor: not-allowed;
-    }
-  }
-}
-
-.details {
-  display: grid;
-  gap: 28px;
-
-  &__list {
-    display: grid;
-    gap: 16px;
-  }
-
-  &__item {
-    display: grid;
-    gap: 4px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid v.$color-border;
-
-    dt {
-      color: v.$color-text-muted;
-      font-size: 14px;
-    }
-
-    dd {
-      overflow-wrap: anywhere;
-      font-weight: 700;
-    }
-  }
-
-  &__edit {
-    min-height: 48px;
-    padding: 11px 20px;
-    border: 1px solid v.$color-primary;
-    border-radius: v.$border-radius-sm;
-    color: v.$color-primary;
-    background: v.$color-surface;
-    font-weight: 700;
-    cursor: pointer;
-
-    &:hover {
-      color: v.$color-on-primary;
-      background: v.$color-primary;
     }
   }
 }

@@ -100,7 +100,8 @@
 }
 
 .form {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 20px;
 
   &__submit {
@@ -131,7 +132,8 @@
   }
 
   &__links {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 6px;
     padding-top: 16px;
     border-top: 1px solid v.$color-border;

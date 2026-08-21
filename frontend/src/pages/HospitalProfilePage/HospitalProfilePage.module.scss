@@ -1,0 +1,190 @@
+@use '../../styles/variables' as v;
+@use '../../styles/mixins';
+
+.profile {
+  @include mixins.content-container;
+
+  display: grid;
+  gap: 32px;
+  padding-block: 30px;
+
+  @media (min-width: v.$tablet-min-width) {
+    gap: 48px;
+    padding-block: 64px;
+  }
+
+  @media (min-width: v.$laptop-min-width) {
+    grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.2fr);
+  }
+
+  &--editing {
+    @media (min-width: v.$laptop-min-width) {
+      .profile__card {
+        grid-row: 1 / span 3;
+      }
+
+      .profile__upload {
+        align-self: end;
+      }
+
+      .profile__requests {
+        grid-column: 1;
+        grid-row: 3;
+      }
+
+      .profile__actions {
+        grid-row: 4;
+      }
+    }
+  }
+
+  &__eyebrow {
+    margin-bottom: 12px;
+    color: v.$color-primary;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    font-size: 30px;
+    line-height: 1.05;
+
+    @media (min-width: v.$tablet-min-width) {
+      font-size: 40px;
+    }
+
+    @media (min-width: v.$laptop-min-width) {
+      font-size: 48px;
+    }
+  }
+
+  &__description {
+    margin-top: 20px;
+    color: v.$color-text-muted;
+    font-size: 14px;
+
+    @media (min-width: v.$tablet-min-width) {
+      font-size: 18px;
+    }
+  }
+
+  &__card {
+    min-width: 0;
+    align-self: start;
+    padding: 20px;
+    border: 1px solid v.$color-border;
+    border-radius: v.$border-radius-lg;
+    background: v.$color-surface;
+    box-shadow: v.$shadow-card;
+
+    @media (min-width: v.$tablet-min-width) {
+      padding: 32px;
+    }
+
+    @media (min-width: v.$laptop-min-width) {
+      grid-column: 2;
+      grid-row: 1;
+    }
+  }
+
+  &__cardTitle {
+    margin-bottom: 16px;
+    font-size: 21px;
+  }
+
+  &__message {
+    margin-bottom: 20px;
+  }
+
+  &__status {
+    margin-bottom: 20px;
+    padding: 10px 14px;
+    border-radius: v.$border-radius-sm;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: capitalize;
+
+    &--pending {
+      color: v.$color-warning;
+      background: v.$color-warning-soft;
+    }
+
+    &--verified {
+      color: v.$color-success;
+      background: v.$color-success-soft;
+    }
+
+    &--rejected {
+      color: v.$color-error;
+      background: v.$color-error-soft;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 12px;
+
+    @media (min-width: v.$tablet-min-width) {
+      flex-direction: row;
+    }
+
+    @media (min-width: v.$laptop-min-width) {
+      grid-column: 1 / -1;
+      grid-row: 3;
+    }
+  }
+
+  &__upload {
+    @media (min-width: v.$laptop-min-width) {
+      grid-column: 1;
+      grid-row: 2;
+      align-self: start;
+    }
+  }
+
+  &__requests {
+    @media (min-width: v.$laptop-min-width) {
+      grid-column: 2;
+      grid-row: 2;
+      align-self: stretch;
+    }
+  }
+
+  &__edit,
+  &__logout {
+    min-height: 48px;
+    padding: 11px 24px;
+    border: 1px solid v.$color-primary;
+    border-radius: v.$border-radius-sm;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  &__edit {
+    color: v.$color-on-primary;
+    background: v.$color-primary;
+
+    &:hover:not(:disabled) {
+      background: v.$color-primary-hover;
+    }
+  }
+
+  &__logout {
+    color: v.$color-primary;
+    background: v.$color-surface;
+
+    &:hover:not(:disabled) {
+      color: v.$color-on-primary;
+      background: v.$color-primary;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.62;
+    }
+  }
+}

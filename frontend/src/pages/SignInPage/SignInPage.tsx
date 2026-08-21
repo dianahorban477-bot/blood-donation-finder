@@ -14,6 +14,7 @@ import {
   type AuthRejection,
 } from '../../features/auth/authSlice'
 import { normalizeEmail } from '../../utils/normalizeEmail'
+import { isValidEmail } from '../../utils/validation'
 import styles from './SignInPage.module.scss'
 import type { SignInFormErrors, SignInFormValues } from './types'
 
@@ -27,14 +28,12 @@ const initialValues: SignInFormValues = {
   password: '',
 }
 
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
 const validateForm = (values: SignInFormValues): SignInFormErrors => {
   const errors: SignInFormErrors = {}
 
   if (!values.email) {
     errors.email = 'Enter your email.'
-  } else if (!emailPattern.test(values.email)) {
+  } else if (!isValidEmail(values.email)) {
     errors.email = 'Enter a valid email address.'
   }
 

@@ -12,9 +12,11 @@ type Props = {
 
 export const MobileMenu = ({ isOpen, onClose }: Props) => {
   useLockBodyScroll(isOpen)
-  const isAuthenticated = useAppSelector(
-    (state) => state.auth.status === 'authenticated' && Boolean(state.auth.user),
+  const { status, user } = useAppSelector(
+    (state) => state.auth,
   )
+  const isAuthenticated = status === 'authenticated' && Boolean(user)
+  const showDonorInfo = !isAuthenticated || user?.role !== 'admin'
 
   return (
     <aside
@@ -45,10 +47,12 @@ export const MobileMenu = ({ isOpen, onClose }: Props) => {
         <Link className={styles.menu__link} onClick={onClose} to="/#about-us">
           About us
         </Link>
-        <Link className={styles.menu__link} onClick={onClose} to="/#donor-info">
-          Donor info
-        </Link>
-        {isAuthenticated && (
+        {showDonorInfo && (
+          <Link className={styles.menu__link} onClick={onClose} to="/#donor-info">
+            Donor info
+          </Link>
+        )}
+        {isAuthenticated && user && (
           <Link className={styles.menu__link} onClick={onClose} to="/profile">
             My profile
           </Link>
