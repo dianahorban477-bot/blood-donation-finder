@@ -42,5 +42,3 @@ Please read [CONTRIBUTING.md](./CONTRIBUTING.md) before starting any work.
 * `/frontend` — React App (Vite)
 * `/backend` — Python API
 * `/docs` — Documentation and Privacy Policy
-
-

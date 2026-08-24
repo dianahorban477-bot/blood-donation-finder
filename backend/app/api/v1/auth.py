@@ -75,13 +75,17 @@ def _get_valid_refresh_row(db: Session, jti: str) -> RefreshToken:
 
 @router.post("/register", response_model=AuthResponse, status_code=status.HTTP_201_CREATED)
 def register(payload: RegisterRequest, response: Response, db: Session = Depends(get_db)):
-    # Consent checkboxes (US-01) exist on the donor registration form only — the hospital
-    # form has its own authority/terms confirmation, not yet part of this API contract.
     if payload.role == UserRole.donor and not (payload.privacy_policy_accepted and payload.age_confirmed):
         raise APIError(
             status.HTTP_422_UNPROCESSABLE_ENTITY,
             "CONSENT_REQUIRED",
             "Privacy policy acceptance and age confirmation (18+) are required.",
+        )
+    if payload.role == UserRole.hospital and not payload.privacy_policy_accepted:
+        raise APIError(
+            status.HTTP_422_UNPROCESSABLE_ENTITY,
+            "CONSENT_REQUIRED",
+            "Privacy policy acceptance is required.",
         )
 
     now = datetime.now(timezone.utc)

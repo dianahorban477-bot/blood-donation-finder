@@ -17,7 +17,7 @@ All branch names must follow this format:
 
 ## 💬 Commit Message Convention
 
-We follow the **Conventional Commits** specification:
+We follow the [Conventional Commits](https://www.conventionalcommits.org/) specification:
 
 * `feat:` add donor registration form *(for new features)*
 * `fix:` resolve database connection timeout *(for bug fixes)*

@@ -39,8 +39,14 @@ def update_my_profile(
         profile.blood_type = payload.blood_type
     if payload.plasma_available is not None:
         profile.plasma_available = payload.plasma_available
-    if payload.last_donation_date is not None:
+    if "last_donation_date" in payload.model_fields_set:
+        # Explicit null (e.g. "I have never donated blood") must be distinguished from
+        # "field omitted" — a plain `is not None` check would silently ignore the null.
         profile.last_donation_date = payload.last_donation_date
+    if payload.has_never_donated is not None:
+        profile.has_never_donated = payload.has_never_donated
+    if payload.phone_number is not None:
+        profile.phone_number = payload.phone_number
     if payload.location is not None:
         location = get_or_create_location(db, payload.location.city, payload.location.region, payload.location.country)
         profile.location_id = location.id
