@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import styles from './ProfileDetail.module.scss'
 
 type Props = {
+  className?: string
   icon?: ReactNode
   isSeparated?: boolean
   label: string
@@ -11,6 +12,7 @@ type Props = {
 }
 
 export const ProfileDetail = ({
+  className,
   icon,
   isSeparated = false,
   label,
@@ -18,7 +20,7 @@ export const ProfileDetail = ({
   value,
 }: Props) => (
   <div
-    className={cn(styles.detail, {
+    className={cn(styles.detail, className, {
       [styles['detail--with-icon']]: Boolean(icon),
       [styles['detail--separated']]: isSeparated,
     })}

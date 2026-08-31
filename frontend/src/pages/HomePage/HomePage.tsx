@@ -30,9 +30,12 @@ export const HomePage = () => {
 
           <img
             className={styles.hero__media}
-            src={heroImage}
             alt=""
             aria-hidden="true"
+            fetchPriority="high"
+            src={heroImage}
+            width="1580"
+            height="1336"
           />
         </div>
       </section>

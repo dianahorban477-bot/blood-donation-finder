@@ -68,6 +68,7 @@ Open the local URL shown by Vite, usually `http://localhost:5173`.
 - `/profile` - Role-based profile redirect
 - `/donor/profile` - Donor profile form
 - `/hospital/profile` - Hospital profile and verification document
+- `/admin/profile` - Administration and hospital applications
 - `/access-denied` - Unauthorized role fallback
 - `/privacy-policy` - Privacy Policy
 
@@ -97,12 +98,17 @@ The current frontend scope includes:
 - protected routes and role-based profile redirection;
 - donor profile creation and editing;
 - hospital profile creation and editing;
+- protected admin profile with pending hospital applications;
 - shared country, region, and city profile fields;
 - international phone-number validation;
 - hospital verification status display;
 - hospital license selection, validation, and upload UI;
 - logout from donor and hospital profiles;
 - placeholders for future donor and hospital blood-request functionality.
+
+The admin hospital-application tabs load pending, approved, and rejected
+hospitals and support the currently available hospital details, license preview
+or link, approve and reject actions, and manual list refresh.
 
 The donor profile currently supports full name, location, blood type, plasma
 availability, last donation date, the explicit `has_never_donated` state, and

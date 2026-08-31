@@ -2,6 +2,13 @@ import type { ApiErrorCode, ApiErrorResponse } from '../types/api'
 
 const API_BASE_URL = (import.meta.env.VITE_API_URL || '/api/v1').replace(/\/$/, '')
 
+export const getApiResourceUrl = (path: string) => {
+  if (/^https?:\/\//.test(path)) return path
+
+  const apiUrl = new URL(API_BASE_URL, window.location.origin)
+  return new URL(path, apiUrl.origin).toString()
+}
+
 export class ApiClientError extends Error {
   code: ApiErrorCode
   fields?: Record<string, string>

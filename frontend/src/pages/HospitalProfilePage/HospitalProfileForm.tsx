@@ -10,11 +10,11 @@ import {
 } from '../../components/ProfileField/ProfileField'
 import { ProfileLocationFields } from '../../components/ProfileLocationFields/ProfileLocationFields'
 import { RequiredFieldsNote } from '../../components/RequiredFieldsNote/RequiredFieldsNote'
+import { hospitalOrganizationTypes } from '../../utils/hospitalOrganization'
 import type {
   HospitalProfileFormErrors,
   HospitalProfileFormValues,
 } from './types'
-import { hospitalOrganizationTypes } from './validation'
 import styles from './HospitalProfileForm.module.scss'
 
 type Props = {

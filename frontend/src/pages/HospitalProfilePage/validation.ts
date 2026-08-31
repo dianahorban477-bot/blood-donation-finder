@@ -1,7 +1,4 @@
-import type {
-  HospitalOrganizationType,
-  HospitalProfileResponse,
-} from '../../types/api'
+import type { HospitalProfileResponse } from '../../types/api'
 import {
   isValidEmail,
   isValidInternationalPhoneNumber,
@@ -23,26 +20,6 @@ export const initialHospitalProfileValues: HospitalProfileFormValues = {
   country: '',
   region: '',
   city: '',
-}
-
-export const hospitalOrganizationTypes: Array<{
-  label: string
-  value: HospitalOrganizationType
-}> = [
-  { label: 'Hospital', value: 'hospital' },
-  { label: 'Clinic', value: 'clinic' },
-  { label: 'Blood centre', value: 'blood_center' },
-  { label: 'Medical centre', value: 'medical_center' },
-  { label: 'Other healthcare institution', value: 'other' },
-]
-
-export function getHospitalOrganizationTypeLabel(
-  value: HospitalProfileFormValues['organizationType'],
-) {
-  return (
-    hospitalOrganizationTypes.find((option) => option.value === value)?.label ??
-    value
-  )
 }
 
 export function toHospitalProfileFormValues(

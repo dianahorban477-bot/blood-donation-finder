@@ -1,7 +1,8 @@
 import cn from 'classnames'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { Link, NavLink } from 'react-router'
 import { useAppSelector } from '../../app/hooks'
+import logo from '../../assets/Logo.webp'
 import { BurgerIcon } from '../IconsSVG/BurgerIcon'
 import { ProfileIcon } from '../IconsSVG/ProfileIcon'
 import { MobileMenu } from '../MobileMenu/MobileMenu'
@@ -20,19 +21,6 @@ export const Header = () => {
     (state) => state.auth,
   )
   const isAuthenticated = status === 'authenticated' && Boolean(user)
-  const showDonorInfo = !isAuthenticated || user?.role !== 'admin'
-
-  useEffect(() => {
-    const desktopMediaQuery = window.matchMedia('(min-width: 900px)')
-
-    function handleViewportChange(event: MediaQueryListEvent) {
-      if (event.matches) setIsMenuOpen(false)
-    }
-
-    desktopMediaQuery.addEventListener('change', handleViewportChange)
-
-    return () => desktopMediaQuery.removeEventListener('change', handleViewportChange)
-  }, [])
 
   function handleOpenMenu() {
     setIsMenuOpen(true)
@@ -47,7 +35,14 @@ export const Header = () => {
     <header className={styles.header}>
       <div className={styles.header__container}>
         <Link className={styles.header__logo} to="/" aria-label="Blood Donation Finder home">
-          <span className={styles.header__logoMark} aria-hidden="true">+</span>
+          <img
+            className={styles.header__logoImage}
+            src={logo}
+            alt=""
+            aria-hidden="true"
+            width="96"
+            height="96"
+          />
           <span>Blood Donation Finder</span>
         </Link>
         <nav className={styles.header__nav} aria-label="Main navigation">
@@ -64,11 +59,9 @@ export const Header = () => {
           <Link className={styles.header__link} to="/#about-us">
             About us
           </Link>
-          {showDonorInfo && (
-            <Link className={styles.header__link} to="/#donor-info">
-              Donor info
-            </Link>
-          )}
+          <Link className={styles.header__link} to="/#donor-info">
+            Donor info
+          </Link>
           {isAuthenticated ? (
             <Link
               className={styles.header__profile}

@@ -1,0 +1,45 @@
+@use '../../styles/variables' as v;
+
+.license {
+  padding-top: 20px;
+  border-top: 1px solid v.$color-border;
+
+  &__title {
+    margin-bottom: 16px;
+    font-size: 18px;
+  }
+
+  &__imageLink {
+    display: inline-block;
+    max-width: 100%;
+    cursor: zoom-in;
+  }
+
+  &__image {
+    max-height: 480px;
+    border: 1px solid v.$color-border;
+    border-radius: v.$border-radius-sm;
+  }
+
+  &__link {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    padding: 9px 16px;
+    border: 1px solid v.$color-primary;
+    border-radius: v.$border-radius-sm;
+    color: v.$color-primary;
+    font-weight: 700;
+    text-decoration: none;
+
+    &:hover {
+      color: v.$color-on-primary;
+      background: v.$color-primary;
+    }
+  }
+
+  &__empty {
+    color: v.$color-text-muted;
+    font-size: 14px;
+  }
+}

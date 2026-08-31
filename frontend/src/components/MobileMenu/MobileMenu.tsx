@@ -16,7 +16,6 @@ export const MobileMenu = ({ isOpen, onClose }: Props) => {
     (state) => state.auth,
   )
   const isAuthenticated = status === 'authenticated' && Boolean(user)
-  const showDonorInfo = !isAuthenticated || user?.role !== 'admin'
 
   return (
     <aside
@@ -47,11 +46,9 @@ export const MobileMenu = ({ isOpen, onClose }: Props) => {
         <Link className={styles.menu__link} onClick={onClose} to="/#about-us">
           About us
         </Link>
-        {showDonorInfo && (
-          <Link className={styles.menu__link} onClick={onClose} to="/#donor-info">
-            Donor info
-          </Link>
-        )}
+        <Link className={styles.menu__link} onClick={onClose} to="/#donor-info">
+          Donor info
+        </Link>
         {isAuthenticated && user && (
           <Link className={styles.menu__link} onClick={onClose} to="/profile">
             My profile

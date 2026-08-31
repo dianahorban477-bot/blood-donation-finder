@@ -102,7 +102,7 @@ export type DonorProfileUpdateRequest = {
   phone_number: string | null
 }
 
-type HospitalContactInfo = {
+export type HospitalContactInfo = {
   contact_email: string
   phone_number: string
 }
@@ -128,6 +128,19 @@ export type HospitalProfileUpdateRequest = {
   representative_name: string
   contact_info: HospitalContactInfo
   location: LocationRequest
+}
+
+export type HospitalApplicationSummary = {
+  id: number
+  name: string | null
+  organization_type?: HospitalOrganizationType | null
+  organization_type_other?: string | null
+  address?: string | null
+  representative_name?: string | null
+  contact_info: HospitalContactInfo | string | null
+  location: LocationResponse | null
+  verification_status: HospitalVerificationStatus
+  license_document_url: string | null
 }
 
 export type LicenseUploadResponse = {

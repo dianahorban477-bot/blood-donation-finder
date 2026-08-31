@@ -1,0 +1,79 @@
+@use '../../styles/variables' as v;
+
+.verification {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  &__reason {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: v.$color-text-muted;
+    font-size: 14px;
+
+    textarea {
+      width: 100%;
+      padding: 12px 14px;
+      resize: vertical;
+      border: 1px solid v.$color-border;
+      border-radius: v.$border-radius-sm;
+      color: v.$color-text;
+      background: v.$color-surface;
+      font: inherit;
+
+      &:focus-visible {
+        border-color: v.$color-focus;
+        outline: none;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+      }
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 12px;
+
+    @media (min-width: v.$tablet-min-width) {
+      flex-direction: row;
+      justify-content: flex-end;
+    }
+  }
+
+  &__approve,
+  &__reject {
+    min-height: 44px;
+    padding: 10px 20px;
+    border: 1px solid v.$color-primary;
+    border-radius: v.$border-radius-sm;
+    font-weight: 700;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+
+  &__approve {
+    color: v.$color-on-primary;
+    background: v.$color-primary;
+
+    &:hover:not(:disabled) {
+      background: v.$color-primary-hover;
+    }
+  }
+
+  &__reject {
+    color: v.$color-primary;
+    background: v.$color-surface;
+
+    &:hover:not(:disabled) {
+      color: v.$color-on-primary;
+      background: v.$color-primary;
+    }
+  }
+}
