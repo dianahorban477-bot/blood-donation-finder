@@ -3,7 +3,6 @@
 
 .header {
   position: relative;
-  z-index: 10;
   border-bottom: 1px solid v.$color-border;
   background: v.$color-header;
 
@@ -43,16 +42,11 @@
     }
   }
 
-  &__logoMark {
-    display: grid;
-    width: 32px;
-    height: 32px;
+  &__logoImage {
+    width: 48px;
+    height: 48px;
     flex: 0 0 auto;
-    place-items: center;
-    border-radius: 50%;
-    color: v.$color-on-primary;
-    background: v.$color-primary;
-    font-size: 21px;
+    object-fit: contain;
   }
 
   &__nav {
@@ -186,5 +180,4 @@
     width: 24px;
     height: 24px;
   }
-
 }

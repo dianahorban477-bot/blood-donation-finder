@@ -4,8 +4,8 @@ import { MailIcon } from '../../components/IconsSVG/MailIcon'
 import { PhoneIcon } from '../../components/IconsSVG/PhoneIcon'
 import { ProfileIcon } from '../../components/IconsSVG/ProfileIcon'
 import { ProfileDetail } from '../../components/ProfileDetail/ProfileDetail'
+import { getHospitalOrganizationTypeLabel } from '../../utils/hospitalOrganization'
 import type { HospitalProfileFormValues } from './types'
-import { getHospitalOrganizationTypeLabel } from './validation'
 import styles from './HospitalProfileDetails.module.scss'
 
 type Props = {
@@ -17,11 +17,10 @@ export const HospitalProfileDetails = ({ values }: Props) => (
     <ProfileDetail
       icon={<HospitalIcon />}
       label='Hospital'
-      secondaryValue={
-        values.organizationType === 'other'
-          ? values.organizationTypeOther
-          : getHospitalOrganizationTypeLabel(values.organizationType)
-      }
+      secondaryValue={getHospitalOrganizationTypeLabel(
+        values.organizationType,
+        values.organizationTypeOther,
+      )}
       value={values.name}
     />
     <ProfileDetail

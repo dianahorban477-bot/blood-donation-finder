@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router'
 import { PublicLayout } from '../layouts/PublicLayout/PublicLayout'
 import { AccessDeniedPage } from '../pages/AccessDeniedPage/AccessDeniedPage'
+import { AdminProfilePage } from '../pages/AdminProfilePage/AdminProfilePage'
 import { DonorRegistrationPage } from '../pages/DonorRegistrationPage/DonorRegistrationPage'
 import { DonorProfilePage } from '../pages/DonorProfilePage/DonorProfilePage'
 import { HomePage } from '../pages/HomePage/HomePage'
@@ -33,6 +34,9 @@ export const AppRoutes = () => (
         <Route path='hospital/profile' element={<HospitalProfilePage />} />
       </Route>
 
+      <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+        <Route path='admin/profile' element={<AdminProfilePage />} />
+      </Route>
     </Route>
   </Routes>
 )
