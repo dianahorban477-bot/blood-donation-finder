@@ -168,6 +168,18 @@ export const useDonorProfile = () => {
       setSuccessMessage('Your donor profile has been saved.')
       setIsEditing(false)
     } catch (error) {
+      const lastDonationDateError =
+        error instanceof ApiClientError
+          ? error.fields?.last_donation_date
+          : undefined
+
+      if (lastDonationDateError) {
+        setErrors((currentErrors) => ({
+          ...currentErrors,
+          lastDonationDate: lastDonationDateError,
+        }))
+      }
+
       setFormError(
         error instanceof ApiClientError
           ? error.message
