@@ -31,6 +31,21 @@ export const initialDonorProfileValues: DonorProfileFormValues = {
   phoneNumber: '',
 }
 
+const datePattern = /^[1-9]\d{3}-\d{2}-\d{2}$/
+
+function isValidDate(date: string) {
+  if (!datePattern.test(date)) return false
+
+  const [year, month, day] = date.split('-').map(Number)
+  const parsedDate = new Date(Date.UTC(year, month - 1, day))
+
+  return (
+    parsedDate.getUTCFullYear() === year &&
+    parsedDate.getUTCMonth() + 1 === month &&
+    parsedDate.getUTCDate() === day
+  )
+}
+
 export function toDonorProfileFormValues(
   profile: DonorProfileResponse,
 ): DonorProfileFormValues {
@@ -82,6 +97,8 @@ export function validateDonorProfileForm(
   if (!values.hasNeverDonated) {
     if (!values.lastDonationDate) {
       errors.lastDonationDate = 'Enter the date of your last donation.'
+    } else if (!isValidDate(values.lastDonationDate)) {
+      errors.lastDonationDate = 'Enter a valid last donation date.'
     } else if (
       values.lastDonationDate > new Date().toISOString().slice(0, 10)
     ) {
