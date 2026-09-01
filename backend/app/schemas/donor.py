@@ -1,12 +1,10 @@
-import re
 from datetime import date
 
-from pydantic import BaseModel, ConfigDict, field_validator
+from pydantic import BaseModel, ConfigDict, field_validator, model_validator
 
 from app.models.enums import BloodType
 from app.schemas.location import LocationBase, LocationRead
-
-PHONE_NUMBER_PATTERN = re.compile(r"^\+\d{1,15}$")
+from app.schemas.validators import validate_phone_number
 
 
 class DonorProfileRead(BaseModel):
@@ -33,7 +31,22 @@ class DonorProfileUpdate(BaseModel):
 
     @field_validator("phone_number")
     @classmethod
-    def validate_phone_number(cls, value: str | None) -> str | None:
-        if value is not None and not PHONE_NUMBER_PATTERN.match(value):
-            raise ValueError("Phone number must be in international format, e.g. +380501234567.")
+    def check_phone_number(cls, value: str | None) -> str | None:
+        return validate_phone_number(value)
+
+    @field_validator("last_donation_date")
+    @classmethod
+    def validate_not_in_future(cls, value: date | None) -> date | None:
+        if value is not None and value > date.today():
+            raise ValueError("Last donation date cannot be in the future.")
         return value
+
+    @model_validator(mode="after")
+    def validate_never_donated_consistency(self) -> "DonorProfileUpdate":
+        if (
+            self.has_never_donated is True
+            and "last_donation_date" in self.model_fields_set
+            and self.last_donation_date is not None
+        ):
+            raise ValueError("last_donation_date must be null when has_never_donated is true.")
+        return self

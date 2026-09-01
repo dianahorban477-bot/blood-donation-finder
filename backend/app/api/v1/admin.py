@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
+from app.api.v1.hospitals import _serve_license_file
 from app.core.deps import get_current_user, require_role
 from app.core.errors import APIError
 from app.db.session import get_db
@@ -46,6 +47,7 @@ def approve_hospital(hospital_id: int, admin: User = Depends(get_current_user), 
     hospital.verification_status = VerificationStatus.verified
     hospital.verified_at = datetime.now(timezone.utc)
     hospital.verified_by = admin.id
+    hospital.rejection_reason = None
     db.commit()
     db.refresh(hospital)
     return hospital
@@ -62,9 +64,15 @@ def reject_hospital(
     hospital.verification_status = VerificationStatus.rejected
     hospital.verified_at = datetime.now(timezone.utc)
     hospital.verified_by = admin.id
+    hospital.rejection_reason = payload.reason
     db.commit()
     db.refresh(hospital)
     return hospital
+
+
+@router.get("/hospitals/{hospital_id}/license")
+def get_hospital_license(hospital_id: int, db: Session = Depends(get_db)):
+    return _serve_license_file(db, hospital_id)
 
 
 @router.get("/users", response_model=list[UserProfile])
