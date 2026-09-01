@@ -25,11 +25,16 @@ export const HospitalProfilePage = () => {
     isProfileLoading,
     isSubmitting,
     licenseDocumentUrl,
+    rejectionReason,
     routeMessage,
     successMessage,
     values,
     verificationStatus,
   } = useHospitalProfile()
+  const verificationStatusLabel =
+    verificationStatus === 'pending' && !licenseDocumentUrl
+      ? 'Not submitted'
+      : verificationStatus
 
   if (isProfileLoading) {
     return (
@@ -88,7 +93,7 @@ export const HospitalProfilePage = () => {
                 verificationStatus === 'rejected',
             })}
           >
-            Verification status: {verificationStatus}
+            Verification status: {verificationStatusLabel}
           </p>
 
           {isEditing ? (
@@ -113,6 +118,8 @@ export const HospitalProfilePage = () => {
           isProfileEditing={isEditing}
           licenseDocumentUrl={licenseDocumentUrl}
           onUploadSuccess={handleLicenseUploadSuccess}
+          rejectionReason={rejectionReason}
+          verificationStatus={verificationStatus}
         />
 
         <HospitalBloodRequests

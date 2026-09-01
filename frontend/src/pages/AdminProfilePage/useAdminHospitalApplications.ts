@@ -59,7 +59,9 @@ export const useAdminHospitalApplications = () => {
 
     return {
       approved,
-      pending,
+      pending: pending.filter(
+        (application) => Boolean(application.license_document_url),
+      ),
       rejected,
     }
   }, [accessToken])

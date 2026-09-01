@@ -102,9 +102,14 @@ export type DonorProfileUpdateRequest = {
   phone_number: string | null
 }
 
-export type HospitalContactInfo = {
+type HospitalContactInfo = {
   contact_email: string
   phone_number: string
+}
+
+type HospitalContactInfoResponse = {
+  contact_email: string | null
+  phone_number: string | null
 }
 
 export type HospitalProfileResponse = {
@@ -114,10 +119,11 @@ export type HospitalProfileResponse = {
   organization_type_other: string | null
   address: string | null
   representative_name: string | null
-  contact_info: HospitalContactInfo | null
+  contact_info: HospitalContactInfoResponse
   location: LocationResponse | null
   verification_status: HospitalVerificationStatus
   license_document_url: string | null
+  rejection_reason: string | null
 }
 
 export type HospitalProfileUpdateRequest = {
@@ -133,14 +139,15 @@ export type HospitalProfileUpdateRequest = {
 export type HospitalApplicationSummary = {
   id: number
   name: string | null
-  organization_type?: HospitalOrganizationType | null
-  organization_type_other?: string | null
-  address?: string | null
-  representative_name?: string | null
-  contact_info: HospitalContactInfo | string | null
+  organization_type: HospitalOrganizationType | null
+  organization_type_other: string | null
+  address: string | null
+  representative_name: string | null
+  contact_info: HospitalContactInfoResponse
   location: LocationResponse | null
   verification_status: HospitalVerificationStatus
   license_document_url: string | null
+  rejection_reason: string | null
 }
 
 export type LicenseUploadResponse = {
@@ -158,6 +165,11 @@ export type ApiErrorCode =
   | 'ACCOUNT_INACTIVE'
   | 'FORBIDDEN'
   | 'HOSPITAL_NOT_VERIFIED'
+  | 'DONATION_DATE_LOCKED'
+  | 'DONATION_DATE_REQUIRED'
+  | 'PROFILE_INCOMPLETE'
+  | 'UNSUPPORTED_FILE_TYPE'
+  | 'FILE_TOO_LARGE'
   | 'CONSENT_REQUIRED'
   | 'NOT_FOUND'
   | 'RATE_LIMITED'

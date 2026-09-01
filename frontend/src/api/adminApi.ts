@@ -1,6 +1,6 @@
 import type { HospitalApplicationSummary } from '../types/api'
 import type { HospitalVerificationStatus } from '../types/auth'
-import { apiRequest } from './client'
+import { apiBlobRequest, apiRequest } from './client'
 
 const adminHospitalsEndpoint = '/admin/hospitals'
 
@@ -35,3 +35,13 @@ export const rejectHospitalApplicationRequest = (
       accessToken,
     },
   )
+
+export const fetchHospitalLicenseRequest = (
+  hospitalId: number,
+  accessToken: string,
+  signal?: AbortSignal,
+) =>
+  apiBlobRequest(`${adminHospitalsEndpoint}/${hospitalId}/license`, {
+    accessToken,
+    signal,
+  })
