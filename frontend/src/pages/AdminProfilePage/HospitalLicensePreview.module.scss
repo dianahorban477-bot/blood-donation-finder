@@ -42,4 +42,9 @@
     color: v.$color-text-muted;
     font-size: 14px;
   }
+
+  &__error {
+    color: v.$color-error;
+    font-size: 14px;
+  }
 }

@@ -49,6 +49,7 @@
 
   &__title {
     font-size: 21px;
+    white-space: nowrap;
   }
 
   &__description,
@@ -59,18 +60,31 @@
   }
 
   &__badge {
-    padding: 6px 10px;
+    flex-shrink: 0;
+    padding: 7px 14px;
     border-radius: v.$border-radius-sm;
     color: v.$color-success;
     background: v.$color-success-soft;
     font-size: 13px;
     font-weight: 700;
+    white-space: nowrap;
   }
 
   &__notice {
     padding: 14px 16px;
     border-radius: v.$border-radius-sm;
     color: v.$color-text-muted;
+    background: v.$color-surface-warm;
+    font-size: 14px;
+  }
+
+  &__rejection {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 14px 16px;
+    border-radius: v.$border-radius-sm;
+    color: v.$color-error;
     background: v.$color-surface-warm;
     font-size: 14px;
   }

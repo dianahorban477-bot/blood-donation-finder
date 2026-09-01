@@ -1,4 +1,5 @@
 import cn from 'classnames'
+import { useState } from 'react'
 import { ProfileDetail } from '../../components/ProfileDetail/ProfileDetail'
 import type { HospitalApplicationSummary } from '../../types/api'
 import { getHospitalOrganizationTypeLabel } from '../../utils/hospitalOrganization'
@@ -31,20 +32,10 @@ const getLocationLabel = (application: HospitalApplicationSummary) => {
   ].join(', ')
 }
 
-const getContactDetails = (application: HospitalApplicationSummary) => {
-  if (!application.contact_info) {
-    return { email: 'Not provided', phone: 'Not provided' }
-  }
-
-  if (typeof application.contact_info === 'string') {
-    return { email: application.contact_info, phone: 'Not provided' }
-  }
-
-  return {
-    email: application.contact_info.contact_email,
-    phone: application.contact_info.phone_number,
-  }
-}
+const getContactDetails = (application: HospitalApplicationSummary) => ({
+  email: application.contact_info.contact_email || 'Not provided',
+  phone: application.contact_info.phone_number || 'Not provided',
+})
 
 export const HospitalApplicationItem = ({
   actionError,
@@ -54,7 +45,9 @@ export const HospitalApplicationItem = ({
   onReject,
   processingAction,
 }: Props) => {
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false)
   const isPending = application.verification_status === 'pending'
+  const hasLicenseDocument = Boolean(application.license_document_url)
   const contactDetails = getContactDetails(application)
   const locationLabel = getLocationLabel(application)
   const organizationTypeLabel = getHospitalOrganizationTypeLabel(
@@ -64,7 +57,10 @@ export const HospitalApplicationItem = ({
 
   return (
     <li className={styles.application}>
-      <details className={styles.application__details}>
+      <details
+        className={styles.application__details}
+        onToggle={(event) => setIsDetailsOpen(event.currentTarget.open)}
+      >
         <summary className={styles.application__summary}>
           <div>
             <h3 className={styles.application__name}>
@@ -118,15 +114,25 @@ export const HospitalApplicationItem = ({
               label='Phone number'
               value={contactDetails.phone}
             />
+            {application.verification_status === 'rejected' &&
+              application.rejection_reason && (
+                <ProfileDetail
+                  className={styles.application__informationItem}
+                  label='Rejection reason'
+                  value={application.rejection_reason}
+                />
+              )}
           </dl>
 
-          <HospitalLicensePreview
-            hospitalId={application.id}
-            hospitalName={application.name}
-            licenseDocumentUrl={application.license_document_url}
-          />
+          {isDetailsOpen && (
+            <HospitalLicensePreview
+              hasLicenseDocument={hasLicenseDocument}
+              hospitalId={application.id}
+              hospitalName={application.name}
+            />
+          )}
 
-          {isPending && (
+          {isPending && hasLicenseDocument && (
             <HospitalVerificationActions
               actionError={actionError}
               hospitalId={application.id}

@@ -49,6 +49,7 @@ export const useHospitalProfile = () => {
   const [licenseDocumentUrl, setLicenseDocumentUrl] = useState<string | null>(
     null,
   )
+  const [rejectionReason, setRejectionReason] = useState<string | null>(null)
   const [isProfileLoading, setIsProfileLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isEditing, setIsEditing] = useState(true)
@@ -67,6 +68,7 @@ export const useHospitalProfile = () => {
         setValues(toHospitalProfileFormValues(profile))
         setVerificationStatus(profile.verification_status)
         setLicenseDocumentUrl(profile.license_document_url)
+        setRejectionReason(profile.rejection_reason)
         setIsEditing(!isHospitalProfileComplete(profile))
       })
       .catch((error: unknown) => {
@@ -163,6 +165,7 @@ export const useHospitalProfile = () => {
 
       setValues(toHospitalProfileFormValues(profile, values))
       setVerificationStatus(profile.verification_status)
+      setRejectionReason(profile.rejection_reason)
       setSuccessMessage('Your hospital profile has been saved.')
       setIsEditing(false)
     } catch (error) {
@@ -184,6 +187,7 @@ export const useHospitalProfile = () => {
   const handleLicenseUploadSuccess = (response: LicenseUploadResponse) => {
     setLicenseDocumentUrl(response.license_document_url)
     setVerificationStatus(response.verification_status)
+    setRejectionReason(null)
   }
 
   return {
@@ -202,6 +206,7 @@ export const useHospitalProfile = () => {
     isProfileLoading,
     isSubmitting,
     licenseDocumentUrl,
+    rejectionReason,
     routeMessage,
     successMessage,
     values,
