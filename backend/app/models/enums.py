@@ -13,6 +13,14 @@ class VerificationStatus(str, Enum):
     rejected = "rejected"
 
 
+class OrganizationType(str, Enum):
+    hospital = "hospital"
+    clinic = "clinic"
+    blood_center = "blood_center"
+    medical_center = "medical_center"
+    other = "other"
+
+
 class BloodType(str, Enum):
     A_POS = "A+"
     A_NEG = "A-"

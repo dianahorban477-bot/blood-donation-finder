@@ -33,6 +33,16 @@ def update_my_profile(
 ):
     profile = _get_donor_profile(db, user)
 
+    setting_never_donated_true = payload.has_never_donated is True
+    clearing_date = "last_donation_date" in payload.model_fields_set and payload.last_donation_date is None
+
+    if setting_never_donated_true and clearing_date and profile.last_donation_date is not None:
+        raise APIError(
+            status.HTTP_409_CONFLICT,
+            "DONATION_DATE_LOCKED",
+            "A donation date is already on record and cannot be cleared by marking never-donated.",
+        )
+
     if payload.full_name is not None:
         profile.full_name = payload.full_name
     if payload.blood_type is not None:
@@ -47,6 +57,16 @@ def update_my_profile(
         profile.has_never_donated = payload.has_never_donated
     if payload.phone_number is not None:
         profile.phone_number = payload.phone_number
+
+    if profile.has_never_donated is False and profile.last_donation_date is None and (
+        payload.has_never_donated is False or "last_donation_date" in payload.model_fields_set
+    ):
+        raise APIError(
+            status.HTTP_422_UNPROCESSABLE_ENTITY,
+            "DONATION_DATE_REQUIRED",
+            "A donation date is required when has_never_donated is false.",
+        )
+
     if payload.location is not None:
         location = get_or_create_location(db, payload.location.city, payload.location.region, payload.location.country)
         profile.location_id = location.id
