@@ -7,7 +7,6 @@ import { DocumentIcon } from '../../components/IconsSVG/DocumentIcon'
 import { ValidationMessage } from '../../components/ValidationMessage/ValidationMessage'
 import { useAutoDismissMessage } from '../../hooks/useAutoDismissMessage'
 import type { LicenseUploadResponse } from '../../types/api'
-import type { HospitalVerificationStatus } from '../../types/auth'
 import styles from './HospitalLicenseUpload.module.scss'
 
 const maxLicenseFileSize = 10 * 1024 * 1024
@@ -23,8 +22,6 @@ type Props = {
   isProfileEditing: boolean
   licenseDocumentUrl: string | null
   onUploadSuccess: (response: LicenseUploadResponse) => void
-  rejectionReason: string | null
-  verificationStatus: HospitalVerificationStatus
 }
 
 function validateLicenseFile(file: File) {
@@ -45,8 +42,6 @@ export const HospitalLicenseUpload = ({
   isProfileEditing,
   licenseDocumentUrl,
   onUploadSuccess,
-  rejectionReason,
-  verificationStatus,
 }: Props) => {
   const [licenseFile, setLicenseFile] = useState<File | null>(null)
   const [licenseError, setLicenseError] = useState('')
@@ -80,7 +75,9 @@ export const HospitalLicenseUpload = ({
   async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    if (isUploading || !accessToken) return
+    if (isUploading || !accessToken) {
+      return
+    }
 
     if (!licenseFile) {
       setLicenseError('Select a license document.')
@@ -153,18 +150,6 @@ export const HospitalLicenseUpload = ({
         <p className={styles.upload__notice}>
           Uploading a new license will reset the verification status to pending.
         </p>
-      )}
-
-      {verificationStatus === 'rejected' && (
-        <div className={styles.upload__rejection} role='status'>
-          <p>Your license was rejected.</p>
-          {rejectionReason && (
-            <p>
-              Reason: <strong>{rejectionReason}</strong>
-            </p>
-          )}
-          <p>Upload a new license to submit it for verification again.</p>
-        </div>
       )}
 
       {isProfileEditing ? (

@@ -1,14 +1,16 @@
 import { useState } from 'react'
+import { ConfirmModal } from '../../components/ConfirmModal/ConfirmModal'
 import { FeedbackMessage } from '../../components/FeedbackMessage/FeedbackMessage'
-import { LoadingIndicator } from '../../components/LoadingIndicator/LoadingIndicator'
 import styles from './HospitalVerificationActions.module.scss'
+
+type ConfirmationAction = 'approve' | 'reject' | null
 
 type Props = {
   actionError: string
   hospitalId: number
   isProcessing: boolean
-  onApprove: (hospitalId: number) => void
-  onReject: (hospitalId: number, reason: string) => void
+  onApprove: (hospitalId: number) => Promise<boolean>
+  onReject: (hospitalId: number, reason: string) => Promise<boolean>
   processingAction: 'approve' | 'reject' | null
 }
 
@@ -20,7 +22,34 @@ export const HospitalVerificationActions = ({
   onReject,
   processingAction,
 }: Props) => {
+  const [confirmationAction, setConfirmationAction] = useState<ConfirmationAction>(null)
   const [rejectionReason, setRejectionReason] = useState('')
+  const isApproveConfirmation = confirmationAction === 'approve'
+  const isConfirmationProcessing = isProcessing && processingAction === confirmationAction
+
+  const closeConfirmation = () => {
+    if (!isProcessing) {
+      setConfirmationAction(null)
+    }
+  }
+
+  const confirmAction = async () => {
+    if (!confirmationAction || isProcessing) {
+      return
+    }
+
+    const wasSuccessful =
+      confirmationAction === 'approve'
+        ? await onApprove(hospitalId)
+        : await onReject(hospitalId, rejectionReason)
+
+    if (wasSuccessful) {
+      if (confirmationAction === 'reject') {
+        setRejectionReason('')
+      }
+      setConfirmationAction(null)
+    }
+  }
 
   return (
     <div className={styles.verification}>
@@ -34,23 +63,15 @@ export const HospitalVerificationActions = ({
         />
       </label>
 
-      {actionError && (
+      {actionError && confirmationAction === null && (
         <FeedbackMessage message={actionError} type='error' />
-      )}
-
-      {isProcessing && processingAction && (
-        <LoadingIndicator
-          label={
-            processingAction === 'approve' ? 'Approving...' : 'Rejecting...'
-          }
-        />
       )}
 
       <div className={styles.verification__buttons}>
         <button
           className={styles.verification__reject}
           disabled={isProcessing}
-          onClick={() => onReject(hospitalId, rejectionReason)}
+          onClick={() => setConfirmationAction('reject')}
           type='button'
         >
           Reject
@@ -58,12 +79,46 @@ export const HospitalVerificationActions = ({
         <button
           className={styles.verification__approve}
           disabled={isProcessing}
-          onClick={() => onApprove(hospitalId)}
+          onClick={() => setConfirmationAction('approve')}
           type='button'
         >
           Approve
         </button>
       </div>
+
+      <ConfirmModal
+        cancelLabel='Cancel'
+        confirmLabel={
+          isApproveConfirmation ? 'Confirm approval' : 'Confirm rejection'
+        }
+        description={
+          isApproveConfirmation
+            ? 'The hospital will receive verified status and will be able to create blood requests.'
+            : 'The hospital will receive rejected status and will not be able to create blood requests.'
+        }
+        isOpen={confirmationAction !== null}
+        isProcessing={isConfirmationProcessing}
+        onCancel={closeConfirmation}
+        onConfirm={() => void confirmAction()}
+        processingLabel={
+          processingAction === 'approve' ? 'Approving...' : 'Rejecting...'
+        }
+        title={
+          isApproveConfirmation
+            ? 'Approve hospital application?'
+            : 'Reject hospital application?'
+        }
+        variant={isApproveConfirmation ? 'default' : 'danger'}
+      >
+        {confirmationAction === 'reject' && rejectionReason && (
+          <p className={styles.verification__confirmationReason}>
+            Reason: <strong>{rejectionReason}</strong>
+          </p>
+        )}
+        {actionError && (
+          <FeedbackMessage message={actionError} type='error' />
+        )}
+      </ConfirmModal>
     </div>
   )
 }

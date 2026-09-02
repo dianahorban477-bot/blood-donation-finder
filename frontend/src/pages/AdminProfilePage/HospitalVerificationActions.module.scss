@@ -44,6 +44,12 @@
     }
   }
 
+  &__confirmationReason {
+    margin: 0;
+    color: v.$color-text;
+    overflow-wrap: anywhere;
+  }
+
   &__approve,
   &__reject {
     min-height: 44px;

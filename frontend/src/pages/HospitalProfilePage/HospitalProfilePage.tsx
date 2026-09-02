@@ -5,6 +5,7 @@ import { HospitalBloodRequests } from './HospitalBloodRequests'
 import { HospitalLicenseUpload } from './HospitalLicenseUpload'
 import { HospitalProfileDetails } from './HospitalProfileDetails'
 import { HospitalProfileForm } from './HospitalProfileForm'
+import { HospitalVerificationStatus } from './HospitalVerificationStatus'
 import { useHospitalProfile } from './useHospitalProfile'
 import styles from './HospitalProfilePage.module.scss'
 
@@ -31,11 +32,6 @@ export const HospitalProfilePage = () => {
     values,
     verificationStatus,
   } = useHospitalProfile()
-  const verificationStatusLabel =
-    verificationStatus === 'pending' && !licenseDocumentUrl
-      ? 'Not submitted'
-      : verificationStatus
-
   if (isProfileLoading) {
     return (
       <section className={styles.profile}>
@@ -83,18 +79,11 @@ export const HospitalProfilePage = () => {
             </h2>
           )}
 
-          <p
-            className={cn(styles.profile__status, {
-              [styles['profile__status--pending']]:
-                verificationStatus === 'pending',
-              [styles['profile__status--verified']]:
-                verificationStatus === 'verified',
-              [styles['profile__status--rejected']]:
-                verificationStatus === 'rejected',
-            })}
-          >
-            Verification status: {verificationStatusLabel}
-          </p>
+          <HospitalVerificationStatus
+            hasLicenseDocument={Boolean(licenseDocumentUrl)}
+            rejectionReason={rejectionReason}
+            verificationStatus={verificationStatus}
+          />
 
           {isEditing ? (
             <HospitalProfileForm
@@ -118,8 +107,6 @@ export const HospitalProfilePage = () => {
           isProfileEditing={isEditing}
           licenseDocumentUrl={licenseDocumentUrl}
           onUploadSuccess={handleLicenseUploadSuccess}
-          rejectionReason={rejectionReason}
-          verificationStatus={verificationStatus}
         />
 
         <HospitalBloodRequests

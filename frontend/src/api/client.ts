@@ -39,8 +39,13 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
   const headers: Record<string, string> = {}
   const isFormData = options.body instanceof FormData
 
-  if (options.body && !isFormData) headers['Content-Type'] = 'application/json'
-  if (options.accessToken) headers['Authorization'] = `Bearer ${options.accessToken}`
+  if (options.body && !isFormData) {
+    headers['Content-Type'] = 'application/json'
+  }
+
+  if (options.accessToken) {
+    headers['Authorization'] = `Bearer ${options.accessToken}`
+  }
 
   const response = await fetch(`${API_BASE_URL}${path}`, {
     method: options.method ?? 'GET',
@@ -73,7 +78,9 @@ export async function apiBlobRequest(
 ): Promise<Blob> {
   const headers: Record<string, string> = {}
 
-  if (options.accessToken) headers['Authorization'] = `Bearer ${options.accessToken}`
+  if (options.accessToken) {
+    headers['Authorization'] = `Bearer ${options.accessToken}`
+  }
 
   const response = await fetch(`${API_BASE_URL}${path}`, {
     headers,

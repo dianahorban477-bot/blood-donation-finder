@@ -11,8 +11,8 @@ type Props = {
   actionError: string
   application: HospitalApplicationSummary
   isProcessing: boolean
-  onApprove: (hospitalId: number) => void
-  onReject: (hospitalId: number, reason: string) => void
+  onApprove: (hospitalId: number) => Promise<boolean>
+  onReject: (hospitalId: number, reason: string) => Promise<boolean>
   processingAction: 'approve' | 'reject' | null
 }
 
@@ -23,7 +23,9 @@ const verificationStatusLabels = {
 }
 
 const getLocationLabel = (application: HospitalApplicationSummary) => {
-  if (!application.location) return 'Not provided'
+  if (!application.location) {
+    return 'Not provided'
+  }
 
   return [
     application.location.city,

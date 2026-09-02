@@ -1,0 +1,53 @@
+@use '../../styles/variables' as v;
+
+.status {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 16px;
+  border: 1px solid v.$color-border;
+  border-radius: v.$border-radius-sm;
+  color: v.$color-text-muted;
+  background: v.$color-surface-warm;
+
+  &--pending {
+    border-color: v.$color-warning;
+    color: v.$color-warning;
+    background: v.$color-warning-soft;
+  }
+
+  &--verified {
+    border-color: v.$color-success;
+    color: v.$color-success;
+    background: v.$color-success-soft;
+  }
+
+  &--rejected {
+    border-color: v.$color-error;
+    color: v.$color-error;
+    background: v.$color-error-soft;
+  }
+
+  &__eyebrow {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  &__label {
+    color: currentColor;
+    font-size: 20px;
+  }
+
+  &__message,
+  &__reason {
+    font-size: 14px;
+  }
+
+  &__reason {
+    padding-top: 8px;
+    border-top: 1px solid currentColor;
+  }
+}
