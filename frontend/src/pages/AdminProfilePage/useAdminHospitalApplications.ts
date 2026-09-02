@@ -70,13 +70,19 @@ export const useAdminHospitalApplications = () => {
     let isCurrent = true
     fetchApplications()
       .then((response) => {
-        if (isCurrent && response) setApplications(response)
+        if (isCurrent && response) {
+          setApplications(response)
+        }
       })
       .catch((error) => {
-        if (isCurrent) setErrorMessage(getLoadErrorMessage(error))
+        if (isCurrent) {
+          setErrorMessage(getLoadErrorMessage(error))
+        }
       })
       .finally(() => {
-        if (isCurrent) setIsLoading(false)
+        if (isCurrent) {
+          setIsLoading(false)
+        }
       })
 
     return () => {
@@ -104,7 +110,9 @@ export const useAdminHospitalApplications = () => {
     action: ReviewAction,
     reason = '',
   ) => {
-    if (!accessToken || processingAction) return
+    if (!accessToken || processingAction) {
+      return false
+    }
 
     setActionError(null)
     setSuccessMessage('')
@@ -146,6 +154,7 @@ export const useAdminHospitalApplications = () => {
           ? 'The hospital application has been approved.'
           : 'The hospital application has been rejected.',
       )
+      return true
     } catch (error) {
       setActionError({
         hospitalId,
@@ -154,6 +163,7 @@ export const useAdminHospitalApplications = () => {
             ? error.message
             : 'We could not update the hospital application. Please try again.',
       })
+      return false
     } finally {
       setProcessingAction(null)
     }

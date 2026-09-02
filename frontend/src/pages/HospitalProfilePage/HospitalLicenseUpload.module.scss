@@ -78,17 +78,6 @@
     font-size: 14px;
   }
 
-  &__rejection {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding: 14px 16px;
-    border-radius: v.$border-radius-sm;
-    color: v.$color-error;
-    background: v.$color-surface-warm;
-    font-size: 14px;
-  }
-
   &__form {
     display: flex;
     flex-direction: column;

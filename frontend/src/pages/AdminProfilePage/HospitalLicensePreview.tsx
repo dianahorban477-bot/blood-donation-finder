@@ -26,7 +26,9 @@ export const HospitalLicensePreview = ({
   const displayName = hospitalName || 'hospital'
 
   useEffect(() => {
-    if (!hasLicenseDocument || !accessToken) return
+    if (!hasLicenseDocument || !accessToken) {
+      return
+    }
 
     const controller = new AbortController()
     let objectUrl = ''
@@ -55,13 +57,17 @@ export const HospitalLicensePreview = ({
         )
       })
       .finally(() => {
-        if (isCurrent) setIsLoading(false)
+        if (isCurrent) {
+          setIsLoading(false)
+        }
       })
 
     return () => {
       isCurrent = false
       controller.abort()
-      if (objectUrl) URL.revokeObjectURL(objectUrl)
+      if (objectUrl) {
+        URL.revokeObjectURL(objectUrl)
+      }
     }
   }, [accessToken, hasLicenseDocument, hospitalId])
 
