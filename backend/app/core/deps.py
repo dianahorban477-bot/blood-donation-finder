@@ -11,6 +11,7 @@ from app.models.hospital import Hospital
 from app.models.user import User
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
+oauth2_scheme_optional = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login", auto_error=False)
 
 
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)) -> User:
@@ -30,6 +31,17 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
     if not user.is_active:
         raise APIError(status.HTTP_403_FORBIDDEN, "ACCOUNT_INACTIVE", "This account has been deactivated.")
     return user
+
+
+def get_current_user_optional(
+    token: str | None = Depends(oauth2_scheme_optional), db: Session = Depends(get_db)
+) -> User | None:
+    if token is None:
+        return None
+    try:
+        return get_current_user(token, db)
+    except APIError:
+        return None
 
 
 def require_role(*roles: UserRole):

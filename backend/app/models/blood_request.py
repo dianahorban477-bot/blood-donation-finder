@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import DateTime, Enum as SAEnum, ForeignKey, Numeric, Text
+from sqlalchemy import DateTime, Enum as SAEnum, ForeignKey, Integer, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
 
@@ -20,7 +20,7 @@ class BloodRequest(Base):
     donation_type: Mapped[DonationType] = mapped_column(
         SAEnum(DonationType, name="donation_type"), nullable=False
     )
-    required_amount: Mapped[float] = mapped_column(Numeric(10, 2), nullable=False)
+    required_amount: Mapped[int] = mapped_column(Integer, nullable=False)
     location_id: Mapped[int] = mapped_column(ForeignKey("locations.id"), nullable=False)
     urgency: Mapped[UrgencyLevel] = mapped_column(SAEnum(UrgencyLevel, name="urgency_level"), nullable=False)
     additional_info: Mapped[str | None] = mapped_column(Text, nullable=True)
@@ -34,3 +34,7 @@ class BloodRequest(Base):
 
     hospital: Mapped["Hospital"] = relationship()
     location: Mapped["Location"] = relationship()
+
+    @property
+    def hospital_name(self) -> str | None:
+        return self.hospital.name

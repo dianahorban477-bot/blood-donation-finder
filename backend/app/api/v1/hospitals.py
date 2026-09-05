@@ -8,9 +8,11 @@ from app.core.deps import get_current_user, require_role
 from app.core.errors import APIError
 from app.crud.location import get_or_create_location
 from app.db.session import get_db
+from app.models.blood_request import BloodRequest
 from app.models.enums import OrganizationType, UserRole, VerificationStatus
 from app.models.hospital import Hospital
 from app.models.user import User
+from app.schemas.blood_request import BloodRequestRead
 from app.schemas.hospital import HospitalRead, HospitalUpdate, LicenseUploadResponse
 
 router = APIRouter(prefix="/hospitals", tags=["hospitals"])
@@ -67,6 +69,17 @@ def _serve_license_file(db: Session, hospital_id: int) -> FileResponse:
 @router.get("/me", response_model=HospitalRead)
 def get_my_hospital(user: User = Depends(require_role(UserRole.hospital)), db: Session = Depends(get_db)):
     return _get_hospital(db, user)
+
+
+@router.get("/me/requests", response_model=list[BloodRequestRead])
+def list_my_requests(user: User = Depends(require_role(UserRole.hospital)), db: Session = Depends(get_db)):
+    hospital = _get_hospital(db, user)
+    return (
+        db.query(BloodRequest)
+        .filter(BloodRequest.hospital_id == hospital.id)
+        .order_by(BloodRequest.created_at.desc())
+        .all()
+    )
 
 
 @router.patch("/me", response_model=HospitalRead)
