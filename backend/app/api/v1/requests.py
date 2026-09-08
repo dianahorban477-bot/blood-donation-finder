@@ -1,7 +1,11 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
-from app.core.deps import require_verified_hospital, require_verified_hospital_or_admin
+from app.core.deps import (
+    get_current_user_optional,
+    require_verified_hospital,
+    require_verified_hospital_or_admin,
+)
 from app.core.errors import APIError
 from app.crud.location import get_or_create_location
 from app.db.session import get_db
@@ -18,6 +22,11 @@ from app.schemas.blood_request import (
 
 router = APIRouter(prefix="/requests", tags=["requests"])
 
+ALLOWED_STATUS_TRANSITIONS = {
+    RequestStatus.completed: {RequestStatus.active},
+    RequestStatus.cancelled: {RequestStatus.active},
+}
+
 
 def _get_request(db: Session, request_id: int) -> BloodRequest:
     blood_request = db.get(BloodRequest, request_id)
@@ -26,12 +35,25 @@ def _get_request(db: Session, request_id: int) -> BloodRequest:
     return blood_request
 
 
-def _assert_owns_request(db: Session, user: User, blood_request: BloodRequest) -> None:
+def _owns_request(db: Session, user: User, blood_request: BloodRequest) -> bool:
     if user.role == UserRole.admin:
-        return
+        return True
     hospital = db.query(Hospital).filter(Hospital.user_id == user.id).first()
-    if hospital is None or hospital.id != blood_request.hospital_id:
+    return hospital is not None and hospital.id == blood_request.hospital_id
+
+
+def _assert_owns_request(db: Session, user: User, blood_request: BloodRequest) -> None:
+    if not _owns_request(db, user, blood_request):
         raise APIError(status.HTTP_403_FORBIDDEN, "FORBIDDEN", "Not enough permissions.")
+
+
+def _assert_active(blood_request: BloodRequest) -> None:
+    if blood_request.status != RequestStatus.active:
+        raise APIError(
+            status.HTTP_409_CONFLICT,
+            "REQUEST_NOT_ACTIVE",
+            "Only active requests can be edited.",
+        )
 
 
 @router.post("", response_model=BloodRequestRead, status_code=status.HTTP_201_CREATED)
@@ -60,7 +82,12 @@ def create_request(
 
 @router.get("", response_model=list[BloodRequestRead])
 def list_requests(db: Session = Depends(get_db)):
-    return db.query(BloodRequest).order_by(BloodRequest.created_at.desc()).all()
+    return (
+        db.query(BloodRequest)
+        .filter(BloodRequest.status == RequestStatus.active)
+        .order_by(BloodRequest.created_at.desc())
+        .all()
+    )
 
 
 @router.get("/search", response_model=list[BloodRequestRead])
@@ -72,7 +99,11 @@ def search_requests(
     country: str | None = None,
     db: Session = Depends(get_db),
 ):
-    query = db.query(BloodRequest).join(BloodRequest.location)
+    query = (
+        db.query(BloodRequest)
+        .join(BloodRequest.location)
+        .filter(BloodRequest.status == RequestStatus.active)
+    )
     if blood_type is not None:
         query = query.filter(BloodRequest.blood_type == blood_type)
     if donation_type is not None:
@@ -87,8 +118,20 @@ def search_requests(
 
 
 @router.get("/{request_id}", response_model=BloodRequestRead)
-def get_request(request_id: int, db: Session = Depends(get_db)):
-    return _get_request(db, request_id)
+def get_request(
+    request_id: int,
+    user: User | None = Depends(get_current_user_optional),
+    db: Session = Depends(get_db),
+):
+    blood_request = _get_request(db, request_id)
+    if blood_request.status != RequestStatus.active:
+        if user is None or not _owns_request(db, user, blood_request):
+            raise APIError(
+                status.HTTP_404_NOT_FOUND,
+                "NOT_FOUND",
+                "Request not found or no longer active.",
+            )
+    return blood_request
 
 
 @router.patch("/{request_id}", response_model=BloodRequestRead)
@@ -100,6 +143,7 @@ def update_request(
 ):
     blood_request = _get_request(db, request_id)
     _assert_owns_request(db, user, blood_request)
+    _assert_active(blood_request)
 
     if payload.blood_type is not None:
         blood_request.blood_type = payload.blood_type
@@ -129,6 +173,14 @@ def update_request_status(
 ):
     blood_request = _get_request(db, request_id)
     _assert_owns_request(db, user, blood_request)
+
+    allowed_from = ALLOWED_STATUS_TRANSITIONS.get(payload.status)
+    if allowed_from is None or blood_request.status not in allowed_from:
+        raise APIError(
+            status.HTTP_409_CONFLICT,
+            "INVALID_STATUS_TRANSITION",
+            f"Cannot transition from {blood_request.status.value} to {payload.status.value}.",
+        )
 
     blood_request.status = payload.status
     db.commit()
