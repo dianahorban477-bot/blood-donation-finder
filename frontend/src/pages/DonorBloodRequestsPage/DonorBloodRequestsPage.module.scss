@@ -1,0 +1,128 @@
+@use '../../styles/variables' as v;
+
+.page {
+  &__search {
+    display: grid;
+    gap: 18px;
+    padding: 15px;
+    border: 1px solid v.$color-border;
+    border-radius: v.$border-radius-md;
+    background: v.$color-surface;
+  }
+
+  &__fields {
+    display: grid;
+    gap: 14px;
+
+    @media (min-width: v.$tablet-min-width) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  &__field {
+    display: grid;
+    min-width: 0;
+    gap: 7px;
+    color: v.$color-text-muted;
+    font-size: 14px;
+    font-weight: 700;
+
+    input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid v.$color-border;
+      color: v.$color-text;
+      background: v.$color-surface;
+
+      &:hover {
+        border-color: v.$color-input-border-hover;
+      }
+
+      &:focus-visible {
+        outline: 1px solid v.$color-focus;
+      }
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  &__submit,
+  &__clear {
+    flex: 1 1 120px;
+    padding: 10px;
+    width: 75px;
+    border: 1px solid v.$color-primary;
+    border-radius: v.$border-radius-sm;
+    font-weight:700;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 3px solid v.$color-focus;
+    }
+
+    @media (min-width: v.$tablet-min-width) {
+      flex: 0 0 auto;
+    }
+  }
+
+  &__submit {
+    color: v.$color-on-primary;
+    background: v.$color-primary;
+
+    &:hover {
+      background: v.$color-primary-hover;
+    }
+  }
+
+  &__clear {
+    color: v.$color-primary;
+    background: v.$color-surface;
+
+    &:hover {
+      color: v.$color-on-primary;
+      background: v.$color-primary;
+    }
+  }
+
+  &__list {
+    display: grid;
+    gap: 16px;
+  }
+
+  &__empty {
+    padding: 32px 20px;
+    border: 1px dashed v.$color-border;
+    border-radius: v.$border-radius-md;
+    background: v.$color-surface;
+    text-align: center;
+
+    p {
+      margin-top: 8px;
+      color: v.$color-text-muted;
+    }
+  }
+
+  &__back {
+    display: inline-flex;
+    min-height: 46px;
+    align-items: center;
+    justify-content: center;
+    justify-self: start;
+    padding: 10px 18px;
+    border: 1px solid v.$color-primary;
+    border-radius: v.$border-radius-sm;
+    color: v.$color-primary;
+    background: v.$color-surface;
+    font-weight: 700;
+    text-decoration: none;
+
+    &:hover {
+      color: v.$color-on-primary;
+      background: v.$color-primary;
+    }
+  }
+}

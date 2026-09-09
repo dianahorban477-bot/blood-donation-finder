@@ -1,0 +1,149 @@
+@use '../../styles/variables' as v;
+@use '../../styles/mixins';
+
+
+.intro {
+  &__inner {
+    padding-block: 48px;
+    border-radius: 0 0 v.$border-radius-lg v.$border-radius-lg;
+    background: v.$color-hero;
+  }
+
+  &__title,
+  &__description,
+  &__contact {
+    max-width: 760px;
+    margin-inline: auto;
+  }
+
+  &__eyebrow {
+    margin-bottom: 12px;
+    color: v.$color-primary;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    font-size: 30px;
+    line-height: 1;
+    text-align: center;
+
+    @media (min-width: v.$tablet-min-width) {
+      font-size: 40px;
+    }
+  }
+
+  &__description {
+    margin-top: 20px;
+    color: v.$color-text-muted;
+    font-size: 14px;
+    text-align: center;
+
+    @media (min-width: v.$tablet-min-width) {
+      font-size: 16px;
+    }
+  }
+}
+
+.team {
+  padding-block: 0 80px;
+
+  &__inner {
+    @include mixins.content-container;
+  }
+
+  &__grid {
+    display: grid;
+    gap: 16px;
+    margin-top: 20px;
+
+    @media (min-width: v.$tablet-min-width) {
+      gap: 20px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media (min-width: v.$laptop-min-width) {
+      margin-top: 56px;
+    }
+  }
+}
+
+.card {
+  display: flex;
+  min-height: 310px;
+  flex-direction: column;
+  padding: 20px;
+  border: 1px solid v.$color-border;
+  border-radius: v.$border-radius-md;
+  background: v.$color-surface;
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease;
+
+  &:hover {
+    border-color: v.$color-primary;
+  }
+
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__name {
+    font-size: 24px;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  &__role {
+    margin-top: 4px;
+    color: v.$color-primary;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  &__contribution {
+    margin-top: 16px;
+    color: v.$color-text-muted;
+  }
+
+  &__tools {
+    display: grid;
+    gap: 4px;
+    margin: 10px 0 0;
+    padding-left: 18px;
+    list-style: disc;
+
+    li {
+      color: v.$color-primary;
+      font-size: 11px;
+      font-weight: 700;
+    }
+  }
+
+  &__link {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    gap: 6px;
+    margin-top: auto;
+    color: v.$color-text;
+    font-weight: 700;
+    text-decoration: none;
+
+    &:hover {
+      color: v.$color-primary;
+    }
+
+    span {
+      color: v.$color-primary;
+    }
+
+    @media (min-width: v.$tablet-min-width) {
+      padding-top: 20px;
+    }
+  }
+}

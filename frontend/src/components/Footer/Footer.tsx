@@ -15,7 +15,7 @@ export const Footer = () => {
         </div>
         <nav className={styles.footer__links} aria-label="Footer navigation">
           <Link to="/privacy-policy">Privacy Policy</Link>
-          <a href="#contact">Contact</a>
+          <Link to="/contact-team">Contact & Team</Link>
         </nav>
         <p className={styles.footer__year}>
           © {currentYear} Blood Donation Finder

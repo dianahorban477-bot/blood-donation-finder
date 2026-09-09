@@ -64,6 +64,12 @@ export type BloodType =
   | 'O+'
   | 'O-'
 
+export type DonationType = 'blood' | 'plasma'
+
+export type UrgencyLevel = 'low' | 'medium' | 'high' | 'critical'
+
+export type BloodRequestStatus = 'active' | 'completed' | 'cancelled'
+
 export type HospitalOrganizationType =
   | 'hospital'
   | 'clinic'
@@ -79,6 +85,39 @@ type LocationRequest = {
 
 type LocationResponse = LocationRequest & {
   id: number
+}
+
+export type BloodRequestCreateRequest = {
+  blood_type: BloodType
+  donation_type: DonationType
+  required_amount: number
+  location: LocationRequest
+  urgency: UrgencyLevel
+  additional_info: string | null
+}
+
+export type BloodRequestUpdateRequest = BloodRequestCreateRequest
+
+export type BloodRequestFinalStatus = Extract<
+  BloodRequestStatus,
+  'completed' | 'cancelled'
+>
+
+export type BloodRequestStatusUpdateRequest = {
+  status: BloodRequestFinalStatus
+}
+
+export type BloodRequestResponse = {
+  id: number
+  hospital_id: number
+  hospital_name: string | null
+  blood_type: BloodType
+  donation_type: DonationType
+  required_amount: number
+  location: LocationResponse
+  urgency: UrgencyLevel
+  additional_info: string | null
+  status: BloodRequestStatus
 }
 
 export type DonorProfileResponse = {
@@ -136,19 +175,7 @@ export type HospitalProfileUpdateRequest = {
   location: LocationRequest
 }
 
-export type HospitalApplicationSummary = {
-  id: number
-  name: string | null
-  organization_type: HospitalOrganizationType | null
-  organization_type_other: string | null
-  address: string | null
-  representative_name: string | null
-  contact_info: HospitalContactInfoResponse
-  location: LocationResponse | null
-  verification_status: HospitalVerificationStatus
-  license_document_url: string | null
-  rejection_reason: string | null
-}
+export type HospitalApplicationSummary = HospitalProfileResponse
 
 export type LicenseUploadResponse = {
   license_document_url: string

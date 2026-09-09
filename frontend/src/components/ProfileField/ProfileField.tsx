@@ -21,11 +21,14 @@ type ProfileFieldProps = CommonProps & {
   disabled?: boolean
   hint?: string
   inputMode?: InputHTMLAttributes<HTMLInputElement>['inputMode']
+  max?: number
+  min?: number
   onBlur: FocusEventHandler<HTMLInputElement>
   onChange: ChangeEventHandler<HTMLInputElement>
   placeholder?: string
   required?: boolean
-  type?: 'date' | 'email' | 'tel' | 'text'
+  step?: number
+  type?: 'date' | 'email' | 'number' | 'tel' | 'text'
 }
 
 type ProfileSelectFieldProps = CommonProps & {
@@ -48,11 +51,14 @@ export const ProfileField = ({
   id,
   inputMode,
   label,
+  max,
+  min,
   name,
   onBlur,
   onChange,
   placeholder,
   required = true,
+  step,
   type = 'text',
   value,
 }: ProfileFieldProps) => (
@@ -75,11 +81,14 @@ export const ProfileField = ({
       disabled={disabled}
       id={id}
       inputMode={inputMode}
+      max={max}
+      min={min}
       name={name}
       onBlur={onBlur}
       onChange={onChange}
       placeholder={placeholder}
       required={required}
+      step={step}
       type={type}
       value={value}
     />

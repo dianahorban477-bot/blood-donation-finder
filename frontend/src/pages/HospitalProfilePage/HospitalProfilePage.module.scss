@@ -4,38 +4,13 @@
 .profile {
   @include mixins.content-container;
 
-  display: grid;
-  gap: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   padding-block: 30px;
 
   @media (min-width: v.$tablet-min-width) {
-    gap: 48px;
     padding-block: 64px;
-  }
-
-  @media (min-width: v.$laptop-min-width) {
-    grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.2fr);
-  }
-
-  &--editing {
-    @media (min-width: v.$laptop-min-width) {
-      .profile__card {
-        grid-row: 1 / span 3;
-      }
-
-      .profile__upload {
-        align-self: end;
-      }
-
-      .profile__requests {
-        grid-column: 1;
-        grid-row: 3;
-      }
-
-      .profile__actions {
-        grid-row: 4;
-      }
-    }
   }
 
   &__eyebrow {
@@ -60,13 +35,13 @@
     }
   }
 
-  &__description {
-    margin-top: 20px;
-    color: v.$color-text-muted;
-    font-size: 14px;
+  &__cards {
+    display: grid;
+    align-items: start;
+    gap: 32px;
 
-    @media (min-width: v.$tablet-min-width) {
-      font-size: 18px;
+    @media (min-width: v.$laptop-min-width) {
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 1fr);
     }
   }
 
@@ -82,16 +57,6 @@
     @media (min-width: v.$tablet-min-width) {
       padding: 32px;
     }
-
-    @media (min-width: v.$laptop-min-width) {
-      grid-column: 2;
-      grid-row: 1;
-    }
-  }
-
-  &__cardTitle {
-    margin-bottom: 16px;
-    font-size: 21px;
   }
 
   &__message {
@@ -106,27 +71,6 @@
 
     @media (min-width: v.$tablet-min-width) {
       flex-direction: row;
-    }
-
-    @media (min-width: v.$laptop-min-width) {
-      grid-column: 1 / -1;
-      grid-row: 3;
-    }
-  }
-
-  &__upload {
-    @media (min-width: v.$laptop-min-width) {
-      grid-column: 1;
-      grid-row: 2;
-      align-self: start;
-    }
-  }
-
-  &__requests {
-    @media (min-width: v.$laptop-min-width) {
-      grid-column: 2;
-      grid-row: 2;
-      align-self: stretch;
     }
   }
 

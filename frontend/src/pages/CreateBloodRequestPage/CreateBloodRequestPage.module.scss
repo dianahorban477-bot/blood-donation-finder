@@ -1,0 +1,58 @@
+@use '../../styles/variables' as v;
+@use '../../styles/mixins';
+
+.page {
+  @include mixins.content-container(860px);
+
+  display: grid;
+  gap: 28px;
+  padding-block: 30px;
+
+  @media (min-width: v.$tablet-min-width) {
+    gap: 36px;
+    padding-block: 64px;
+  }
+
+  &__heading {
+    max-width: 700px;
+  }
+
+  &__eyebrow {
+    margin-bottom: 10px;
+    color: v.$color-primary;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  &__description {
+    margin-top: 16px;
+    color: v.$color-text-muted;
+    font-size: 16px;
+  }
+
+  &__card {
+    padding: 20px;
+    border: 1px solid v.$color-border;
+    border-radius: v.$border-radius-lg;
+    background: v.$color-surface;
+    box-shadow: v.$shadow-card;
+
+    @media (min-width: v.$tablet-min-width) {
+      padding: 32px;
+    }
+  }
+
+  &__navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  &__back {
+    color: v.$color-primary;
+    font-weight: 700;
+  }
+}

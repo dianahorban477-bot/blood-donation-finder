@@ -68,6 +68,9 @@ Open the local URL shown by Vite, usually `http://localhost:5173`.
 - `/profile` - Role-based profile redirect
 - `/donor/profile` - Donor profile form
 - `/hospital/profile` - Hospital profile and verification document
+- `/hospital/requests` - Hospital blood requests (verified hospitals only)
+- `/hospital/requests/new` - Create a blood request (verified hospitals only)
+- `/hospital/requests/:requestId` - Created blood request details
 - `/admin/profile` - Administration and hospital applications
 - `/access-denied` - Unauthorized role fallback
 - `/privacy-policy` - Privacy Policy
@@ -103,8 +106,11 @@ The current frontend scope includes:
 - international phone-number validation;
 - hospital verification status display;
 - hospital license selection, validation, and upload UI;
+- verified-hospital blood-request creation with client-side validation;
+- hospital request preview and Active/Closed request lists;
+- hospital request editing, completion, and cancellation controls;
+- successful request confirmation and request details display;
 - logout from donor and hospital profiles;
-- placeholders for future donor and hospital blood-request functionality.
 
 The admin hospital-application tabs load pending, approved, and rejected
 hospitals and support the currently available hospital details, license preview

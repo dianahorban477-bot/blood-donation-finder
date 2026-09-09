@@ -3,6 +3,7 @@ import { useRef, useState } from 'react'
 import { Link, NavLink } from 'react-router'
 import { useAppSelector } from '../../app/hooks'
 import logo from '../../assets/Logo.webp'
+import { donorRequestPaths, hospitalRequestPaths } from '../../routes/paths'
 import { BurgerIcon } from '../IconsSVG/BurgerIcon'
 import { ProfileIcon } from '../IconsSVG/ProfileIcon'
 import { MobileMenu } from '../MobileMenu/MobileMenu'
@@ -21,6 +22,8 @@ export const Header = () => {
     (state) => state.auth,
   )
   const isAuthenticated = status === 'authenticated' && Boolean(user)
+  const canManageBloodRequests = isAuthenticated && user?.role === 'hospital' && user.verificationStatus === 'verified'
+  const canBrowseBloodRequests = isAuthenticated && user?.role === 'donor'
 
   function handleOpenMenu() {
     setIsMenuOpen(true)
@@ -62,6 +65,30 @@ export const Header = () => {
           <Link className={styles.header__link} to="/#donor-info">
             Donor info
           </Link>
+          {canManageBloodRequests && (
+            <NavLink
+              className={({ isActive }) =>
+                cn(styles.header__link, {
+                  [styles['header__link--active']]: isActive,
+                })
+              }
+              to={hospitalRequestPaths.list}
+            >
+              My requests
+            </NavLink>
+          )}
+          {canBrowseBloodRequests && (
+            <NavLink
+              className={({ isActive }) =>
+                cn(styles.header__link, {
+                  [styles['header__link--active']]: isActive,
+                })
+              }
+              to={donorRequestPaths.list}
+            >
+              Blood requests
+            </NavLink>
+          )}
           {isAuthenticated ? (
             <Link
               className={styles.header__profile}

@@ -1,0 +1,182 @@
+@use '../../styles/variables' as v;
+@use '../../styles/mixins';
+
+.details {
+  @include mixins.content-container;
+
+  display: grid;
+  gap: 28px;
+  padding-block: 30px;
+
+  @media (min-width: v.$tablet-min-width) {
+    gap: 36px;
+    padding-block: 64px;
+  }
+
+  &__eyebrow {
+    margin-bottom: 10px;
+    color: v.$color-primary;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    font-size: 30px;
+    line-height: 1;
+
+    @media (min-width: v.$tablet-min-width) {
+      font-size: 42px;
+    }
+  }
+
+  &__layout {
+    display: grid;
+    align-items: start;
+    gap: 20px;
+
+    @media (min-width: v.$laptop-min-width) {
+      grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+      align-items: stretch;
+    }
+  }
+
+  &__card {
+    @media (min-width: v.$laptop-min-width) {
+      padding: 24px;
+    }
+  }
+
+  &__card,
+  &__actionCard {
+    min-width: 0;
+    padding: 20px;
+    border: 1px solid v.$color-border;
+    border-radius: v.$border-radius-lg;
+    background: v.$color-surface;
+    box-shadow: v.$shadow-card;
+  }
+
+  &__cardHeading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 24px;
+  }
+
+  &__status {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 12px;
+    border-radius: v.$border-radius-sm;
+    font-size: 13px;
+    font-weight: 700;
+
+    &::before {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      content: '';
+    }
+
+    &--active,
+    &--completed {
+      color: v.$color-success;
+      background: v.$color-success-soft;
+    }
+
+    &--cancelled {
+      color: v.$color-error;
+      background: v.$color-error-soft;
+    }
+  }
+
+  &__actionCard {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__actionTitle {
+    font-size: 20px;
+  }
+
+  &__management {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__edit {
+    display: inline-flex;
+    width: 100%;
+    min-height: 46px;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1px solid v.$color-primary;
+    border-radius: v.$border-radius-sm;
+    color: v.$color-on-primary;
+    background: v.$color-primary;
+    font-weight: 700;
+    cursor: pointer;
+
+    &:hover {
+      background: v.$color-primary-hover;
+    }
+  }
+
+  &__actionNote {
+    color: v.$color-text-muted;
+    font-size: 14px;
+  }
+
+  &__moreTitle {
+    margin-bottom: 10px;
+    color: v.$color-text-muted;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  &__navigation {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__plusIcon {
+    transform: rotate(45deg);
+  }
+
+  &__actionLink,
+  &__fallbackLink {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1px solid v.$color-primary;
+    border-radius: v.$border-radius-sm;
+    color: v.$color-primary;
+    background: v.$color-surface;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+
+    &:hover {
+      color: v.$color-on-primary;
+      background: v.$color-primary;
+    }
+  }
+
+  &__fallbackLink {
+    justify-self: start;
+  }
+}

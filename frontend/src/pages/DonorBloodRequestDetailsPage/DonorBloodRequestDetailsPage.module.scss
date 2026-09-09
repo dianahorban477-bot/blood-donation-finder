@@ -1,0 +1,102 @@
+@use '../../styles/variables' as v;
+@use '../../styles/mixins';
+
+.details {
+  @include mixins.content-container(900px);
+
+  display: grid;
+  gap: 28px;
+  padding-block: 30px;
+
+  @media (min-width: v.$tablet-min-width) {
+    gap: 36px;
+    padding-block: 64px;
+  }
+
+  &__eyebrow {
+    margin-bottom: 10px;
+    color: v.$color-primary;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    font-size: 30px;
+    line-height: 1.1;
+
+    @media (min-width: v.$tablet-min-width) {
+      font-size: 42px;
+    }
+  }
+
+  &__card {
+    min-width: 0;
+    padding: 20px;
+    border: 1px solid v.$color-border;
+    border-radius: v.$border-radius-lg;
+    background: v.$color-surface;
+    box-shadow: v.$shadow-card;
+  }
+
+  &__cardHeading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  &__bloodType {
+    color: v.$color-primary;
+    font-size: 26px;
+    line-height: 1;
+    @media (min-width: v.$tablet-min-width) {
+      font-size: 36px;
+    }
+  }
+
+  &__status {
+    padding: 6px 12px;
+    border-radius: 999px;
+    color: v.$color-success;
+    background: v.$color-success-soft;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  &__back {
+    display: inline-flex;
+    min-height: 46px;
+    align-items: center;
+    justify-content: center;
+    justify-self: start;
+    padding: 10px 18px;
+    border: 1px solid v.$color-primary;
+    border-radius: v.$border-radius-sm;
+    color: v.$color-primary;
+    background: v.$color-surface;
+    font-weight: 700;
+    text-decoration: none;
+
+    &:hover {
+      color: v.$color-on-primary;
+      background: v.$color-primary;
+    }
+  }
+
+  &__notice {
+    display: grid;
+    justify-items: start;
+    gap: 24px;
+    padding: 28px 20px;
+    border: 1px solid v.$color-border;
+    border-radius: v.$border-radius-lg;
+    background: v.$color-surface;
+
+    h1 {
+      font-size: 26px;
+    }
+  }
+}

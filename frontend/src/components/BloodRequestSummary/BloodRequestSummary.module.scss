@@ -1,0 +1,96 @@
+@use '../../styles/variables' as v;
+
+.summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  min-width: 0;
+  gap: 16px;
+  padding: 14px 16px;
+  border: 1px solid v.$color-border;
+  border-radius: v.$border-radius-md;
+  color: v.$color-text;
+  background: v.$color-surface;
+  text-decoration: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    border-color: v.$color-primary;
+  }
+
+  &__heading {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  &__title {
+    overflow-wrap: anywhere;
+    font-size: 16px;
+  }
+
+  &__status {
+    flex: 0 0 auto;
+    padding: 4px 8px;
+    border-radius: v.$border-radius-sm;
+    font-size: 10px;
+    font-weight: 700;
+
+    &--active,
+    &--completed {
+      color: v.$color-success;
+      background: v.$color-success-soft;
+    }
+
+    &--cancelled {
+      color: v.$color-error;
+      background: v.$color-error-soft;
+    }
+  }
+
+  &__overview {
+    display: grid;
+    grid-template-columns: 40px 54px minmax(0, 1fr);
+    align-items: center;
+    color: v.$color-text-muted;
+    font-size: 13px;
+  }
+
+  &__details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    color: v.$color-text-muted;
+    font-size: 13px;
+
+    span {
+      overflow-wrap: anywhere;
+    }
+  }
+
+  &__amount {
+    padding-left: 10px;
+    border-left: 1px solid v.$color-border;
+  }
+
+  &__side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  &__bloodType {
+    color: v.$color-primary;
+    font-size: 16px;
+  }
+
+  &__action {
+    color: v.$color-primary;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+}

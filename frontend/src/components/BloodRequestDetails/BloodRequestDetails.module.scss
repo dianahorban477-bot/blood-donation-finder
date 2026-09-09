@@ -1,0 +1,43 @@
+@use '../../styles/variables' as v;
+
+.details {
+  display: grid;
+  min-width: 0;
+  margin-top: 12px;
+
+  @media (min-width: v.$tablet-min-width) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  &__item {
+    min-width: 0;
+    padding-block: 10px;
+    border-top: 1px solid v.$color-border;
+    overflow-wrap: anywhere;
+
+    @media (min-width: v.$tablet-min-width) {
+      padding-block: 30px;
+      padding-inline: 23px;
+
+      &:nth-child(2n + 1):not(&--fullWidth) {
+        padding-left: 0;
+        border-right: 1px solid v.$color-border;
+      }
+
+      &:nth-child(2n):not(&--fullWidth) {
+        padding-right: 0;
+      }
+    }
+
+    &--critical dd {
+      color: v.$color-error;
+    }
+  }
+
+  &__item--fullWidth {
+    @media (min-width: v.$tablet-min-width) {
+      grid-column: 1 / -1;
+      padding-inline: 0;
+    }
+  }
+}
