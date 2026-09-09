@@ -2,30 +2,24 @@
 @use '../../styles/mixins';
 
 .profile {
-  @include mixins.content-container(1056px);
+  @include mixins.content-container;
 
-  display: grid;
-  gap: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   padding-block: 30px;
 
   @media (min-width: v.$tablet-min-width) {
-    gap: 48px;
     padding-block: 64px;
   }
 
-  @media (min-width: v.$laptop-min-width) {
-    grid-template-columns: minmax(0, 1fr) minmax(304px, 560px);
-  }
-
-  &__sidebar {
-    display: flex;
-    flex-direction: column;
+  &__cards {
+    display: grid;
+    align-items: start;
     gap: 32px;
-  }
 
-  &__intro {
     @media (min-width: v.$laptop-min-width) {
-      padding-top: 24px;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 1fr);
     }
   }
 
@@ -55,10 +49,6 @@
     margin-top: 20px;
     color: v.$color-text-muted;
     font-size: 14px;
-
-    @media (min-width: v.$tablet-min-width) {
-      font-size: 18px;
-    }
   }
 
   &__card {
@@ -83,21 +73,37 @@
 
   &__actions {
     display: flex;
+    flex-direction: column;
     justify-content: flex-end;
-    margin-top: 24px;
-    padding-top: 20px;
-    border-top: 1px solid v.$color-border;
+    gap: 12px;
+
+    @media (min-width: v.$tablet-min-width) {
+      flex-direction: row;
+    }
+  }
+
+  &__edit,
+  &__logout {
+    min-height: 48px;
+    padding: 11px 24px;
+    border: 1px solid v.$color-primary;
+    border-radius: v.$border-radius-sm;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  &__edit {
+    color: v.$color-on-primary;
+    background: v.$color-primary;
+
+    &:hover {
+      background: v.$color-primary-hover;
+    }
   }
 
   &__logout {
-    min-height: 44px;
-    padding: 10px 20px;
-    border: 1px solid v.$color-primary;
-    border-radius: v.$border-radius-sm;
     color: v.$color-primary;
     background: v.$color-surface;
-    font-weight: 700;
-    cursor: pointer;
 
     &:hover:not(:disabled) {
       color: v.$color-on-primary;
@@ -106,7 +112,7 @@
 
     &:disabled {
       cursor: not-allowed;
-      opacity: 0.62;
+      opacity: 0.5;
     }
   }
 }

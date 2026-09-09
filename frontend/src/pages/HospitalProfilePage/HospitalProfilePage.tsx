@@ -1,4 +1,3 @@
-import cn from 'classnames'
 import { FeedbackMessage } from '../../components/FeedbackMessage/FeedbackMessage'
 import { LoadingIndicator } from '../../components/LoadingIndicator/LoadingIndicator'
 import { HospitalBloodRequests } from './HospitalBloodRequests'
@@ -42,25 +41,23 @@ export const HospitalProfilePage = () => {
 
   return (
     <section
-      className={cn(styles.profile, {
-        [styles['profile--editing']]: isEditing,
-      })}
+      className={styles.profile}
       aria-labelledby='hospital-profile-title'
     >
-        <div>
-          <p className={styles.profile__eyebrow}>Hospital profile</p>
-          <h1 className={styles.profile__title} id='hospital-profile-title'>
-            {isEditing
-              ? 'Complete your hospital profile'
-              : 'Your hospital profile'}
-          </h1>
-          <p className={styles.profile__description}>
-            Add accurate organization information for verification and future
-            blood request management.
-          </p>
-        </div>
+      <div>
+        <p className={styles.profile__eyebrow}>Hospital profile</p>
+        <h1 className={styles.profile__title} id='hospital-profile-title'>
+          {isEditing
+            ? 'Complete your hospital profile'
+            : 'Your hospital profile'}
+        </h1>
+      </div>
 
-        <div className={styles.profile__card}>
+      <div className={styles.profile__cards}>
+        <div
+          className={styles.profile__card}
+          aria-label='General hospital information'
+        >
           {routeMessage && (
             <div className={styles.profile__message}>
               <FeedbackMessage message={routeMessage} type='success' />
@@ -71,12 +68,6 @@ export const HospitalProfilePage = () => {
             <div className={styles.profile__message}>
               <FeedbackMessage message={successMessage} type='success' />
             </div>
-          )}
-
-          {!isEditing && (
-            <h2 className={styles.profile__cardTitle}>
-              General hospital information
-            </h2>
           )}
 
           <HospitalVerificationStatus
@@ -101,38 +92,38 @@ export const HospitalProfilePage = () => {
           )}
         </div>
 
-        <HospitalLicenseUpload
-          accessToken={accessToken}
-          className={styles.profile__upload}
-          isProfileEditing={isEditing}
-          licenseDocumentUrl={licenseDocumentUrl}
-          onUploadSuccess={handleLicenseUploadSuccess}
-        />
-
         <HospitalBloodRequests
-          className={styles.profile__requests}
+          accessToken={accessToken}
           verificationStatus={verificationStatus}
         />
+      </div>
 
-        <div className={styles.profile__actions}>
-          {!isEditing && (
-            <button
-              className={styles.profile__edit}
-              onClick={handleEdit}
-              type='button'
-            >
-              Edit profile
-            </button>
-          )}
+      <HospitalLicenseUpload
+        accessToken={accessToken}
+        isProfileEditing={isEditing}
+        licenseDocumentUrl={licenseDocumentUrl}
+        onUploadSuccess={handleLicenseUploadSuccess}
+      />
+
+      <div className={styles.profile__actions}>
+        {!isEditing && (
           <button
-            className={styles.profile__logout}
-            disabled={isLoggingOut}
-            onClick={handleLogout}
+            className={styles.profile__edit}
+            onClick={handleEdit}
             type='button'
           >
-            {isLoggingOut ? 'Signing out...' : 'Sign out'}
+            Edit profile
           </button>
-        </div>
+        )}
+        <button
+          className={styles.profile__logout}
+          disabled={isLoggingOut}
+          onClick={handleLogout}
+          type='button'
+        >
+          {isLoggingOut ? 'Signing out...' : 'Sign out'}
+        </button>
+      </div>
     </section>
   )
 }

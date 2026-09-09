@@ -1,0 +1,85 @@
+@use '../../styles/variables' as v;
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+
+  @media (min-width: v.$tablet-min-width) {
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  &__pages {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    @media (min-width: v.$tablet-min-width) {
+      gap: 8px;
+    }
+  }
+
+  &__button,
+  &__ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+
+    @media (min-width: v.$tablet-min-width) {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  &__button {
+    padding: 0;
+    border: 1px solid v.$color-border;
+    border-radius: v.$border-radius-sm;
+    color: v.$color-text;
+    background: v.$color-surface;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    cursor: pointer;
+
+    &:not(:disabled):hover {
+      border-color: v.$color-primary;
+      color: v.$color-primary;
+    }
+
+    &:focus-visible {
+      outline: 3px solid v.$color-focus;
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      color: v.$color-text-muted;
+      background: v.$color-background;
+      cursor: default;
+      opacity: 0.5;
+    }
+
+    &--active {
+      border-color: v.$color-primary;
+      color: v.$color-on-primary;
+      background: v.$color-primary;
+      cursor: default;
+
+      &:hover {
+        color: v.$color-on-primary;
+      }
+    }
+  }
+
+  &__ellipsis {
+    width: 20px;
+    color: v.$color-text-muted;
+    font-size: 14px;
+    font-weight: 700;
+  }
+}

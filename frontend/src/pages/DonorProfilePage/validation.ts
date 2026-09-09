@@ -1,4 +1,4 @@
-import type { BloodType, DonorProfileResponse } from '../../types/api'
+import type { DonorProfileResponse } from '../../types/api'
 import {
   isValidInternationalPhoneNumber,
   validateProfileLocation,
@@ -7,17 +7,6 @@ import type {
   DonorProfileFormErrors,
   DonorProfileFormValues,
 } from './types'
-
-export const bloodTypes: BloodType[] = [
-  'A+',
-  'A-',
-  'B+',
-  'B-',
-  'AB+',
-  'AB-',
-  'O+',
-  'O-',
-]
 
 export const initialDonorProfileValues: DonorProfileFormValues = {
   fullName: '',

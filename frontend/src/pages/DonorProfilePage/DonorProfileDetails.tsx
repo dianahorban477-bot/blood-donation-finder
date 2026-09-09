@@ -9,13 +9,11 @@ import type { DonorProfileFormValues } from './types'
 import styles from './DonorProfileDetails.module.scss'
 
 type Props = {
-  onEdit: () => void
   values: DonorProfileFormValues
 }
 
-export const DonorProfileDetails = ({ onEdit, values }: Props) => (
-  <div className={styles.details}>
-    <dl className={styles.details__list}>
+export const DonorProfileDetails = ({ values }: Props) => (
+  <dl className={styles.details}>
       <ProfileDetail
         icon={<ProfileIcon />}
         isSeparated
@@ -56,9 +54,5 @@ export const DonorProfileDetails = ({ onEdit, values }: Props) => (
         label='Phone number'
         value={values.phoneNumber || 'Not provided'}
       />
-    </dl>
-    <button className={styles.details__edit} onClick={onEdit} type='button'>
-      Edit profile
-    </button>
-  </div>
+  </dl>
 )

@@ -6,9 +6,13 @@ import styles from './ProtectedRoute.module.scss'
 
 type Props = {
   allowedRoles?: UserRole[]
+  requireVerifiedHospital?: boolean
 }
 
-export const ProtectedRoute = ({ allowedRoles }: Props) => {
+export const ProtectedRoute = ({
+  allowedRoles,
+  requireVerifiedHospital = false,
+}: Props) => {
   const location = useLocation()
   const { status, user } = useAppSelector((state) => state.auth)
 
@@ -46,6 +50,19 @@ export const ProtectedRoute = ({ allowedRoles }: Props) => {
         to='/access-denied'
         replace
         state={{ reason: 'role' }}
+      />
+    )
+  }
+
+  if (
+    requireVerifiedHospital &&
+    (user.role !== 'hospital' || user.verificationStatus !== 'verified')
+  ) {
+    return (
+      <Navigate
+        to='/access-denied'
+        replace
+        state={{ reason: 'verification' }}
       />
     )
   }

@@ -3,7 +3,7 @@ import { useAppSelector } from '../../app/hooks'
 import styles from './AccessDeniedPage.module.scss'
 
 type LocationState = {
-  reason?: 'inactive' | 'role' | 'unavailable'
+  reason?: 'inactive' | 'role' | 'unavailable' | 'verification'
 }
 
 export const AccessDeniedPage = () => {
@@ -12,6 +12,7 @@ export const AccessDeniedPage = () => {
   const locationState = state as LocationState | null
   const isInactive = locationState?.reason === 'inactive'
   const isUnavailable = locationState?.reason === 'unavailable'
+  const requiresVerification = locationState?.reason === 'verification'
 
   return (
     <section className={styles.denied} aria-labelledby='access-denied-title'>
@@ -24,7 +25,9 @@ export const AccessDeniedPage = () => {
             ? 'This account is not active. Please contact platform support if you believe this is an error.'
             : isUnavailable
               ? 'This profile area is not available yet.'
-              : 'Your account does not have permission to open this page.'}
+              : requiresVerification
+                ? 'Only verified hospitals can create blood requests.'
+                : 'Your account does not have permission to open this page.'}
         </p>
 
         <div className={styles.denied__actions}>

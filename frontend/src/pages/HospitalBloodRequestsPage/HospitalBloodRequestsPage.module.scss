@@ -1,0 +1,82 @@
+@use '../../styles/variables' as v;
+
+.page {
+  &__create,
+  &__back {
+    display: inline-flex;
+    min-height: 46px;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 18px;
+    border: 1px solid v.$color-primary;
+    border-radius: v.$border-radius-sm;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  &__create {
+    flex: 0 0 auto;
+    color: v.$color-on-primary;
+    background: v.$color-primary;
+
+    &:hover {
+      background: v.$color-primary-hover;
+    }
+  }
+
+  &__filters {
+    display: flex;
+    gap: 8px;
+    padding: 6px;
+    border: 1px solid v.$color-border;
+    border-radius: v.$border-radius-md;
+    background: v.$color-surface;
+  }
+
+  &__filter {
+    flex: 1;
+    min-height: 42px;
+    padding: 8px 18px;
+    border: 1px solid transparent;
+    border-radius: v.$border-radius-sm;
+    color: v.$color-text;
+    background: transparent;
+    font-weight: 700;
+    cursor: pointer;
+
+    &[aria-pressed='true'] {
+      color: v.$color-on-primary;
+      background: v.$color-primary;
+    }
+
+    &:hover:not([aria-pressed='true']) {
+      color: v.$color-primary;
+      background: v.$color-primary-soft;
+    }
+  }
+
+  &__list {
+    display: grid;
+    gap: 12px;
+  }
+
+  &__empty {
+    padding: 32px;
+    border: 1px dashed v.$color-border;
+    border-radius: v.$border-radius-md;
+    color: v.$color-text-muted;
+    background: v.$color-surface;
+    text-align: center;
+  }
+
+  &__back {
+    justify-self: start;
+    color: v.$color-primary;
+    background: v.$color-surface;
+
+    &:hover {
+      color: v.$color-on-primary;
+      background: v.$color-primary;
+    }
+  }
+}

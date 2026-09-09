@@ -14,7 +14,7 @@ import type {
   DonorProfileFormErrors,
   DonorProfileFormValues,
 } from './types'
-import { bloodTypes } from './validation'
+import { bloodTypes } from '../../utils/bloodRequest'
 import styles from './DonorProfileForm.module.scss'
 
 type Props = {

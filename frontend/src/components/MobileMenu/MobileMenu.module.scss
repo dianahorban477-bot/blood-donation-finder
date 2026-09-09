@@ -9,7 +9,8 @@
   height: 100vh;
   height: 100dvh;
   flex-direction: column;
-  padding: 16px;
+  padding-bottom: 16px;
+  padding-inline: v.$content-padding-inline;
   color: v.$color-text;
   background: v.$color-surface;
   pointer-events: none;
@@ -23,18 +24,37 @@
 
   &__header {
     display: flex;
-    min-height: 56px;
+    min-height: 77px;
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    padding-bottom: 16px;
+    margin-inline: -#{v.$content-padding-inline};
+    padding: 14px v.$content-padding-inline;
     border-bottom: 1px solid v.$color-border;
+    background: v.$color-surface;
   }
 
   &__brand {
-    max-width: 129px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: v.$color-text;
     font-weight: 800;
+    line-height: 1.2;
     text-decoration: none;
+
+    @media (max-width: (v.$tablet-min-width - 1px)) {
+      span {
+        display: none;
+      }
+    }
+  }
+
+  &__logo {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 auto;
+    object-fit: contain;
   }
 
   &__close {
@@ -92,7 +112,8 @@
     }
 
     &:hover,
-    &:focus-visible {
+    &:focus-visible,
+    &--active {
       color: v.$color-primary;
 
       &::after {

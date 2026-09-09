@@ -1,0 +1,48 @@
+@use '../../styles/variables' as v;
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &__complete,
+  &__cancel {
+    display: inline-flex;
+    width: 100%;
+    min-height: 46px;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: v.$border-radius-sm;
+    font-weight: 700;
+    cursor: pointer;
+
+    &:disabled {
+      cursor: wait;
+      opacity: 0.5;
+    }
+  }
+
+  &__complete {
+    border: 1px solid v.$color-success;
+    color: v.$color-success;
+    background: v.$color-success-soft;
+
+    &:hover:not(:disabled) {
+      color: v.$color-on-primary;
+      background: v.$color-success;
+    }
+  }
+
+  &__cancel {
+    border: 1px solid v.$color-error;
+    color: v.$color-error;
+    background: v.$color-error-soft;
+
+    &:hover:not(:disabled) {
+      color: v.$color-on-primary;
+      background: v.$color-error;
+    }
+  }
+}

@@ -1,15 +1,26 @@
 @use '../../styles/variables' as v;
 
 .requests {
-  display: grid;
-  grid-template-columns: 44px minmax(0, 1fr);
-  align-items: start;
-  gap: 14px;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 20px;
   padding: 20px;
   border: 1px solid v.$color-border;
   border-radius: v.$border-radius-lg;
   background: v.$color-surface;
   box-shadow: v.$shadow-card;
+
+  @media (min-width: v.$tablet-min-width) {
+    padding: 32px;
+  }
+
+  &__header {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    align-items: center;
+    gap: 14px;
+  }
 
   &__icon {
     display: grid;
@@ -21,15 +32,8 @@
     background: v.$color-primary-soft;
   }
 
-  &__content {
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 10px;
-    min-width: 0;
-  }
-
   &__eyebrow {
+    margin-bottom: 6px;
     color: v.$color-primary;
     font-size: 13px;
     font-weight: 800;
@@ -46,12 +50,26 @@
     font-size: 14px;
   }
 
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
   &__link {
-    margin-top: 4px;
+    align-self: flex-start;
     color: v.$color-primary;
     font-weight: 700;
     text-decoration: underline;
     text-underline-offset: 3px;
-    opacity: 0.65;
+
+    &:hover {
+      color: v.$color-primary-hover;
+    }
+
+    &:focus-visible {
+      outline: 3px solid v.$color-focus;
+      outline-offset: 3px;
+    }
   }
 }
